@@ -29,8 +29,17 @@ export default class BarracksCtrl {
 
     private _destroy() { }
 
-    private _SetSoldierAttribute(soldierID: number, data: SoldierAttribute) {
+    //解锁新角色
+    unlockNewSoldier(soldierID: number) {
+        let data = this.GetSoldierAttribute(soldierID)
+        if (!data) {
+            
+            
+        }
+    }
 
+    private _SetSoldierAttribute(soldierID: number, data: SoldierAttribute) {
+        this._saveLocalData("Attribute" + soldierID, data)
     }
 
     GetSoldierAttribute(soldierID: number): SoldierAttribute {
