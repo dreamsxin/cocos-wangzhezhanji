@@ -36,7 +36,6 @@ export default class GameMain extends UIParent {
         obj.parent = this.playerParent;
         let p1 = this.playerInsPos.convertToWorldSpaceAR(cc.v2(0, 0))
         let p2 = this.playerParent.convertToNodeSpaceAR(p1)
-        cc.log("坐标",p1,p2)
         obj.setPosition(p2);
         let sold = obj.getComponent(SoldiersParent)
         sold.init(camp.bule);
