@@ -33,8 +33,12 @@ export default class BarracksCtrl {
     unlockNewSoldier(soldierID: number) {
         let data = this.GetSoldierAttribute(soldierID)
         if (!data) {
-            
-            
+            let soldier = new SoldierAttribute()
+            soldier.Attack = 100
+            soldier.HP = 100
+            soldier.Phylactic = 20
+            soldier.moveSpeed = 10
+            this._SetSoldierAttribute(soldierID, soldier)
         }
     }
 
