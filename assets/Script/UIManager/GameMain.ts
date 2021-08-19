@@ -1,3 +1,4 @@
+import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Other/GameCtrl";
 import { camp } from "../Other/GameData";
 import gonbing from "../Other/gonbing";
@@ -24,6 +25,7 @@ export default class GameMain extends UIParent {
     emenyList: gonbing[] = [];
     start() {
         this.AddButtonClick();
+        cc.log("ttttttt", BarracksCtrl.getInstance().getBarracksConfig(1))
     }
     AddButtonClick() {
         this.oneXiaobingBut.on('click', (event) => {

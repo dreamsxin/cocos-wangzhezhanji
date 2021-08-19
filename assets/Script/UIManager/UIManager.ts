@@ -1,4 +1,5 @@
 
+import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameData, { LocalData } from "../Other/GameData";
 import SoundMgr from "../Other/SoundMgr";
 import UIParent from "./UIParent";
@@ -41,6 +42,7 @@ export default class UIManager extends cc.Component {
         }
         GameData.SaveData();
         this.loadSounds();
+        this.LoadConfig();
         this.startPor();
     }
     LoadUIPanel() {
@@ -66,6 +68,15 @@ export default class UIManager extends cc.Component {
             this.isload = true;
 
 
+        })
+    }
+    LoadConfig() {
+        cc.loader.loadRes("Config/barracksConfig.json", (err, object) => {
+            if (err) {
+                cc.log("加载错误码：", err)
+                return
+            }
+            BarracksCtrl.getInstance().setBarracksConfig(object.json)
         })
     }
     startPor() {

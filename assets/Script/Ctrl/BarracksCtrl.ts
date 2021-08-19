@@ -1,12 +1,12 @@
 
-import { SoldierAttribute } from "../Config/BarracksConfig";
+import { SoldierAttribute, SoldierBasic } from "../Config/BarracksConfig";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BarracksCtrl {
     private static _instance: BarracksCtrl = null;
-
+    private _barracksConfig: any = null;
     //--------
 
     public static getInstance() {
@@ -33,20 +33,16 @@ export default class BarracksCtrl {
     unlockNewSoldier(soldierID: number) {
         let data = this.GetSoldierAttribute(soldierID)
         if (!data) {
-            let soldier = new SoldierAttribute()
-            soldier.Attack = 100
-            soldier.HP = 100
-            soldier.Phylactic = 20
-            soldier.moveSpeed = 10
+            let soldier = this.getBarracksConfig(soldierID)
             this._SetSoldierAttribute(soldierID, soldier)
         }
     }
 
-    private _SetSoldierAttribute(soldierID: number, data: SoldierAttribute) {
+    private _SetSoldierAttribute(soldierID: number, data: SoldierBasic) {
         this._saveLocalData("Attribute" + soldierID, data)
     }
 
-    GetSoldierAttribute(soldierID: number): SoldierAttribute {
+    GetSoldierAttribute(soldierID: number): SoldierBasic {
         return this._getLocalData("Attribute" + soldierID)
     }
 
@@ -62,5 +58,13 @@ export default class BarracksCtrl {
             return nowData
         }
         return null
+    }
+
+    setBarracksConfig(data: any) {
+        this._barracksConfig = data;
+    }
+
+    getBarracksConfig(id: number) {
+        return this._barracksConfig[id];
     }
 }

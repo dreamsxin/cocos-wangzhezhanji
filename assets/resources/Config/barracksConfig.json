@@ -1,0 +1,122 @@
+{
+    "1": {
+        "soldierID": 1,
+        "soldierName": "刀兵",
+        "soldierDes": "近身系，精锐的步兵战士，能力均衡，是队伍中的主力攻击兵种。克制：远程、机械，被克：法系。",
+        "HP": 100,
+        "Attack": 60,
+        "Phylactic": 20,
+        "moveSpeed": 100,
+        "attackInterval": 1,
+        "attackRange": 80,
+        "crit": 10
+    },
+    "2": {
+        "soldierID": 2,
+        "soldierName": "盾兵",
+        "soldierDes": "近身系，总是站在最前线吸引敌人的火力，堪称最可靠的伙伴。克制：远程、机械；被克：法系。",
+        "HP": 150,
+        "Attack": 30,
+        "Phylactic": 30,
+        "moveSpeed": 95,
+        "attackInterval": 1,
+        "attackRange": 80,
+        "crit": 5
+    },
+    "3": {
+        "soldierID": 3,
+        "soldierName": "法师",
+        "soldierDes": "法系，拥有强大的力量，所有冒犯他的家伙都会被轰成冰渣。克制： 集群兵、近身；被克： 远程。",
+        "HP": 100,
+        "Attack": 35,
+        "Phylactic": 20,
+        "moveSpeed": 100,
+        "attackInterval": 1,
+        "attackRange": 160,
+        "crit": 10
+    },
+    "4": {
+        "soldierID": 4,
+        "soldierName": "弓箭手",
+        "soldierDes": "远程，他是最出色的射手，想靠近他就要有变成活箭靶的觉悟。克制： 法系；被克： 近身。",
+        "HP": 100,
+        "Attack": 60,
+        "Phylactic": 20,
+        "moveSpeed": 100,
+        "attackInterval": 1,
+        "attackRange": 160,
+        "crit": 10
+    },
+    "5": {
+        "soldierID": 5,
+        "soldierName": "攻城车",
+        "soldierDes": "机械系，非常给力的攻城部队，能在瞬间砸烂眼前的建筑。克制：站塔英雄、塔；被克： 近身。",
+        "HP": 150,
+        "Attack": 50,
+        "Phylactic": 25,
+        "moveSpeed": 100,
+        "attackInterval": 1,
+        "attackRange": 160,
+        "crit": 10
+    },
+    "6": {
+        "soldierID": 6,
+        "soldierName": "牧师",
+        "soldierDes": "法系，牧师妹子是经验丰富的治疗师，有她在就再不怕受伤啦。克制： 无；被克： 近身。",
+        "HP": 150,
+        "Attack": 5,
+        "Phylactic": 15,
+        "moveSpeed": 100,
+        "attackInterval": 1,
+        "attackRange": 160,
+        "crit": 10
+    },
+    "7": {
+        "soldierID": 7,
+        "soldierName": "巫师",
+        "soldierDes": "法系，所有面对他的人都会感到恐惧，并害怕到无法动弹。克制： 近身；被克： 远程。",
+        "HP": 100,
+        "Attack": 5,
+        "Phylactic": 15,
+        "moveSpeed": 100,
+        "attackInterval": 1,
+        "attackRange": 160,
+        "crit": 10
+    },
+    "8": {
+        "soldierID": 8,
+        "soldierName": "破甲师",
+        "soldierDes": "法系，犀利的火焰施法者，近战兵种的天敌。克制： 近身；被克： 远程。",
+        "HP": 150,
+        "Attack": 5,
+        "Phylactic": 15,
+        "moveSpeed": 100,
+        "attackInterval": 1,
+        "attackRange": 160,
+        "crit": 10
+    },
+    "9": {
+        "soldierID": 9,
+        "soldierName": "炎兽",
+        "soldierDes": "近身，狂暴的元素生物，死亡后会爆炸。克制： 集群兵、远程、机械；被克： 法系。",
+        "HP": 150,
+        "Attack": 35,
+        "Phylactic": 15,
+        "moveSpeed": 100,
+        "attackInterval": 1,
+        "attackRange": 160,
+        "crit": 10
+    },
+    "10": {
+        "soldierID": 10,
+        "soldierName": "旗手",
+        "soldierDes": "法系，虔诚的信仰者，能带给友军带来体力和攻击力的加成，克制： 无；被克： 远程。",
+        "HP": 150,
+        "Attack": 5,
+        "Phylactic": 15,
+        "moveSpeed": 100,
+        "attackInterval": 1,
+        "attackRange": 160,
+        "crit": 10
+    }
+}
