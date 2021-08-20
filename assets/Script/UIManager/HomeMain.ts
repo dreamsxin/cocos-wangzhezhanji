@@ -45,5 +45,10 @@ export default class HomeMain extends UIParent {
         GameData.createTipText("该功能还未开发，尽请期待！");
         SoundMgr.getInstance().playFx("buttonClick");
     }
+
+    onClickWarConfig() {
+        this.uiManager.ShowUIName("WarConfigMain");
+        SoundMgr.getInstance().playFx("buttonClick");
+    }
     // update (dt) {}
 }

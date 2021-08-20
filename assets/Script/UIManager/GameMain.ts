@@ -25,7 +25,7 @@ export default class GameMain extends UIParent {
     emenyList: gonbing[] = [];
     start() {
         this.AddButtonClick();
-        cc.log("ttttttt", BarracksCtrl.getInstance().getBarracksConfig(1))
+        cc.log("ttttttt", BarracksCtrl.getInstance().getBarracksConfigItem(1))
     }
     AddButtonClick() {
         this.oneXiaobingBut.on('click', (event) => {

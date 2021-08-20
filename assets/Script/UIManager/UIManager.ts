@@ -49,7 +49,8 @@ export default class UIManager extends cc.Component {
         let uiPath = [];
         let uiPanel = [
             "GameMain",
-            "HomeMain"
+            "HomeMain",
+            "WarConfigMain"
         ];
         for (let i = 0; i < uiPanel.length; i++) {
             uiPath[i] = "UIPanel/" + uiPanel[i];

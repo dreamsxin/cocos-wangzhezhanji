@@ -33,7 +33,7 @@ export default class BarracksCtrl {
     unlockNewSoldier(soldierID: number) {
         let data = this.GetSoldierAttribute(soldierID)
         if (!data) {
-            let soldier = this.getBarracksConfig(soldierID)
+            let soldier = this.getBarracksConfigItem(soldierID)
             this._SetSoldierAttribute(soldierID, soldier)
         }
     }
@@ -64,7 +64,11 @@ export default class BarracksCtrl {
         this._barracksConfig = data;
     }
 
-    getBarracksConfig(id: number) {
+    getBarracksConfigItem(id: number) {
         return this._barracksConfig[id];
+    }
+
+    getarracksConfig() {
+        return this._barracksConfig
     }
 }
