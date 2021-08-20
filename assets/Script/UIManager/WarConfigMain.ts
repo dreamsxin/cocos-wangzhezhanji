@@ -1,5 +1,6 @@
 import { SoldierBasic } from "../Config/BarracksConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
+import WarConfigListItem from "../Other/WarConfigListItem";
 import WarConfigSoldierItem from "../Other/WarConfigSoldierItem";
 import UIParent from "./UIParent";
 
@@ -15,6 +16,10 @@ export default class WarConfigMain extends UIParent {
     soldierItem: cc.Node = null;
     @property(cc.ScrollView)
     swContainer: cc.ScrollView = null;
+    @property(cc.Node)
+    seleteSoldierItem: cc.Node = null;
+    @property(cc.ScrollView)
+    seleteSwContainer: cc.ScrollView = null;
 
     @property(cc.Label)
     nameLabel: cc.Label = null;
@@ -30,12 +35,14 @@ export default class WarConfigMain extends UIParent {
     desLabel: cc.Label = null;
 
     // LIFE-CYCLE CALLBACKS:
-    private allItem: WarConfigSoldierItem[] = []
+    private allSoldierItem: WarConfigSoldierItem[] = []
+    private allListItem: WarConfigListItem[] = []
 
     // onLoad () {}
     ShowUI() {
         super.ShowUI();
         this.InitBarracks()
+        this.InitSeleteItem()
     }
 
     InitUI(uiMain) {
@@ -57,7 +64,7 @@ export default class WarConfigMain extends UIParent {
         let data = BarracksCtrl.getInstance().getarracksConfig();
         let content = this.swContainer.content
         content.removeAllChildren();
-        this.allItem = []
+        this.allSoldierItem = []
         for (let key in data) {
             let soldierData: SoldierBasic = data[key]
 
@@ -66,12 +73,33 @@ export default class WarConfigMain extends UIParent {
             content.addChild(item)
 
             let spr = item.getComponent(WarConfigSoldierItem)
-            this.allItem.push(spr)
+            this.allSoldierItem.push(spr)
             spr.Init(soldierData, () => {
                 this.ShowBasicUI(soldierData.soldierID)
             })
         }
-        this.allItem[0].onClickSele()
+        this.allSoldierItem[0].onClickSele()
+    }
+
+    InitSeleteItem() {
+        let data = BarracksCtrl.getInstance().getWarConfigList();
+        let content = this.seleteSwContainer.content
+        content.removeAllChildren();
+        this.allListItem = []
+        for (let index = 0; index < data.conList.length; index++) {
+            let item = cc.instantiate(this.seleteSoldierItem)
+            item.active = true
+            content.addChild(item)
+
+            let spr = item.getComponent(WarConfigListItem)
+            this.allListItem.push(spr)
+            spr.Init(data.conList[index], (itemIndex) => {
+                for (let index = 0; index < this.allListItem.length; index++) {
+                    const element = this.allListItem[index];
+                    element.selectUI(itemIndex)
+                }
+            }, index)
+        }
     }
     // update (dt) {}
 }

@@ -1,5 +1,5 @@
 
-import { SoldierAttribute, SoldierBasic } from "../Config/BarracksConfig";
+import { SoldierAttribute, SoldierBasic, WarConFigList } from "../Config/BarracksConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -71,4 +71,18 @@ export default class BarracksCtrl {
     getarracksConfig() {
         return this._barracksConfig
     }
+
+    setWarConfigList() {
+
+    }
+
+    getWarConfigList(): WarConFigList {
+        let data = this._getLocalData("WarConfigList")
+        if (!data) {
+            data = new WarConFigList()
+            data.conList = [0, 0, 0, 0, 0, 0]
+        }
+        return data
+    }
+
 }

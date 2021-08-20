@@ -16,6 +16,8 @@ export default class WarConfigSoldierItem extends cc.Component {
     handSpr: cc.Sprite = null;
     @property(cc.Label)
     nameLabel: cc.Label = null;
+    @property(cc.Node)
+    selectNode: cc.Node = null;
 
     // LIFE-CYCLE CALLBACKS:
 

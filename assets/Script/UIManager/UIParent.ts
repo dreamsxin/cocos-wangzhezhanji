@@ -42,12 +42,16 @@ export default class UIParent extends cc.Component {
                 .to(0.25, { scale: 0 })
                 .call(() => {
                     this.node.active = false;
-                    fun();
+                    if (fun) {
+                        fun();
+                    }
                 })
                 .start();
         } else {
             this.node.active = false;
-            fun();
+            if (fun) {
+                fun();
+            }
         }
         SoundMgr.getInstance().playFx("buttonClick");
     }
