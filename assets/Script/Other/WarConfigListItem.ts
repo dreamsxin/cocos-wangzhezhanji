@@ -12,6 +12,8 @@ export default class WarConfigListItem extends cc.Component {
     nameLabel: cc.Label = null;
     @property(cc.Node)
     selectNode: cc.Node = null;
+    @property(cc.Node)
+    unloadNode: cc.Node = null;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -25,20 +27,55 @@ export default class WarConfigListItem extends cc.Component {
     }
 
     Init(soldierID: number, fun: Function, itemIndex: number) {
-        this._soldierID = soldierID
         this._fun = fun
         this._itemIndex = itemIndex
-        let data = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
-        this.nameLabel.string = data ? data.soldierName : ""
+        this.resetUI(soldierID)
+        this.selectNode.active = false
+        this.unloadNode.active = false
     }
 
     onClickSele() {
         if (this._fun) {
-            this._fun(this._itemIndex)
+            this._fun(this._itemIndex, 0)
         }
     }
-    selectUI(index: number) {
-        cc.log(index)
-        this.selectNode.active = this._itemIndex == index
+
+    onClickUnload() {
+        BarracksCtrl.getInstance().setWarConfigList(0, this._itemIndex)
+        this.unloadNode.active = false
+        if (this._fun) {
+            this._fun(this._itemIndex, this._soldierID)
+        }
+        this._setSoldierID(0)
     }
+
+    selectUI(index: number) {
+        if (this.selectNode.active && this._itemIndex == index) {
+            this.selectNode.active = false
+            this.unloadNode.active = this._soldierID != 0
+        } else {
+            this.unloadNode.active = false
+            this.selectNode.active = this._itemIndex == index
+        }
+        return this.selectNode.active
+    }
+
+    _setSoldierID(soldierID: number) {
+        this._soldierID = soldierID
+    }
+
+    getSoldierID() {
+        return this._soldierID
+    }
+
+    resetUI(soldierID: number) {
+        this._setSoldierID(soldierID)
+        let data = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
+        this.nameLabel.string = data ? data.soldierName : ""
+    }
+    // isShowSelectUI(soldierID: number, isShow: boolean) {
+    //     if (soldierID == this._soldierData.soldierID) {
+    //         this.selectNode.active = isShow
+    //     }
+    // }
 }

@@ -7,6 +7,7 @@ const { ccclass, property } = cc._decorator;
 export default class BarracksCtrl {
     private static _instance: BarracksCtrl = null;
     private _barracksConfig: any = null;
+    private _warConfigSelectID: number = -1;
     //--------
 
     public static getInstance() {
@@ -72,8 +73,10 @@ export default class BarracksCtrl {
         return this._barracksConfig
     }
 
-    setWarConfigList() {
-
+    setWarConfigList(soldierID: number, warConfigIndex: number) {
+        let data = this.getWarConfigList();
+        data.conList[warConfigIndex] = soldierID;
+        this._saveLocalData("WarConfigList", data)
     }
 
     getWarConfigList(): WarConFigList {
@@ -85,4 +88,20 @@ export default class BarracksCtrl {
         return data
     }
 
+    setWarConfigSelectID(id: number) {
+        this._warConfigSelectID = id
+    }
+
+    getWarConfigSelectID() {
+        return this._warConfigSelectID
+    }
+
+    checkIsInWarConfig() {
+        return this._warConfigSelectID >= 0
+    }
+
+    checkIsHaveConfigList(soldierID: number) {
+        let list = this.getWarConfigList()
+        return list.conList.indexOf(soldierID)
+    }
 }

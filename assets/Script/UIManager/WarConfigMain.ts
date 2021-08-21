@@ -43,11 +43,16 @@ export default class WarConfigMain extends UIParent {
         super.ShowUI();
         this.InitBarracks()
         this.InitSeleteItem()
+        BarracksCtrl.getInstance().setWarConfigSelectID(-1)
     }
 
     InitUI(uiMain) {
         super.InitUI(uiMain);
         this.soldierItem.active = false
+    }
+
+    onClickClose() {
+        this.HideUI(() => { })
     }
 
     ShowBasicUI(soldierID: number) {
@@ -74,8 +79,28 @@ export default class WarConfigMain extends UIParent {
 
             let spr = item.getComponent(WarConfigSoldierItem)
             this.allSoldierItem.push(spr)
-            spr.Init(soldierData, () => {
+            spr.Init(soldierData, (soldierID) => {
                 this.ShowBasicUI(soldierData.soldierID)
+                if (BarracksCtrl.getInstance().checkIsInWarConfig()) {
+                    spr.selectUI(true)
+                    let warConfigIndex = BarracksCtrl.getInstance().getWarConfigSelectID()
+                    let indexOF = BarracksCtrl.getInstance().checkIsHaveConfigList(soldierID)
+                    let soldierIDNow = this.allListItem[warConfigIndex].getSoldierID()
+                    cc.log(soldierID, warConfigIndex, soldierIDNow)
+                    if (indexOF >= 0) {
+                        //交换
+                        BarracksCtrl.getInstance().setWarConfigList(soldierID, warConfigIndex)
+                        BarracksCtrl.getInstance().setWarConfigList(soldierIDNow, indexOF)
+                        this.setWarConfigItem(warConfigIndex, soldierID)
+                        this.setWarConfigItem(indexOF, soldierIDNow)
+                    } else {
+                        BarracksCtrl.getInstance().setWarConfigList(soldierID, warConfigIndex)
+                        this.setWarConfigItem(warConfigIndex, soldierID)
+                        if (soldierIDNow > 0) {
+                            this.setBarracksSelect(soldierIDNow, false)
+                        }
+                    }
+                }
             })
         }
         this.allSoldierItem[0].onClickSele()
@@ -93,13 +118,45 @@ export default class WarConfigMain extends UIParent {
 
             let spr = item.getComponent(WarConfigListItem)
             this.allListItem.push(spr)
-            spr.Init(data.conList[index], (itemIndex) => {
+            spr.Init(data.conList[index], (itemIndex, soldierID) => {
+                let isSelect = false
                 for (let index = 0; index < this.allListItem.length; index++) {
                     const element = this.allListItem[index];
-                    element.selectUI(itemIndex)
+                    if (element.selectUI(itemIndex)) {
+                        isSelect = true
+                    }
+                }
+                if (isSelect) {
+                    BarracksCtrl.getInstance().setWarConfigSelectID(itemIndex)
+                } else {
+                    BarracksCtrl.getInstance().setWarConfigSelectID(-1)
+                }
+                if (soldierID > 0) {
+                    this.setBarracksSelect(soldierID, false)
                 }
             }, index)
         }
     }
+
+    setBarracksSelect(soldierID: number, isShow: boolean) {
+        for (let index = 0; index < this.allSoldierItem.length; index++) {
+            this.allSoldierItem[index].isShowSelectUI(soldierID, isShow)
+        }
+    }
+
+    setWarConfigItem(itemIndex: number, soldierID: number) {
+        this.allListItem[itemIndex].resetUI(soldierID)
+    }
+
+    hideAllWarConfigSelectUI() {
+        for (let index = 0; index < this.allListItem.length; index++) {
+            this.allListItem[index].selectUI(-1)
+        }
+    }
+    // setWarConfigSelect(soldierID: number, isShow: boolean) {
+    //     for (let index = 0; index < this.allListItem.length; index++) {
+    //         this.allListItem[index].isShowSelectUI(soldierID, isShow)
+    //     }
+    // }
     // update (dt) {}
 }
