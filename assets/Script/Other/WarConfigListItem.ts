@@ -46,7 +46,9 @@ export default class WarConfigListItem extends cc.Component {
         if (this._fun) {
             this._fun(this._itemIndex, this._soldierID)
         }
+        this.selectNode.active = false
         this._setSoldierID(0)
+        this.resetUI(0)
     }
 
     selectUI(index: number) {

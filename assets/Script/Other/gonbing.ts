@@ -8,7 +8,7 @@ const { ccclass, property } = cc._decorator;
 export default class NewClass extends SoldiersParent {
 
     start() {
-        this.nowHp = this.HP;
+        this.nowHp = this.soldierData.HP;
     }
     update(dt) {
         switch (this.armsState) {
@@ -20,8 +20,8 @@ export default class NewClass extends SoldiersParent {
                 break;
         }
     }
-    init(camp) {
-        super.init(camp);
+    init(camp,soldierID) {
+        super.init(camp,soldierID);
     }
     //小兵移动逻辑
     move(dt) {
@@ -30,9 +30,9 @@ export default class NewClass extends SoldiersParent {
             return
         }
         if (this.camp == 0) {
-            this.node.x += dt * this.moveSpeed;
+            this.node.x += dt * this.soldierData.moveSpeed;
         } else {
-            this.node.x -= dt * this.moveSpeed;
+            this.node.x -= dt * this.soldierData.moveSpeed;
         }
     }
     //小兵攻击逻辑
@@ -43,20 +43,20 @@ export default class NewClass extends SoldiersParent {
             return
         }
         this.nowAttackTime += dt;
-        if (this.nowAttackTime >= this.attackInterval) {
+        if (this.nowAttackTime >= this.soldierData.attackInterval) {
             this.nowAttackTime = 0;
             //攻击一次
-            enemyCamp.hurt(this.Attack);
+            enemyCamp.hurt(this.soldierData.Attack);
         }
     }
     //小兵受伤逻辑
     hurt(attackValue: number) {
         super.hurt(attackValue)
         if (this.armsState == ArmsState.die) return
-        let nowHurtValue = attackValue * (1 - (this.Phylactic / (100 + this.Phylactic)));
+        let nowHurtValue = attackValue * (1 - (this.soldierData.Phylactic / (100 + this.soldierData.Phylactic)));
         nowHurtValue = nowHurtValue < attackValue * 0.05 ? attackValue * 0.05 : nowHurtValue;
         this.nowHp -= nowHurtValue;
-        this.hpPro.progress = this.nowHp / this.HP;
+        this.hpPro.progress = this.nowHp / this.soldierData.HP;
         if (this.nowHp < 0) {
             this.armsState = ArmsState.die;
             if (this.camp == camp.bule) {

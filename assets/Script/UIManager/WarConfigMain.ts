@@ -133,6 +133,7 @@ export default class WarConfigMain extends UIParent {
                 }
                 if (soldierID > 0) {
                     this.setBarracksSelect(soldierID, false)
+                    BarracksCtrl.getInstance().setWarConfigSelectID(-1)
                 }
             }, index)
         }

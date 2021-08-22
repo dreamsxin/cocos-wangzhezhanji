@@ -43,7 +43,7 @@ export default class NewClass extends cc.Component {
         let p2 = this.playerParent.convertToNodeSpaceAR(p1)
         obj.setPosition(p2);
         let sold = obj.getComponent(SoldiersParent)
-        sold.init(camp.red)
+        sold.init(camp.red,1)
         GameCtrl.getInstance().addEnemy(sold);
     }
     // update (dt) {}

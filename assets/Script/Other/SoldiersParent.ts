@@ -5,6 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import { SoldierBasic } from "../Config/BarracksConfig";
+import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import { ArmsState, camp } from "./GameData";
 
 const { ccclass, property } = cc._decorator;
@@ -12,18 +14,18 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SoldiersParent extends cc.Component {
 
-    @property({ type: cc.Integer, tooltip: "血条🩸" })
-    HP: number = 100;
-    @property({ type: cc.Integer, tooltip: "攻击力💪" })
-    Attack: number = 60;
-    @property({ type: cc.Integer, tooltip: "防御力🛡" })
-    Phylactic: number = 20;
-    @property({ type: cc.Integer, tooltip: "移动速度🦵" })
-    moveSpeed: number = 100;
-    @property({ type: cc.Integer, tooltip: "攻击间隔🦵" })
-    attackInterval: number = 1;
-    @property({ type: cc.Integer, tooltip: "攻击间隔🦵" })
-    attackRange: number = 80;
+    // @property({ type: cc.Integer, tooltip: "血条🩸" })
+    // HP: number = 100;
+    // @property({ type: cc.Integer, tooltip: "攻击力💪" })
+    // Attack: number = 60;
+    // @property({ type: cc.Integer, tooltip: "防御力🛡" })
+    // Phylactic: number = 20;
+    // @property({ type: cc.Integer, tooltip: "移动速度🦵" })
+    // moveSpeed: number = 100;
+    // @property({ type: cc.Integer, tooltip: "攻击间隔🦵" })
+    // attackInterval: number = 1;
+    // @property({ type: cc.Integer, tooltip: "攻击间隔🦵" })
+    // attackRange: number = 80;
     @property({ type: cc.ProgressBar, tooltip: "血条进度条💩" })
     hpPro: cc.ProgressBar = null;
 
@@ -32,15 +34,18 @@ export default class SoldiersParent extends cc.Component {
     armsState: ArmsState = ArmsState.move;
     camp: camp = camp.bule;
     enemy: SoldiersParent = null;
+    soldierData: SoldierBasic
 
-    init(_camp: camp) {
+    init(_camp: camp, soldierID: number) {
         this.camp = _camp
         if (_camp == camp.red) {
             this.node.scaleX = -1
         }
+        let data: SoldierBasic = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
+        this.soldierData=data
     }
 
-    hurt(attackValue: number){
-        
+    hurt(attackValue: number) {
+
     }
 }
