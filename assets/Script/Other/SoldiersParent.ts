@@ -108,4 +108,14 @@ export default class SoldiersParent extends cc.Component {
         }
     }
 
+    heal(hp) {
+        this.nowHp += hp;
+        this.nowHp = this.nowHp > this.soldierData.HP ? this.soldierData.HP : this.nowHp
+        this.hpPro.progress = this.nowHp / this.soldierData.HP;
+    }
+
+    isSmallHP() {
+        return this.nowHp != this.soldierData.HP
+    }
+
 }

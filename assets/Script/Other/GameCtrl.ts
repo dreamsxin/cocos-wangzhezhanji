@@ -74,6 +74,14 @@ export default class GameCtrl {
         }
     }
 
+    getTeamSold(sold: SoldiersParent, _camp: Camp): SoldiersParent {
+        if (_camp == Camp.bule) {
+            return this.getFewHPTeam(sold, this._allPlayerList)
+        } else {
+            return this.getFewHPTeam(sold, this._allEnemyList)
+        }
+    }
+
     getEnemy(sold: SoldiersParent): SoldiersParent {
         let enemy: SoldiersParent = null;
         if (!sold) return enemy
@@ -128,7 +136,7 @@ export default class GameCtrl {
                 }
             }
         }
-        enemyList.sort((a,b)=>{
+        enemyList.sort((a, b) => {
             return a.node.x - b.node.x
         })
         return enemyList
@@ -138,18 +146,36 @@ export default class GameCtrl {
         let playerList: SoldiersParent[] = [];
         if (!sold) return playerList
         let playerNodeX = sold.node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
-        for (let index = 0; index < this._allEnemyList.length; index++) {
-            if (this._allEnemyList[index].node) {
-                let enemyNodeX = this._allEnemyList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+        for (let index = 0; index < this._allPlayerList.length; index++) {
+            if (this._allPlayerList[index].node) {
+                let enemyNodeX = this._allPlayerList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
                 if (Math.abs(playerNodeX - enemyNodeX) <= sold.soldierData.skillRange) {
-                    playerList.push(this._allEnemyList[index])
+                    playerList.push(this._allPlayerList[index])
                 }
             }
         }
-        playerList.sort((a,b)=>{
+        playerList.sort((a, b) => {
             return a.node.x - b.node.x
         })
         return playerList
+    }
+
+    getFewHPTeam(sold: SoldiersParent, soldierList: SoldiersParent[]): SoldiersParent {
+        let playerList: SoldiersParent[] = [];
+        if (!sold) return null
+        let playerNodeX = sold.node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+        for (let index = 0; index < soldierList.length; index++) {
+            if (soldierList[index].node) {
+                let enemyNodeX = soldierList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+                if (Math.abs(playerNodeX - enemyNodeX) <= sold.soldierData.skillRange) {
+                    if (soldierList[index].isSmallHP()) {
+                        playerList.push(soldierList[index])
+                    }
+                }
+            }
+        }
+        if (playerList.length <= 0) return null
+        return playerList[Math.floor(Math.random() * playerList.length)]
     }
     // update (dt) {}
 }

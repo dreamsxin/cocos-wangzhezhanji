@@ -77,32 +77,6 @@
         "skillRange": 0,
         "crit": 10
     },
-    "7": {
-        "soldierID": 7,
-        "soldierName": "巫师",
-        "soldierDes": "法系，所有面对他的人都会感到恐惧，并害怕到无法动弹。克制： 近身；被克： 远程。",
-        "HP": 100,
-        "Attack": 5,
-        "Phylactic": 15,
-        "moveSpeed": 100,
-        "attackInterval": 1,
-        "attackRange": 160,
-        "skillRange": 0,
-        "crit": 10
-    },
-    "8": {
-        "soldierID": 8,
-        "soldierName": "破甲师",
-        "soldierDes": "法系，犀利的火焰施法者，近战兵种的天敌。克制： 近身；被克： 远程。",
-        "HP": 150,
-        "Attack": 5,
-        "Phylactic": 15,
-        "moveSpeed": 100,
-        "attackInterval": 1,
-        "attackRange": 160,
-        "skillRange": 0,
-        "crit": 10
-    },
     "9": {
         "soldierID": 9,
         "soldierName": "炎兽",

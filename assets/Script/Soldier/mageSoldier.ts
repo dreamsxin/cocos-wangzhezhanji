@@ -8,7 +8,17 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class NewClass extends SoldiersParent {
     //法师
-    //小兵攻击逻辑
+    update(dt) {
+        switch (this.armsState) {
+            case ArmsState.attack:
+                this.attack(dt);
+                break;
+            case ArmsState.move:
+                this.move(dt);
+                break;
+        }
+    }
+    //法师攻击逻辑
     attack(dt) {
         let enemyList = GameCtrl.getInstance().getRandSold(this, this.camp)
         if (enemyList.length <= 0) {
@@ -18,7 +28,7 @@ export default class NewClass extends SoldiersParent {
         this.nowAttackTime += dt;
         if (this.nowAttackTime >= this.soldierData.attackInterval) {
             this.nowAttackTime = 0;
-            //攻击一次
+            //范围攻击
             for (let index = 0; index < enemyList.length; index++) {
                 const element = enemyList[index];
                 element.hurt(this.soldierData.Attack);
