@@ -80,7 +80,7 @@ export default class GameCtrl {
         for (let index = 0; index < this._allEnemyList.length; index++) {
             if (this._allEnemyList[index].node) {
                 let enemyNodeX = this._allEnemyList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
-                if (Math.abs(playerNodeX - enemyNodeX) <= sold.attackRange) {
+                if (Math.abs(playerNodeX - enemyNodeX) <= sold.soldierData.attackRange) {
                     if (enemy) {
                         if (Math.abs(playerNodeX - enemyNodeX) < Math.abs(playerNodeX - enemy.node.x)) {
                             enemy = this._allEnemyList[index];
@@ -101,7 +101,7 @@ export default class GameCtrl {
         for (let index = 0; index < this._allPlayerList.length; index++) {
             if (this._allPlayerList[index].node) {
                 let playerNodeX = this._allPlayerList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
-                if (Math.abs(enemyNodeX - playerNodeX) <= sold.attackRange) {
+                if (Math.abs(enemyNodeX - playerNodeX) <= sold.soldierData.attackRange) {
                     if (player) {
                         if (Math.abs(enemyNodeX - playerNodeX) < Math.abs(enemyNodeX - player.node.x)) {
                             player = this._allPlayerList[index];

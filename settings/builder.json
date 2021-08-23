@@ -1,7 +1,7 @@
 {
   "title": "wanzhezhanji",
   "packageName": "org.cocos2d.demo",
-  "startScene": "",
+  "startScene": "226e83e6-0a2b-4b6b-8df6-91ec738834b7",
   "excludeScenes": [],
   "orientation": {
     "landscapeLeft": true,
