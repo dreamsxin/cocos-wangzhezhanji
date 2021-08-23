@@ -124,6 +124,17 @@ export default class GameCtrl {
         return player
     }
 
+    getPlayerBannerSoldierNum() {
+        let num = 0;
+        for (let index = 0; index < this._allPlayerList.length; index++) {
+            const element = this._allPlayerList[index];
+            if (element.soldierData.soldierID == 10) {
+                num++
+            }
+        }
+        return num
+    }
+
     getAllEnemy(sold: SoldiersParent): SoldiersParent[] {
         let enemyList: SoldiersParent[] = [];
         if (!sold) return enemyList

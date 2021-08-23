@@ -12,7 +12,7 @@ export class SoldierBasic {
     moveSpeed: number = 100;  //移动速度
     attackInterval: number = 1; //攻击间隔
     attackRange: number = 80;  //攻击范围
-    skillRange: number = 0;
+    skillRange: number = 0;    //技能范围
     crit: number = 0;           //暴击
 }
 export class SoldierAttribute {

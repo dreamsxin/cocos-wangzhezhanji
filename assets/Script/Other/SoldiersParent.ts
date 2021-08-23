@@ -36,6 +36,7 @@ export default class SoldiersParent extends cc.Component {
     camp: Camp = Camp.bule;
     enemy: SoldiersParent = null;
     soldierData: SoldierBasic
+    controlTime: number = 0
 
     init(_camp: Camp, soldierID: number) {
         this.nowHp = this.soldierData.HP;
@@ -48,9 +49,10 @@ export default class SoldiersParent extends cc.Component {
     }
 
     //小兵受伤逻辑
-    hurt(attackValue: number) {
+    hurt(attackValue: number, sunderArmorNum: number = 0) {
         if (this.armsState == ArmsState.die) return
-        let nowHurtValue = attackValue * (1 - (this.soldierData.Phylactic / (100 + this.soldierData.Phylactic)));
+        let phylacticValue = this.soldierData.Phylactic * (1 - sunderArmorNum)
+        let nowHurtValue = attackValue * (1 - (phylacticValue / (100 + phylacticValue)));
         nowHurtValue = nowHurtValue < attackValue * 0.05 ? attackValue * 0.05 : nowHurtValue;
         this.nowHp -= nowHurtValue;
         this.hpPro.progress = this.nowHp / this.soldierData.HP;
@@ -71,6 +73,10 @@ export default class SoldiersParent extends cc.Component {
     }
 
     update(dt) {
+        if (this.controlTime > 0) {
+            this.controlTime -= dt
+            return
+        }
         switch (this.armsState) {
             case ArmsState.attack:
                 this.attack(dt);
@@ -118,4 +124,9 @@ export default class SoldiersParent extends cc.Component {
         return this.nowHp != this.soldierData.HP
     }
 
+    control(controlTime) {
+        if (controlTime > this.controlTime) {
+            this.controlTime = controlTime
+        }
+    }
 }
