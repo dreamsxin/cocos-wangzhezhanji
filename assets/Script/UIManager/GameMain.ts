@@ -1,6 +1,6 @@
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Other/GameCtrl";
-import { camp } from "../Other/GameData";
+import { Camp } from "../Other/GameData";
 import gonbing from "../Other/gonbing";
 import SoldiersParent from "../Other/SoldiersParent";
 import SoundMgr from "../Other/SoundMgr";
@@ -56,7 +56,7 @@ export default class GameMain extends UIParent {
         let p2 = this.playerParent.convertToNodeSpaceAR(p1)
         obj.setPosition(p2);
         let sold = obj.getComponent(SoldiersParent)
-        sold.init(camp.bule, idx);
+        sold.init(Camp.bule, idx);
         GameCtrl.getInstance().addPlayer(sold);
     }
 }

@@ -82,6 +82,6 @@ export class LocalData {
 export enum ArmsState {
     move, attack, die
 }
-export enum camp {
+export enum Camp {
     bule = 0, red = 1
 }

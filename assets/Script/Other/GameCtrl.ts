@@ -1,11 +1,4 @@
-/*
- * @Author: your name
- * @Date: 2021-08-13 14:37:19
- * @LastEditTime: 2021-08-13 19:09:44
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \wanzhezhanji\assets\Script\Other\GameCtrl.ts
- */
+
 // Learn TypeScript:
 //  - https://docs.cocos.com/creator/manual/en/scripting/typescript.html
 // Learn Attribute:
@@ -13,7 +6,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import { camp } from "./GameData";
+import { Camp } from "./GameData";
 import SoldiersParent from "./SoldiersParent";
 
 const { ccclass, property } = cc._decorator;
@@ -65,11 +58,19 @@ export default class GameCtrl {
         }
     }
 
-    getSold(sold: SoldiersParent, _camp: camp): SoldiersParent {
-        if (_camp == camp.bule) {
+    getSold(sold: SoldiersParent, _camp: Camp): SoldiersParent {
+        if (_camp == Camp.bule) {
             return this.getEnemy(sold)
         } else {
             return this.getPlayer(sold)
+        }
+    }
+
+    getRandSold(sold: SoldiersParent, _camp: Camp): SoldiersParent[] {
+        if (_camp == Camp.bule) {
+            return this.getAllEnemy(sold)
+        } else {
+            return this.getAllPlayer(sold)
         }
     }
 
@@ -113,6 +114,42 @@ export default class GameCtrl {
             }
         }
         return player
+    }
+
+    getAllEnemy(sold: SoldiersParent): SoldiersParent[] {
+        let enemyList: SoldiersParent[] = [];
+        if (!sold) return enemyList
+        let playerNodeX = sold.node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+        for (let index = 0; index < this._allEnemyList.length; index++) {
+            if (this._allEnemyList[index].node) {
+                let enemyNodeX = this._allEnemyList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+                if (Math.abs(playerNodeX - enemyNodeX) <= sold.soldierData.skillRange) {
+                    enemyList.push(this._allEnemyList[index])
+                }
+            }
+        }
+        enemyList.sort((a,b)=>{
+            return a.node.x - b.node.x
+        })
+        return enemyList
+    }
+
+    getAllPlayer(sold: SoldiersParent): SoldiersParent[] {
+        let playerList: SoldiersParent[] = [];
+        if (!sold) return playerList
+        let playerNodeX = sold.node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+        for (let index = 0; index < this._allEnemyList.length; index++) {
+            if (this._allEnemyList[index].node) {
+                let enemyNodeX = this._allEnemyList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+                if (Math.abs(playerNodeX - enemyNodeX) <= sold.soldierData.skillRange) {
+                    playerList.push(this._allEnemyList[index])
+                }
+            }
+        }
+        playerList.sort((a,b)=>{
+            return a.node.x - b.node.x
+        })
+        return playerList
     }
     // update (dt) {}
 }

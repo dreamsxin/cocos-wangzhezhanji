@@ -1,5 +1,5 @@
 import GameCtrl from "./GameCtrl";
-import { ArmsState, camp } from "./GameData";
+import { ArmsState, Camp } from "./GameData";
 import SoldiersParent from "./SoldiersParent";
 
 const { ccclass, property } = cc._decorator;
@@ -59,7 +59,7 @@ export default class NewClass extends SoldiersParent {
         this.hpPro.progress = this.nowHp / this.soldierData.HP;
         if (this.nowHp < 0) {
             this.armsState = ArmsState.die;
-            if (this.camp == camp.bule) {
+            if (this.camp == Camp.bule) {
                 GameCtrl.getInstance().diePlayer(this)
             } else {
                 GameCtrl.getInstance().dieEnemy(this)

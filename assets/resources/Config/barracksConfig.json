@@ -9,6 +9,7 @@
         "moveSpeed": 100,
         "attackInterval": 1,
         "attackRange": 80,
+        "skillRange": 0,
         "crit": 10
     },
     "2": {
@@ -21,6 +22,7 @@
         "moveSpeed": 95,
         "attackInterval": 1,
         "attackRange": 80,
+        "skillRange": 0,
         "crit": 5
     },
     "3": {
@@ -33,6 +35,7 @@
         "moveSpeed": 100,
         "attackInterval": 1,
         "attackRange": 160,
+        "skillRange": 200,
         "crit": 10
     },
     "4": {
@@ -45,6 +48,7 @@
         "moveSpeed": 100,
         "attackInterval": 1,
         "attackRange": 160,
+        "skillRange": 0,
         "crit": 10
     },
     "5": {
@@ -57,6 +61,7 @@
         "moveSpeed": 100,
         "attackInterval": 1,
         "attackRange": 160,
+        "skillRange": 0,
         "crit": 10
     },
     "6": {
@@ -69,6 +74,7 @@
         "moveSpeed": 100,
         "attackInterval": 1,
         "attackRange": 160,
+        "skillRange": 0,
         "crit": 10
     },
     "7": {
@@ -81,6 +87,7 @@
         "moveSpeed": 100,
         "attackInterval": 1,
         "attackRange": 160,
+        "skillRange": 0,
         "crit": 10
     },
     "8": {
@@ -93,6 +100,7 @@
         "moveSpeed": 100,
         "attackInterval": 1,
         "attackRange": 160,
+        "skillRange": 0,
         "crit": 10
     },
     "9": {
@@ -105,6 +113,7 @@
         "moveSpeed": 100,
         "attackInterval": 1,
         "attackRange": 160,
+        "skillRange": 0,
         "crit": 10
     },
     "10": {
@@ -117,6 +126,7 @@
         "moveSpeed": 100,
         "attackInterval": 1,
         "attackRange": 160,
+        "skillRange": 0,
         "crit": 10
     }
 }

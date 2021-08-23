@@ -6,7 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import GameCtrl from "./GameCtrl";
-import { camp } from "./GameData";
+import { Camp } from "./GameData";
 import SoldiersParent from "./SoldiersParent";
 
 const { ccclass, property } = cc._decorator;
@@ -43,7 +43,7 @@ export default class NewClass extends cc.Component {
         let p2 = this.playerParent.convertToNodeSpaceAR(p1)
         obj.setPosition(p2);
         let sold = obj.getComponent(SoldiersParent)
-        sold.init(camp.red,1)
+        sold.init(Camp.red,1)
         GameCtrl.getInstance().addEnemy(sold);
     }
     // update (dt) {}

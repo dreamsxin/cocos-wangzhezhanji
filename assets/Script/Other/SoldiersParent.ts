@@ -7,7 +7,8 @@
 
 import { SoldierBasic } from "../Config/BarracksConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
-import { ArmsState, camp } from "./GameData";
+import GameCtrl from "./GameCtrl";
+import { ArmsState, Camp } from "./GameData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,20 +33,79 @@ export default class SoldiersParent extends cc.Component {
     nowHp: number = 0;
     nowAttackTime: number = 0;
     armsState: ArmsState = ArmsState.move;
-    camp: camp = camp.bule;
+    camp: Camp = Camp.bule;
     enemy: SoldiersParent = null;
     soldierData: SoldierBasic
 
-    init(_camp: camp, soldierID: number) {
+    init(_camp: Camp, soldierID: number) {
+        this.nowHp = this.soldierData.HP;
         this.camp = _camp
-        if (_camp == camp.red) {
+        if (_camp == Camp.red) {
             this.node.scaleX = -1
         }
         let data: SoldierBasic = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
-        this.soldierData=data
+        this.soldierData = data
     }
 
+    //小兵受伤逻辑
     hurt(attackValue: number) {
-
+        if (this.armsState == ArmsState.die) return
+        let nowHurtValue = attackValue * (1 - (this.soldierData.Phylactic / (100 + this.soldierData.Phylactic)));
+        nowHurtValue = nowHurtValue < attackValue * 0.05 ? attackValue * 0.05 : nowHurtValue;
+        this.nowHp -= nowHurtValue;
+        this.hpPro.progress = this.nowHp / this.soldierData.HP;
+        if (this.nowHp < 0) {
+            this.armsState = ArmsState.die;
+            if (this.camp == Camp.bule) {
+                GameCtrl.getInstance().diePlayer(this)
+            } else {
+                GameCtrl.getInstance().dieEnemy(this)
+            }
+            cc.tween(this.node)
+                .to(0.5, { opacity: 0 })
+                .call(() => {
+                    this.node.destroy();
+                })
+                .start()
+        }
     }
+
+    update(dt) {
+        switch (this.armsState) {
+            case ArmsState.attack:
+                this.attack(dt);
+                break;
+            case ArmsState.move:
+                this.move(dt);
+                break;
+        }
+    }
+
+    //小兵移动逻辑
+    move(dt) {
+        if (GameCtrl.getInstance().getSold(this, this.camp)) {
+            this.armsState = ArmsState.attack
+            return
+        }
+        if (this.camp == 0) {
+            this.node.x += dt * this.soldierData.moveSpeed;
+        } else {
+            this.node.x -= dt * this.soldierData.moveSpeed;
+        }
+    }
+    //小兵攻击逻辑
+    attack(dt) {
+        let enemyCamp = GameCtrl.getInstance().getSold(this, this.camp)
+        if (!enemyCamp) {
+            this.armsState = ArmsState.move
+            return
+        }
+        this.nowAttackTime += dt;
+        if (this.nowAttackTime >= this.soldierData.attackInterval) {
+            this.nowAttackTime = 0;
+            //攻击一次
+            enemyCamp.hurt(this.soldierData.Attack);
+        }
+    }
+
 }
