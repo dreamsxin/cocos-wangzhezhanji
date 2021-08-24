@@ -26,12 +26,12 @@ export default class NewClass extends SoldiersParent {
             return
         }
         this.nowAttackTime += dt;
-        if (this.nowAttackTime >= this.soldierData.attackInterval) {
+        if (this.nowAttackTime >= this.getAttackInterval()) {
             this.nowAttackTime = 0;
             //范围攻击
             for (let index = 0; index < enemyList.length; index++) {
                 const element = enemyList[index];
-                element.hurt(this.soldierData.Attack);
+                element.hurt(this.getAttack());
             }
         }
     }

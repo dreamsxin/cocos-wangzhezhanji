@@ -17,6 +17,7 @@ export default class GameCtrl {
 
     private _allEnemyList: SoldiersParent[] = [];
     private _allPlayerList: SoldiersParent[] = [];
+    private _allSoldierPre: { name: string, soldier: cc.Node }[] = []
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -38,6 +39,14 @@ export default class GameCtrl {
 
     addPlayer(sold: SoldiersParent) {
         this._allPlayerList.push(sold);
+    }
+
+    setAllSoldierPre(data: { name: string, soldier: cc.Node }[]) {
+        this._allSoldierPre = data
+    }
+
+    getSoldierPre(id) {
+
     }
 
     dieEnemy(sold: SoldiersParent) {
@@ -89,7 +98,7 @@ export default class GameCtrl {
         for (let index = 0; index < this._allEnemyList.length; index++) {
             if (this._allEnemyList[index].node) {
                 let enemyNodeX = this._allEnemyList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
-                if (Math.abs(playerNodeX - enemyNodeX) <= sold.soldierData.attackRange) {
+                if (Math.abs(playerNodeX - enemyNodeX) <= sold.getAttackRange()) {
                     if (enemy) {
                         if (Math.abs(playerNodeX - enemyNodeX) < Math.abs(playerNodeX - enemy.node.x)) {
                             enemy = this._allEnemyList[index];
@@ -110,7 +119,7 @@ export default class GameCtrl {
         for (let index = 0; index < this._allPlayerList.length; index++) {
             if (this._allPlayerList[index].node) {
                 let playerNodeX = this._allPlayerList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
-                if (Math.abs(enemyNodeX - playerNodeX) <= sold.soldierData.attackRange) {
+                if (Math.abs(enemyNodeX - playerNodeX) <= sold.getAttackRange()) {
                     if (player) {
                         if (Math.abs(enemyNodeX - playerNodeX) < Math.abs(enemyNodeX - player.node.x)) {
                             player = this._allPlayerList[index];
@@ -128,7 +137,7 @@ export default class GameCtrl {
         let num = 0;
         for (let index = 0; index < this._allPlayerList.length; index++) {
             const element = this._allPlayerList[index];
-            if (element.soldierData.soldierID == 10) {
+            if (element.getSoldierID() == 10) {
                 num++
             }
         }
@@ -142,7 +151,7 @@ export default class GameCtrl {
         for (let index = 0; index < this._allEnemyList.length; index++) {
             if (this._allEnemyList[index].node) {
                 let enemyNodeX = this._allEnemyList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
-                if (Math.abs(playerNodeX - enemyNodeX) <= sold.soldierData.skillRange) {
+                if (Math.abs(playerNodeX - enemyNodeX) <= sold.getSkillRange()) {
                     enemyList.push(this._allEnemyList[index])
                 }
             }
@@ -160,7 +169,7 @@ export default class GameCtrl {
         for (let index = 0; index < this._allPlayerList.length; index++) {
             if (this._allPlayerList[index].node) {
                 let enemyNodeX = this._allPlayerList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
-                if (Math.abs(playerNodeX - enemyNodeX) <= sold.soldierData.skillRange) {
+                if (Math.abs(playerNodeX - enemyNodeX) <= sold.getSkillRange()) {
                     playerList.push(this._allPlayerList[index])
                 }
             }
@@ -178,7 +187,7 @@ export default class GameCtrl {
         for (let index = 0; index < soldierList.length; index++) {
             if (soldierList[index].node) {
                 let enemyNodeX = soldierList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
-                if (Math.abs(playerNodeX - enemyNodeX) <= sold.soldierData.skillRange) {
+                if (Math.abs(playerNodeX - enemyNodeX) <= sold.getSkillRange()) {
                     if (soldierList[index].isSmallHP()) {
                         playerList.push(soldierList[index])
                     }
@@ -187,6 +196,25 @@ export default class GameCtrl {
         }
         if (playerList.length <= 0) return null
         return playerList[Math.floor(Math.random() * playerList.length)]
+    }
+
+    getBannerBuff(_camp: Camp): number {
+        let soldierList: SoldiersParent[] = null
+        let num: number = 0;
+        let buff = 0
+        if (_camp == Camp.bule) {
+            soldierList = this._allPlayerList
+        } else {
+            soldierList = this._allEnemyList
+        }
+        for (let index = 0; index < soldierList.length; index++) {
+            let element = soldierList[index];
+            if (element.getSoldierID() == 10) {
+                num++
+                buff = element.getBuffValue()
+            }
+        }
+        return num * buff
     }
     // update (dt) {}
 }

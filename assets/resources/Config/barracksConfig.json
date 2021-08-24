@@ -10,7 +10,8 @@
         "attackInterval": 1,
         "attackRange": 80,
         "skillRange": 0,
-        "crit": 10
+        "crit": 10,
+        "buffValue": 0
     },
     "2": {
         "soldierID": 2,
@@ -23,7 +24,8 @@
         "attackInterval": 1,
         "attackRange": 80,
         "skillRange": 0,
-        "crit": 5
+        "crit": 5,
+        "buffValue": 0
     },
     "3": {
         "soldierID": 3,
@@ -36,7 +38,8 @@
         "attackInterval": 1,
         "attackRange": 160,
         "skillRange": 200,
-        "crit": 10
+        "crit": 10,
+        "buffValue": 0
     },
     "4": {
         "soldierID": 4,
@@ -49,7 +52,8 @@
         "attackInterval": 1,
         "attackRange": 160,
         "skillRange": 0,
-        "crit": 10
+        "crit": 10,
+        "buffValue": 0
     },
     "5": {
         "soldierID": 5,
@@ -62,7 +66,8 @@
         "attackInterval": 1,
         "attackRange": 160,
         "skillRange": 0,
-        "crit": 10
+        "crit": 10,
+        "buffValue": 0
     },
     "6": {
         "soldierID": 6,
@@ -75,7 +80,8 @@
         "attackInterval": 1,
         "attackRange": 160,
         "skillRange": 0,
-        "crit": 10
+        "crit": 10,
+        "buffValue": 0
     },
     "7": {
         "soldierID": 7,
@@ -88,7 +94,8 @@
         "attackInterval": 1,
         "attackRange": 160,
         "skillRange": 0,
-        "crit": 10
+        "crit": 10,
+        "buffValue": 0
     },
     "8": {
         "soldierID": 8,
@@ -101,7 +108,8 @@
         "attackInterval": 1,
         "attackRange": 160,
         "skillRange": 0,
-        "crit": 10
+        "crit": 10,
+        "buffValue": 0
     },
     "9": {
         "soldierID": 9,
@@ -114,7 +122,8 @@
         "attackInterval": 1,
         "attackRange": 160,
         "skillRange": 0,
-        "crit": 10
+        "crit": 10,
+        "buffValue": 0
     },
     "10": {
         "soldierID": 10,
@@ -127,6 +136,7 @@
         "attackInterval": 1,
         "attackRange": 160,
         "skillRange": 0,
-        "crit": 10
+        "crit": 10,
+        "buffValue": 0.05
     }
 }

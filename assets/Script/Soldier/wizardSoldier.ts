@@ -26,7 +26,7 @@ export default class NewClass extends SoldiersParent {
             return
         }
         this.nowAttackTime += dt;
-        if (this.nowAttackTime >= this.soldierData.attackInterval) {
+        if (this.nowAttackTime >= this.getAttackInterval()) {
             this.nowAttackTime = 0;
             //控制
             enemyCamp.control(0.5);

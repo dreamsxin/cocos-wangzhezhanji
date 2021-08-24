@@ -29,6 +29,8 @@ export default class SoldiersParent extends cc.Component {
     // attackRange: number = 80;
     @property({ type: cc.ProgressBar, tooltip: "血条进度条💩" })
     hpPro: cc.ProgressBar = null;
+    @property({ type: cc.Label, tooltip: "名字🦵" })
+    soldierNameLabel: cc.Label = null;
 
     nowHp: number = 0;
     nowAttackTime: number = 0;
@@ -39,23 +41,26 @@ export default class SoldiersParent extends cc.Component {
     controlTime: number = 0
 
     init(_camp: Camp, soldierID: number) {
-        this.nowHp = this.soldierData.HP;
+        this.nowHp = this.getHP();
         this.camp = _camp
         if (_camp == Camp.red) {
             this.node.scaleX = -1
         }
         let data: SoldierBasic = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
         this.soldierData = data
+        if (this.soldierNameLabel) {
+            this.soldierNameLabel.string = data.soldierName
+        }
     }
 
     //小兵受伤逻辑
     hurt(attackValue: number, sunderArmorNum: number = 0) {
         if (this.armsState == ArmsState.die) return
-        let phylacticValue = this.soldierData.Phylactic * (1 - sunderArmorNum)
+        let phylacticValue = this.getPhylactic() * (1 - sunderArmorNum)
         let nowHurtValue = attackValue * (1 - (phylacticValue / (100 + phylacticValue)));
         nowHurtValue = nowHurtValue < attackValue * 0.05 ? attackValue * 0.05 : nowHurtValue;
         this.nowHp -= nowHurtValue;
-        this.hpPro.progress = this.nowHp / this.soldierData.HP;
+        this.hpPro.progress = this.nowHp / this.getHP();
         if (this.nowHp < 0) {
             this.armsState = ArmsState.die;
             if (this.camp == Camp.bule) {
@@ -94,9 +99,9 @@ export default class SoldiersParent extends cc.Component {
             return
         }
         if (this.camp == 0) {
-            this.node.x += dt * this.soldierData.moveSpeed;
+            this.node.x += dt * this.getMoveSpeed();
         } else {
-            this.node.x -= dt * this.soldierData.moveSpeed;
+            this.node.x -= dt * this.getMoveSpeed();
         }
     }
     //小兵攻击逻辑
@@ -107,21 +112,22 @@ export default class SoldiersParent extends cc.Component {
             return
         }
         this.nowAttackTime += dt;
-        if (this.nowAttackTime >= this.soldierData.attackInterval) {
+        if (this.nowAttackTime >= this.getAttackInterval()) {
             this.nowAttackTime = 0;
             //攻击一次
-            enemyCamp.hurt(this.soldierData.Attack);
+            enemyCamp.hurt(this.getAttack());
         }
     }
 
     heal(hp) {
         this.nowHp += hp;
-        this.nowHp = this.nowHp > this.soldierData.HP ? this.soldierData.HP : this.nowHp
-        this.hpPro.progress = this.nowHp / this.soldierData.HP;
+        let maxHP = this.getHP()
+        this.nowHp = this.nowHp > maxHP ? maxHP : this.nowHp
+        this.hpPro.progress = this.nowHp / maxHP;
     }
 
     isSmallHP() {
-        return this.nowHp != this.soldierData.HP
+        return this.nowHp != this.getHP()
     }
 
     control(controlTime) {
@@ -129,4 +135,48 @@ export default class SoldiersParent extends cc.Component {
             this.controlTime = controlTime
         }
     }
+
+    getAttack(): number {
+        return this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
+    }
+
+    getHP(): number {
+        return this.soldierData.HP * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
+    }
+
+    getPhylactic(): number {
+        return this.soldierData.Phylactic
+    }
+
+    getMoveSpeed(): number {
+        return this.soldierData.moveSpeed
+    }
+
+    getAttackInterval(): number {
+        return this.soldierData.attackInterval
+    }
+
+    getAttackRange(): number {
+        return this.soldierData.attackRange
+    }
+
+    getSoldierID(): number {
+        return this.soldierData.soldierID
+    }
+
+    getSkillRange(): number {
+        return this.soldierData.skillRange
+    }
+
+    getBuffValue() {
+        return this.soldierData.buffValue
+    }
+
+    updataHPUI() {
+        let maxHP = this.getHP()
+        this.nowHp = this.nowHp > maxHP ? maxHP : this.nowHp
+        this.hpPro.progress = this.nowHp / maxHP;
+    }
+
+
 }

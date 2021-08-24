@@ -21,14 +21,14 @@ export default class NewClass extends SoldiersParent {
     //小兵移动逻辑
     move(dt) {
         this.nowAttackTime += dt;
-        if (GameCtrl.getInstance().getTeamSold(this, this.camp) && this.nowAttackTime >= this.soldierData.attackInterval) {
+        if (GameCtrl.getInstance().getTeamSold(this, this.camp) && this.nowAttackTime >= this.getAttackInterval()) {
             this.armsState = ArmsState.attack
             return
         }
         if (this.camp == 0) {
-            this.node.x += dt * this.soldierData.moveSpeed;
+            this.node.x += dt * this.getMoveSpeed();
         } else {
-            this.node.x -= dt * this.soldierData.moveSpeed;
+            this.node.x -= dt * this.getMoveSpeed();
         }
     }
     //医师加血逻辑
@@ -41,10 +41,10 @@ export default class NewClass extends SoldiersParent {
             this.armsState = ArmsState.move
         }
 
-        if (this.nowAttackTime >= this.soldierData.attackInterval && teamSoldier) {
+        if (this.nowAttackTime >= this.getAttackInterval() && teamSoldier) {
             this.nowAttackTime = 0;
             //加血
-            teamSoldier.heal(this.soldierData.Attack)
+            teamSoldier.heal(this.getAttack())
         }
     }
 }
