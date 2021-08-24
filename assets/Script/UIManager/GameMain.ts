@@ -1,5 +1,5 @@
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
-import GameCtrl from "../Other/GameCtrl";
+import GameCtrl from "../Ctrl/GameCtrl";
 import { Camp } from "../Other/GameData";
 import gonbing from "../Other/gonbing";
 import SoldiersParent from "../Other/SoldiersParent";
@@ -50,7 +50,10 @@ export default class GameMain extends UIParent {
         }
     }
     CreateArms(idx) {
-        let obj = cc.instantiate(this.xiaoBingObj);
+        let soldierPre = GameCtrl.getInstance().getSoldierPre(idx)
+        if (!soldierPre) return
+        let obj = cc.instantiate(soldierPre);
+        obj.active = true
         obj.parent = this.playerParent;
         let p1 = this.playerInsPos.convertToWorldSpaceAR(cc.v2(0, 0))
         let p2 = this.playerParent.convertToNodeSpaceAR(p1)

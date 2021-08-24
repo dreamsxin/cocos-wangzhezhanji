@@ -7,7 +7,7 @@
 
 import { SoldierBasic } from "../Config/BarracksConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
-import GameCtrl from "./GameCtrl";
+import GameCtrl from "../Ctrl/GameCtrl";
 import { ArmsState, Camp } from "./GameData";
 
 const { ccclass, property } = cc._decorator;
@@ -34,23 +34,26 @@ export default class SoldiersParent extends cc.Component {
 
     nowHp: number = 0;
     nowAttackTime: number = 0;
-    armsState: ArmsState = ArmsState.move;
+    armsState: ArmsState = ArmsState.default;
     camp: Camp = Camp.bule;
     enemy: SoldiersParent = null;
     soldierData: SoldierBasic
     controlTime: number = 0
 
     init(_camp: Camp, soldierID: number) {
+        cc.log("初始化", _camp, soldierID)
+        let data: SoldierBasic = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
+        this.soldierData = data
         this.nowHp = this.getHP();
         this.camp = _camp
         if (_camp == Camp.red) {
             this.node.scaleX = -1
+            this.soldierNameLabel.node.scaleX = -1
         }
-        let data: SoldierBasic = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
-        this.soldierData = data
         if (this.soldierNameLabel) {
             this.soldierNameLabel.string = data.soldierName
         }
+        this.armsState = ArmsState.move;
     }
 
     //小兵受伤逻辑

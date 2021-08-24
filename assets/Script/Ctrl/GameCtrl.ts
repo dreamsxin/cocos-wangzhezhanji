@@ -6,8 +6,9 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import { Camp } from "./GameData";
-import SoldiersParent from "./SoldiersParent";
+import { Camp } from "../Other/GameData";
+import SoldiersParent from "../Other/SoldiersParent";
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -45,8 +46,15 @@ export default class GameCtrl {
         this._allSoldierPre = data
     }
 
-    getSoldierPre(id) {
-
+    getSoldierPre(id): cc.Node {
+        for (let index = 0; index < this._allSoldierPre.length; index++) {
+            let element = this._allSoldierPre[index];
+            cc.log(element.name)
+            if (element.name == "Soldier" + id) {
+                return element.soldier
+            }
+        }
+        return null
     }
 
     dieEnemy(sold: SoldiersParent) {

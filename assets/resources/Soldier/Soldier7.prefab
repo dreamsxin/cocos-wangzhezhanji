@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "stoneThrowerSoldier",
+    "_name": "Soldier7",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -185,7 +185,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "8c801376-2b0d-4ab0-80e6-4b72ba6d80d9"
     },
     "fileId": "9eva7Sa35Kv7Aq75q9vc6R",
     "sync": false
@@ -363,7 +363,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "8c801376-2b0d-4ab0-80e6-4b72ba6d80d9"
     },
     "fileId": "d8c2C/MBRAcblLU05yTiyi",
     "sync": false
@@ -423,7 +423,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "8c801376-2b0d-4ab0-80e6-4b72ba6d80d9"
     },
     "fileId": "5eDGYfJyxOAZ8P9scv1FTZ",
     "sync": false
@@ -552,13 +552,13 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "8c801376-2b0d-4ab0-80e6-4b72ba6d80d9"
     },
     "fileId": "087+M/21tAtZ3uH7N8rMWd",
     "sync": false
   },
   {
-    "__type__": "ff93fevZclK8bEv053F4Y5C",
+    "__type__": "bdc24k/cz5BWILv3p5ilFji",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -579,7 +579,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "8c801376-2b0d-4ab0-80e6-4b72ba6d80d9"
     },
     "fileId": "",
     "sync": false

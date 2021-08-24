@@ -1,5 +1,6 @@
 
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
+import GameCtrl from "../Ctrl/GameCtrl";
 import GameData, { LocalData } from "../Other/GameData";
 import SoundMgr from "../Other/SoundMgr";
 import UIParent from "./UIParent";
@@ -43,6 +44,7 @@ export default class UIManager extends cc.Component {
         GameData.SaveData();
         this.loadSounds();
         this.LoadConfig();
+        this.LoadAllSoldier();
         this.startPor();
     }
     LoadUIPanel() {
@@ -58,7 +60,7 @@ export default class UIManager extends cc.Component {
         cc.loader.loadResArray(uiPath, cc.Prefab, (completedCount: number, totalCount: number, item: any) => {
             //console.log(completedCount, totalCount, item);
         }, (msg: Error, res: any[]) => {
-            console.log(msg, res);
+            //console.log(msg, res);
             for (let i = 0; i < res.length; i++) {
                 let obj = cc.instantiate(res[i]);
                 obj.parent = this.node;
@@ -78,6 +80,24 @@ export default class UIManager extends cc.Component {
                 return
             }
             BarracksCtrl.getInstance().setBarracksConfig(object.json)
+        })
+    }
+    LoadAllSoldier() {
+        let soldierPath = [];
+        for (let i = 0; i < 10; i++) {
+            soldierPath[i] = "Soldier/Soldier" + (i + 1);
+        }
+        cc.loader.loadResArray(soldierPath, cc.Prefab, (completedCount: number, totalCount: number, item: any) => {
+            //console.log(completedCount, totalCount, item);
+        }, (msg: Error, res: any[]) => {
+            //console.log(msg, res,soldierPath);
+            let allSoldier: { name: string, soldier: cc.Node }[] = []
+            for (let i = 0; i < res.length; i++) {
+                let obj = cc.instantiate(res[i]);
+                allSoldier.push({name: obj.name, soldier: obj })
+                obj.active = false;
+            }
+            GameCtrl.getInstance().setAllSoldierPre(allSoldier)
         })
     }
     startPor() {

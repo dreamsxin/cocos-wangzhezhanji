@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "archerSoldier",
+    "_name": "Soldier2",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -58,8 +58,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -167.383,
-        6.075,
+        -308.334,
+        512.054,
         0,
         0,
         0,
@@ -185,7 +185,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "2125ebf6-85c9-449d-8ed6-b06cf1c37a54"
+      "__uuid__": "4365eb82-4be9-40d6-8a83-337769114a54"
     },
     "fileId": "9eva7Sa35Kv7Aq75q9vc6R",
     "sync": false
@@ -363,7 +363,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "2125ebf6-85c9-449d-8ed6-b06cf1c37a54"
+      "__uuid__": "4365eb82-4be9-40d6-8a83-337769114a54"
     },
     "fileId": "d8c2C/MBRAcblLU05yTiyi",
     "sync": false
@@ -423,7 +423,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "2125ebf6-85c9-449d-8ed6-b06cf1c37a54"
+      "__uuid__": "4365eb82-4be9-40d6-8a83-337769114a54"
     },
     "fileId": "5eDGYfJyxOAZ8P9scv1FTZ",
     "sync": false
@@ -552,13 +552,13 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "2125ebf6-85c9-449d-8ed6-b06cf1c37a54"
+      "__uuid__": "4365eb82-4be9-40d6-8a83-337769114a54"
     },
     "fileId": "087+M/21tAtZ3uH7N8rMWd",
     "sync": false
   },
   {
-    "__type__": "3544e7jguhCU5M+hAmc2K2G",
+    "__type__": "7b6fbx2PpNK8oguJ+67CohT",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -579,7 +579,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "2125ebf6-85c9-449d-8ed6-b06cf1c37a54"
+      "__uuid__": "4365eb82-4be9-40d6-8a83-337769114a54"
     },
     "fileId": "",
     "sync": false

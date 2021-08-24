@@ -1,4 +1,5 @@
-import GameCtrl from "./GameCtrl";
+
+import GameCtrl from "../Ctrl/GameCtrl";
 import { ArmsState, Camp } from "./GameData";
 import SoldiersParent from "./SoldiersParent";
 

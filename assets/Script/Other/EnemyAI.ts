@@ -5,7 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import GameCtrl from "./GameCtrl";
+import GameCtrl from "../Ctrl/GameCtrl";
 import { Camp } from "./GameData";
 import SoldiersParent from "./SoldiersParent";
 
@@ -34,11 +34,14 @@ export default class NewClass extends cc.Component {
         this.unschedule(this.createBing)
     }
     createBing() {
-        this.CreateArms()
+        this.CreateArms(1)
     }
-    CreateArms() {
-        let obj = cc.instantiate(this.xiaoBingObj);
+    CreateArms(idx) {
+        let soldierPre = GameCtrl.getInstance().getSoldierPre(idx)
+        if (!soldierPre) return
+        let obj = cc.instantiate(soldierPre);
         obj.parent = this.playerParent;
+        obj.active = true
         let p1 = this.playerInsPos.convertToWorldSpaceAR(cc.v2(0, 0))
         let p2 = this.playerParent.convertToNodeSpaceAR(p1)
         obj.setPosition(p2);

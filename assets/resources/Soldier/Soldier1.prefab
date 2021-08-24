@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "shieldSoldier",
+    "_name": "Soldier1",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -185,7 +185,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "93a95ea3-330d-4295-8f2a-35bf2d988d08"
     },
     "fileId": "9eva7Sa35Kv7Aq75q9vc6R",
     "sync": false
@@ -363,7 +363,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "93a95ea3-330d-4295-8f2a-35bf2d988d08"
     },
     "fileId": "d8c2C/MBRAcblLU05yTiyi",
     "sync": false
@@ -423,7 +423,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "93a95ea3-330d-4295-8f2a-35bf2d988d08"
     },
     "fileId": "5eDGYfJyxOAZ8P9scv1FTZ",
     "sync": false
@@ -552,13 +552,13 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "93a95ea3-330d-4295-8f2a-35bf2d988d08"
     },
     "fileId": "087+M/21tAtZ3uH7N8rMWd",
     "sync": false
   },
   {
-    "__type__": "7b6fbx2PpNK8oguJ+67CohT",
+    "__type__": "7e4aebnpyRB2ocupxdstKUF",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -579,7 +579,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "93a95ea3-330d-4295-8f2a-35bf2d988d08"
     },
     "fileId": "",
     "sync": false

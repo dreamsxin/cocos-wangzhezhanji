@@ -80,7 +80,7 @@ export class LocalData {
     public coinValue: number
 }
 export enum ArmsState {
-    move, attack, die
+    default, move, attack, die
 }
 export enum Camp {
     bule = 0, red = 1
