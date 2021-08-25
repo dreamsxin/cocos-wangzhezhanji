@@ -28,7 +28,7 @@ export default class NewClass extends cc.Component {
         this.startShot();
     }
     startShot() {
-        this.schedule(this.createBing, Math.random() * 3 + 2)
+        this.schedule(this.createBing, Math.random() * 3 + 0.5)
     }
     endShot() {
         this.unschedule(this.createBing)

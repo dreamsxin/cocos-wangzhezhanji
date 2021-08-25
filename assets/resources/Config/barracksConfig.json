@@ -37,7 +37,7 @@
         "moveSpeed": 100,
         "attackInterval": 1,
         "attackRange": 160,
-        "skillRange": 200,
+        "skillRange": 250,
         "crit": 10,
         "buffValue": 0
     },
@@ -79,7 +79,7 @@
         "moveSpeed": 100,
         "attackInterval": 1,
         "attackRange": 160,
-        "skillRange": 0,
+        "skillRange": 250,
         "crit": 10,
         "buffValue": 0
     },
