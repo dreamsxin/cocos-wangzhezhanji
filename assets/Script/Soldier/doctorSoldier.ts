@@ -26,6 +26,10 @@ export default class NewClass extends SoldiersParent {
             this.armsState = ArmsState.attack
             return
         }
+        if (GameCtrl.getInstance().getSold(this, this.camp)) {
+            this.armsState = ArmsState.attack
+            return
+        }
         if (this.camp == 0) {
             this.node.x += dt * this.getMoveSpeed();
         } else {
