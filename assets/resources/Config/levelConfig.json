@@ -1,0 +1,21 @@
+{
+    "1": {
+        "soldierLevel": 1,
+        "soldierList": [
+            {
+                "soldierID": [
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "soldierWar": [
+            {
+                "soldierID": 1,
+                "createTime": 5
+            }
+        ]
+    }
+}

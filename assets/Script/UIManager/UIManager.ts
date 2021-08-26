@@ -1,6 +1,7 @@
 
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
+import LevelCtrl from "../Ctrl/LevelCtrl";
 import GameData, { LocalData } from "../Other/GameData";
 import SoundMgr from "../Other/SoundMgr";
 import UIParent from "./UIParent";
@@ -43,7 +44,7 @@ export default class UIManager extends cc.Component {
         }
         GameData.SaveData();
         this.loadSounds();
-        this.LoadConfig();
+        this.LoadSoldierConfig();
         this.LoadAllSoldier();
         this.startPor();
     }
@@ -73,13 +74,22 @@ export default class UIManager extends cc.Component {
 
         })
     }
-    LoadConfig() {
+    LoadSoldierConfig() {
         cc.loader.loadRes("Config/barracksConfig.json", (err, object) => {
             if (err) {
                 cc.log("加载错误码：", err)
                 return
             }
             BarracksCtrl.getInstance().setBarracksConfig(object.json)
+        })
+    }
+    LoadLevelConfig() {
+        cc.loader.loadRes("Config/LevelConfig.json", (err, object) => {
+            if (err) {
+                cc.log("加载错误码：", err)
+                return
+            }
+            LevelCtrl.getInstance().setLevelConfig(object.json)
         })
     }
     LoadAllSoldier() {
