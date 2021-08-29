@@ -45,6 +45,7 @@ export default class UIManager extends cc.Component {
         GameData.SaveData();
         this.loadSounds();
         this.LoadSoldierConfig();
+        this.LoadLevelConfig()
         this.LoadAllSoldier();
         this.startPor();
     }
@@ -53,7 +54,8 @@ export default class UIManager extends cc.Component {
         let uiPanel = [
             "GameMain",
             "HomeMain",
-            "WarConfigMain"
+            "WarConfigMain",
+            "LevelMain"
         ];
         for (let i = 0; i < uiPanel.length; i++) {
             uiPath[i] = "UIPanel/" + uiPanel[i];
@@ -84,7 +86,7 @@ export default class UIManager extends cc.Component {
         })
     }
     LoadLevelConfig() {
-        cc.loader.loadRes("Config/LevelConfig.json", (err, object) => {
+        cc.loader.loadRes("Config/levelConfig.json", (err, object) => {
             if (err) {
                 cc.log("加载错误码：", err)
                 return
@@ -104,7 +106,7 @@ export default class UIManager extends cc.Component {
             let allSoldier: { name: string, soldier: cc.Node }[] = []
             for (let i = 0; i < res.length; i++) {
                 let obj = cc.instantiate(res[i]);
-                allSoldier.push({name: obj.name, soldier: obj })
+                allSoldier.push({ name: obj.name, soldier: obj })
                 obj.active = false;
             }
             GameCtrl.getInstance().setAllSoldierPre(allSoldier)
@@ -135,10 +137,18 @@ export default class UIManager extends cc.Component {
         this.schedule(callback, 0.02);
     }
     ShowUIName(uiName) {
-        this.UIPlaneDictionary[uiName].ShowUI();
+        if (this.UIPlaneDictionary[uiName]) {
+            this.UIPlaneDictionary[uiName].ShowUI();
+        } else {
+            cc.log("空界面")
+        }
     }
     HideUIName(uiName) {
-        this.UIPlaneDictionary[uiName].HideUI();
+        if (this.UIPlaneDictionary[uiName]) {
+            this.UIPlaneDictionary[uiName].HideUI();
+        } else {
+            cc.log("空界面")
+        }
     }
     GetUIPanl(uiName): any {
         return this.UIPlaneDictionary[uiName];

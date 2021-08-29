@@ -14,8 +14,6 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Prefab)
-    xiaoBingObj: cc.Prefab = null;
     @property(cc.Node)
     playerInsPos: cc.Node = null;
     @property(cc.Node)

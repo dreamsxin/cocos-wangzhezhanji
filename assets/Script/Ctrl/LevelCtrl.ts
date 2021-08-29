@@ -24,4 +24,8 @@ export default class LevelCtrl {
     getLevelConfigItem(level: number) {
         return this._levelConfig[level];
     }
+
+    getAllLevel(){
+        return this._levelConfig
+    }
 }

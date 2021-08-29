@@ -13,8 +13,6 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class GameMain extends UIParent {
 
-    @property(cc.Prefab)
-    xiaoBingObj: cc.Prefab = null;
     @property(cc.Node)
     playerInsPos: cc.Node = null;
     @property(cc.Node)

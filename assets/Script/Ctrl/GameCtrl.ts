@@ -6,8 +6,10 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import { LevelData } from "../Config/LevelConfig";
 import { Camp } from "../Other/GameData";
 import SoldiersParent from "../Other/SoldiersParent";
+import LevelCtrl from "./LevelCtrl";
 
 
 const { ccclass, property } = cc._decorator;
@@ -19,6 +21,7 @@ export default class GameCtrl {
     private _allEnemyList: SoldiersParent[] = [];
     private _allPlayerList: SoldiersParent[] = [];
     private _allSoldierPre: { name: string, soldier: cc.Node }[] = []
+    private _levelData: LevelData = null
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -223,6 +226,14 @@ export default class GameCtrl {
             }
         }
         return num * buff
+    }
+
+    setLevelData(levelData: LevelData) {
+        this._levelData = levelData
+    }
+
+    getLevelDAta() {
+        return this._levelData
     }
     // update (dt) {}
 }

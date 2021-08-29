@@ -12,8 +12,8 @@ export default class HomeMain extends UIParent {
     ronyutai: cc.Node = null;
     @property(cc.Node)
     jinjidating: cc.Node = null;
-    @property(cc.Node)
-    tanshuo: cc.Node = null;
+    // @property(cc.Node)
+    // tanshuo: cc.Node = null;
     @property(cc.Node)
     zhuanyuan: cc.Node = null;
     @property(cc.Node)
@@ -37,7 +37,7 @@ export default class HomeMain extends UIParent {
             this.HideUI();
             SoundMgr.getInstance().playFx("buttonClick");
         }, this)
-        this.tanshuo.on('click', this.noClick, this)
+        // this.tanshuo.on('click', this.noClick, this)
         this.zhuanyuan.on('click', this.noClick, this)
         this.jiazu.on('click', this.noClick, this)
     }
@@ -48,6 +48,11 @@ export default class HomeMain extends UIParent {
 
     onClickWarConfig() {
         this.uiManager.ShowUIName("WarConfigMain");
+        SoundMgr.getInstance().playFx("buttonClick");
+    }
+
+    onClickShowLevel() {
+        this.uiManager.ShowUIName("LevelMain");
         SoundMgr.getInstance().playFx("buttonClick");
     }
     // update (dt) {}
