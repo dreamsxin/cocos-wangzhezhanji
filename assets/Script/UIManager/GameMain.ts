@@ -60,4 +60,7 @@ export default class GameMain extends UIParent {
         sold.init(Camp.bule, idx);
         GameCtrl.getInstance().addPlayer(sold);
     }
+    onClickClose() {
+        this.HideUI()
+    }
 }
