@@ -39,6 +39,7 @@ export default class SoldiersParent extends cc.Component {
     enemy: SoldiersParent = null;
     soldierData: SoldierBasic
     controlTime: number = 0
+    roadIndex: number = 0
 
     init(_camp: Camp, soldierID: number) {
         cc.log("初始化", _camp, soldierID)

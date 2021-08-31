@@ -1,7 +1,6 @@
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
 import { Camp } from "../Other/GameData";
-import gonbing from "../Other/gonbing";
 import SoldiersParent from "../Other/SoldiersParent";
 import SoundMgr from "../Other/SoundMgr";
 import warItemBut from "../Other/warItemBut";
@@ -22,8 +21,6 @@ export default class GameMain extends UIParent {
     @property(cc.Node)
     warButItem: cc.Node = null;
 
-    playerList: gonbing[] = [];
-    emenyList: gonbing[] = [];
     start() {
     }
     ShowUI() {
