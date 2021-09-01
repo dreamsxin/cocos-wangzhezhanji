@@ -40,6 +40,8 @@ export default class SoldiersParent extends cc.Component {
     soldierData: SoldierBasic
     controlTime: number = 0
     roadIndex: number = 0
+    isMoveY: boolean = false
+    moveRoadID: number = 0
 
     init(_camp: Camp, soldierID: number) {
         cc.log("初始化", _camp, soldierID)
@@ -98,14 +100,38 @@ export default class SoldiersParent extends cc.Component {
 
     //小兵移动逻辑
     move(dt) {
+        if (this.isMoveY) {
+            if (this.moveRoadID > this.roadIndex) {
+                this.node.y += dt * this.getMoveSpeed();
+                if (GameCtrl.getInstance().getRoadY(this.roadIndex) > GameCtrl.getInstance().getRoadY(this.moveRoadID)) {
+                    this.node.y = GameCtrl.getInstance().getRoadY(this.moveRoadID)
+                    this.roadIndex = this.moveRoadID
+                    this.isMoveY = false
+                }
+            } else {
+                this.node.y -= dt * this.getMoveSpeed();
+                if (GameCtrl.getInstance().getRoadY(this.roadIndex) < GameCtrl.getInstance().getRoadY(this.moveRoadID)) {
+                    this.node.y = GameCtrl.getInstance().getRoadY(this.moveRoadID)
+                    this.roadIndex = this.moveRoadID
+                    this.isMoveY = false
+                }
+            }
+            return
+        }
         if (GameCtrl.getInstance().getSold(this, this.camp)) {
             this.armsState = ArmsState.attack
             return
         }
-        if (this.camp == 0) {
-            this.node.x += dt * this.getMoveSpeed();
+        let roadID = GameCtrl.getInstance().getPlayerMoveY(this)
+        if (roadID == -1) {
+            if (this.camp == 0) {
+                this.node.x += dt * this.getMoveSpeed();
+            } else {
+                this.node.x -= dt * this.getMoveSpeed();
+            }
         } else {
-            this.node.x -= dt * this.getMoveSpeed();
+            this.moveRoadID = roadID
+            this.isMoveY = true
         }
     }
     //小兵攻击逻辑
@@ -182,5 +208,7 @@ export default class SoldiersParent extends cc.Component {
         this.hpPro.progress = this.nowHp / maxHP;
     }
 
-
+    getWorldPos(): cc.Vec2 {
+        return this.node.convertToWorldSpaceAR(cc.v2(0, 0))
+    }
 }

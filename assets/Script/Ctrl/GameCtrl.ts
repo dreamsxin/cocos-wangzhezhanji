@@ -22,6 +22,9 @@ export default class GameCtrl {
     private _allPlayerList: SoldiersParent[] = [];
     private _allSoldierPre: { name: string, soldier: cc.Node }[] = []
     private _levelData: LevelData = null
+    private _playerPathList: { [key: number]: SoldiersParent[] } = {};
+    private _enemyPathList: { [key: number]: SoldiersParent[] } = {};
+    private _allRoadYList: number[] = []
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -39,10 +42,18 @@ export default class GameCtrl {
 
     addEnemy(sold: SoldiersParent) {
         this._allEnemyList.push(sold);
+        if (this._enemyPathList[sold.roadIndex]) {
+            this._enemyPathList[sold.roadIndex] = []
+        }
+        this._enemyPathList[sold.roadIndex].push(sold)
     }
 
     addPlayer(sold: SoldiersParent) {
         this._allPlayerList.push(sold);
+        if (this._playerPathList[sold.roadIndex]) {
+            this._playerPathList[sold.roadIndex] = []
+        }
+        this._playerPathList[sold.roadIndex].push(sold)
     }
 
     setAllSoldierPre(data: { name: string, soldier: cc.Node }[]) {
@@ -105,10 +116,10 @@ export default class GameCtrl {
     getEnemy(sold: SoldiersParent): SoldiersParent {
         let enemy: SoldiersParent = null;
         if (!sold) return enemy
-        let playerNodeX = sold.node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+        let playerNodeX = sold.getWorldPos().x;
         for (let index = 0; index < this._allEnemyList.length; index++) {
             if (this._allEnemyList[index].node) {
-                let enemyNodeX = this._allEnemyList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+                let enemyNodeX = this._allEnemyList[index].getWorldPos().x;
                 if (Math.abs(playerNodeX - enemyNodeX) <= sold.getAttackRange()) {
                     if (enemy) {
                         if (Math.abs(playerNodeX - enemyNodeX) < Math.abs(playerNodeX - enemy.node.x)) {
@@ -126,10 +137,10 @@ export default class GameCtrl {
     getPlayer(sold: SoldiersParent): SoldiersParent {
         let player: SoldiersParent = null;
         if (!sold) return player
-        let enemyNodeX = sold.node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+        let enemyNodeX = sold.getWorldPos().x;
         for (let index = 0; index < this._allPlayerList.length; index++) {
             if (this._allPlayerList[index].node) {
-                let playerNodeX = this._allPlayerList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+                let playerNodeX = this._allPlayerList[index].getWorldPos().x;
                 if (Math.abs(enemyNodeX - playerNodeX) <= sold.getAttackRange()) {
                     if (player) {
                         if (Math.abs(enemyNodeX - playerNodeX) < Math.abs(enemyNodeX - player.node.x)) {
@@ -158,10 +169,10 @@ export default class GameCtrl {
     getAllEnemy(sold: SoldiersParent): SoldiersParent[] {
         let enemyList: SoldiersParent[] = [];
         if (!sold) return enemyList
-        let playerNodeX = sold.node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+        let playerNodeX = sold.getWorldPos().x;
         for (let index = 0; index < this._allEnemyList.length; index++) {
             if (this._allEnemyList[index].node) {
-                let enemyNodeX = this._allEnemyList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+                let enemyNodeX = this._allEnemyList[index].getWorldPos().x;
                 if (Math.abs(playerNodeX - enemyNodeX) <= sold.getSkillRange()) {
                     enemyList.push(this._allEnemyList[index])
                 }
@@ -176,10 +187,10 @@ export default class GameCtrl {
     getAllPlayer(sold: SoldiersParent): SoldiersParent[] {
         let playerList: SoldiersParent[] = [];
         if (!sold) return playerList
-        let playerNodeX = sold.node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+        let playerNodeX = sold.getWorldPos().x;
         for (let index = 0; index < this._allPlayerList.length; index++) {
             if (this._allPlayerList[index].node) {
-                let enemyNodeX = this._allPlayerList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+                let enemyNodeX = this._allPlayerList[index].getWorldPos().x;
                 if (Math.abs(playerNodeX - enemyNodeX) <= sold.getSkillRange()) {
                     playerList.push(this._allPlayerList[index])
                 }
@@ -194,10 +205,10 @@ export default class GameCtrl {
     getFewHPTeam(sold: SoldiersParent, soldierList: SoldiersParent[]): SoldiersParent {
         let playerList: SoldiersParent[] = [];
         if (!sold) return null
-        let playerNodeX = sold.node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+        let playerNodeX = sold.getWorldPos().x;
         for (let index = 0; index < soldierList.length; index++) {
             if (soldierList[index].node) {
-                let enemyNodeX = soldierList[index].node.convertToWorldSpaceAR(cc.v2(0, 0)).x;
+                let enemyNodeX = soldierList[index].getWorldPos().x;
                 if (Math.abs(playerNodeX - enemyNodeX) <= sold.getSkillRange()) {
                     if (soldierList[index].isSmallHP()) {
                         playerList.push(soldierList[index])
@@ -234,6 +245,63 @@ export default class GameCtrl {
 
     getLevelDAta() {
         return this._levelData
+    }
+
+    setRoadYList(allYList: number[]) {
+        this._allRoadYList = allYList
+    }
+
+    getRoadY(roadID: number): number {
+        return this._allRoadYList[roadID]
+    }
+
+    getPlayerMoveY(sold: SoldiersParent): number {
+        let soldierList = this._playerPathList[sold.roadIndex];
+        let isHaveObs = false
+        for (let index = 0; index < soldierList.length; index++) {
+            let soldier = soldierList[index];
+            if (sold != soldier) {
+                let mySoldierX = sold.getWorldPos().x;
+                let otherSoldier = soldier.getWorldPos().x;
+                if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 80) {
+                    isHaveObs = true
+                    break
+                }
+            }
+        }
+        if (!isHaveObs) {
+            return -1
+        }
+        isHaveObs = false
+        let allPathID = []
+        for (let key in this._playerPathList) {
+            if (sold.roadIndex.toString() != key) {
+                let soldierList = this._playerPathList[key];
+                for (let index = 0; index < soldierList.length; index++) {
+                    let soldier = soldierList[index];
+                    let mySoldierX = sold.getWorldPos().x;
+                    let otherSoldier = soldier.getWorldPos().x;
+                    if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 80) {
+                        isHaveObs = true
+                        break
+                    }
+                }
+                if (!isHaveObs) {
+                    allPathID.push(Number(key))
+                }
+            }
+        }
+        let num = -1
+        for (let index = 0; index < allPathID.length; index++) {
+            if (num == -1) {
+                num = Math.abs(sold.roadIndex - allPathID[index])
+            }
+            if (num > Math.abs(sold.roadIndex - allPathID[index])) {
+                num = Math.abs(sold.roadIndex - allPathID[index])
+            }
+        }
+
+        return num
     }
     // update (dt) {}
 }
