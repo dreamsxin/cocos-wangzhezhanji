@@ -42,7 +42,7 @@ export default class GameCtrl {
 
     addEnemy(sold: SoldiersParent) {
         this._allEnemyList.push(sold);
-        if (this._enemyPathList[sold.roadIndex]) {
+        if (!this._enemyPathList[sold.roadIndex]) {
             this._enemyPathList[sold.roadIndex] = []
         }
         this._enemyPathList[sold.roadIndex].push(sold)
@@ -50,7 +50,7 @@ export default class GameCtrl {
 
     addPlayer(sold: SoldiersParent) {
         this._allPlayerList.push(sold);
-        if (this._playerPathList[sold.roadIndex]) {
+        if (!this._playerPathList[sold.roadIndex]) {
             this._playerPathList[sold.roadIndex] = []
         }
         this._playerPathList[sold.roadIndex].push(sold)
@@ -249,6 +249,16 @@ export default class GameCtrl {
 
     setRoadYList(allYList: number[]) {
         this._allRoadYList = allYList
+        for (let index = 0; index < 15; index++) {
+            if (!this._playerPathList[index]) {
+                this._playerPathList[index] = []
+            }
+        }
+        for (let index = 0; index < 15; index++) {
+            if (!this._enemyPathList[index]) {
+                this._enemyPathList[index] = []
+            }
+        }
     }
 
     getRoadY(roadID: number): number {
@@ -256,6 +266,7 @@ export default class GameCtrl {
     }
 
     getPlayerMoveY(sold: SoldiersParent): number {
+        cc.log("1")
         let soldierList = this._playerPathList[sold.roadIndex];
         let isHaveObs = false
         for (let index = 0; index < soldierList.length; index++) {
@@ -263,13 +274,15 @@ export default class GameCtrl {
             if (sold != soldier) {
                 let mySoldierX = sold.getWorldPos().x;
                 let otherSoldier = soldier.getWorldPos().x;
-                if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 80) {
+                if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 100) {
                     isHaveObs = true
+                    cc.log("2")
                     break
                 }
             }
         }
         if (!isHaveObs) {
+            cc.log("3")
             return -1
         }
         isHaveObs = false
@@ -281,7 +294,8 @@ export default class GameCtrl {
                     let soldier = soldierList[index];
                     let mySoldierX = sold.getWorldPos().x;
                     let otherSoldier = soldier.getWorldPos().x;
-                    if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 80) {
+                    if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 100) {
+                        cc.log("4")
                         isHaveObs = true
                         break
                     }
@@ -300,6 +314,7 @@ export default class GameCtrl {
                 num = Math.abs(sold.roadIndex - allPathID[index])
             }
         }
+        cc.log("num:", num)
 
         return num
     }

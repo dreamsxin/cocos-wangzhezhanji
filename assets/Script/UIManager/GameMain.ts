@@ -20,6 +20,10 @@ export default class GameMain extends UIParent {
     warButParent: cc.Node = null;
     @property(cc.Node)
     warButItem: cc.Node = null;
+    @property(cc.Node)
+    topNode: cc.Node = null;
+    @property(cc.Node)
+    downNode: cc.Node = null;
 
     start() {
     }
@@ -27,6 +31,13 @@ export default class GameMain extends UIParent {
         super.ShowUI();
         this.warButItem.active = false
         this.InitWarBut()
+        let allY = this.topNode.y - this.downNode.y
+        let itemY = allY / 16
+        let allYList = []
+        for (let index = 0; index < 15; index++) {
+            allYList.push(this.downNode.y + (itemY * index))
+        }
+        GameCtrl.getInstance().setRoadYList(allYList)
     }
     InitWarBut() {
         this.warButParent.removeAllChildren()

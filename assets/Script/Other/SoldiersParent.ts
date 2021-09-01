@@ -57,6 +57,8 @@ export default class SoldiersParent extends cc.Component {
             this.soldierNameLabel.string = data.soldierName
         }
         this.armsState = ArmsState.move;
+        this.roadIndex = 7
+        this.node.y = GameCtrl.getInstance().getRoadY(this.roadIndex)
     }
 
     //小兵受伤逻辑

@@ -35,6 +35,7 @@ export default class NewClass extends cc.Component {
         this.CreateArms(1)
     }
     CreateArms(idx) {
+        return
         let soldierPre = GameCtrl.getInstance().getSoldierPre(idx)
         if (!soldierPre) return
         let obj = cc.instantiate(soldierPre);
