@@ -105,16 +105,16 @@ export default class SoldiersParent extends cc.Component {
         if (this.isMoveY) {
             if (this.moveRoadID > this.roadIndex) {
                 this.node.y += dt * this.getMoveSpeed();
-                if (GameCtrl.getInstance().getRoadY(this.roadIndex) > GameCtrl.getInstance().getRoadY(this.moveRoadID)) {
+                if (this.node.y > GameCtrl.getInstance().getRoadY(this.moveRoadID)) {
                     this.node.y = GameCtrl.getInstance().getRoadY(this.moveRoadID)
-                    this.roadIndex = this.moveRoadID
+                    GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID)
                     this.isMoveY = false
                 }
             } else {
                 this.node.y -= dt * this.getMoveSpeed();
-                if (GameCtrl.getInstance().getRoadY(this.roadIndex) < GameCtrl.getInstance().getRoadY(this.moveRoadID)) {
+                if (this.node.y < GameCtrl.getInstance().getRoadY(this.moveRoadID)) {
                     this.node.y = GameCtrl.getInstance().getRoadY(this.moveRoadID)
-                    this.roadIndex = this.moveRoadID
+                    GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID)
                     this.isMoveY = false
                 }
             }

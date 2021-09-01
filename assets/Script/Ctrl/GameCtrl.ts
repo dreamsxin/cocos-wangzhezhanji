@@ -56,6 +56,15 @@ export default class GameCtrl {
         this._playerPathList[sold.roadIndex].push(sold)
     }
 
+    setSoldierRoad(sold: SoldiersParent, moveID: number) {
+        let index = this._playerPathList[sold.roadIndex].indexOf(sold)
+        if (index >= 0) {
+            this._playerPathList[sold.roadIndex].splice(1, index)
+        }
+        this._playerPathList[moveID].push(sold)
+        sold.roadIndex = moveID
+    }
+
     setAllSoldierPre(data: { name: string, soldier: cc.Node }[]) {
         this._allSoldierPre = data
     }
@@ -274,7 +283,7 @@ export default class GameCtrl {
             if (sold != soldier) {
                 let mySoldierX = sold.getWorldPos().x;
                 let otherSoldier = soldier.getWorldPos().x;
-                if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 100) {
+                if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 200) {
                     isHaveObs = true
                     cc.log("2")
                     break
@@ -294,7 +303,7 @@ export default class GameCtrl {
                     let soldier = soldierList[index];
                     let mySoldierX = sold.getWorldPos().x;
                     let otherSoldier = soldier.getWorldPos().x;
-                    if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 100) {
+                    if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 200) {
                         cc.log("4")
                         isHaveObs = true
                         break
@@ -306,17 +315,20 @@ export default class GameCtrl {
             }
         }
         let num = -1
+        let roadID = -1
         for (let index = 0; index < allPathID.length; index++) {
             if (num == -1) {
                 num = Math.abs(sold.roadIndex - allPathID[index])
+                roadID = allPathID[index]
             }
             if (num > Math.abs(sold.roadIndex - allPathID[index])) {
                 num = Math.abs(sold.roadIndex - allPathID[index])
+                roadID = allPathID[index]
             }
         }
         cc.log("num:", num)
 
-        return num
+        return roadID
     }
     // update (dt) {}
 }
