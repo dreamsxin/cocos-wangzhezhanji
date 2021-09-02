@@ -25,6 +25,7 @@ export default class GameCtrl {
     private _playerPathList: { [key: number]: SoldiersParent[] } = {};
     private _enemyPathList: { [key: number]: SoldiersParent[] } = {};
     private _allRoadYList: number[] = []
+    private _findWayRand: number = 80  //寻路范围
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -59,7 +60,7 @@ export default class GameCtrl {
     setSoldierRoad(sold: SoldiersParent, moveID: number) {
         let index = this._playerPathList[sold.roadIndex].indexOf(sold)
         if (index >= 0) {
-            this._playerPathList[sold.roadIndex].splice(1, index)
+            this._playerPathList[sold.roadIndex].splice(index, 1)
         }
         this._playerPathList[moveID].push(sold)
         sold.roadIndex = moveID
@@ -72,7 +73,7 @@ export default class GameCtrl {
     getSoldierPre(id): cc.Node {
         for (let index = 0; index < this._allSoldierPre.length; index++) {
             let element = this._allSoldierPre[index];
-            cc.log(element.name)
+            //cc.log(element.name)
             if (element.name == "Soldier" + id) {
                 return element.soldier
             }
@@ -81,21 +82,37 @@ export default class GameCtrl {
     }
 
     dieEnemy(sold: SoldiersParent) {
-        for (let index = 0; index < this._allEnemyList.length; index++) {
-            if (this._allEnemyList[index] == sold) {
-                this._allEnemyList.splice(index, 1)
-                return
-            }
+        let index = this._allEnemyList.indexOf(sold)
+        let index2 = this._enemyPathList[sold.roadIndex].indexOf(sold)
+        if (index >= 0) {
+            this._allEnemyList.splice(index, 1)
         }
+        if (index2 >= 0) {
+            this._enemyPathList[sold.roadIndex].splice(index2, 1)
+        }
+        // for (let index = 0; index < this._allEnemyList.length; index++) {
+        //     if (this._allEnemyList[index] == sold) {
+        //         this._allEnemyList.splice(index, 1)
+        //         return
+        //     }
+        // }
     }
 
     diePlayer(sold: SoldiersParent) {
-        for (let index = 0; index < this._allPlayerList.length; index++) {
-            if (this._allPlayerList[index] == sold) {
-                this._allPlayerList.splice(index, 1)
-                return
-            }
+        let index = this._allPlayerList.indexOf(sold)
+        let index2 = this._playerPathList[sold.roadIndex].indexOf(sold)
+        if (index >= 0) {
+            this._allPlayerList.splice(index, 1)
         }
+        if (index2 >= 0) {
+            this._playerPathList[sold.roadIndex].splice(index2, 1)
+        }
+        // for (let index = 0; index < this._allPlayerList.length; index++) {
+        //     if (this._allPlayerList[index] == sold) {
+        //         this._allPlayerList.splice(index, 1)
+        //         return
+        //     }
+        // }
     }
 
     getSold(sold: SoldiersParent, _camp: Camp): SoldiersParent {
@@ -275,7 +292,6 @@ export default class GameCtrl {
     }
 
     getPlayerMoveY(sold: SoldiersParent): number {
-        cc.log("1")
         let soldierList = this._playerPathList[sold.roadIndex];
         let isHaveObs = false
         for (let index = 0; index < soldierList.length; index++) {
@@ -283,28 +299,25 @@ export default class GameCtrl {
             if (sold != soldier) {
                 let mySoldierX = sold.getWorldPos().x;
                 let otherSoldier = soldier.getWorldPos().x;
-                if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 200) {
+                if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < this._findWayRand) {
                     isHaveObs = true
-                    cc.log("2")
                     break
                 }
             }
         }
         if (!isHaveObs) {
-            cc.log("3")
             return -1
         }
-        isHaveObs = false
         let allPathID = []
         for (let key in this._playerPathList) {
             if (sold.roadIndex.toString() != key) {
+                isHaveObs = false
                 let soldierList = this._playerPathList[key];
                 for (let index = 0; index < soldierList.length; index++) {
                     let soldier = soldierList[index];
                     let mySoldierX = sold.getWorldPos().x;
                     let otherSoldier = soldier.getWorldPos().x;
-                    if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < 200) {
-                        cc.log("4")
+                    if (otherSoldier > mySoldierX && otherSoldier - mySoldierX < this._findWayRand) {
                         isHaveObs = true
                         break
                     }
@@ -324,9 +337,12 @@ export default class GameCtrl {
             if (num > Math.abs(sold.roadIndex - allPathID[index])) {
                 num = Math.abs(sold.roadIndex - allPathID[index])
                 roadID = allPathID[index]
+            } else if (num == Math.abs(sold.roadIndex - allPathID[index]) && Math.random() < 0.5) {
+                num = Math.abs(sold.roadIndex - allPathID[index])
+                roadID = allPathID[index]
             }
         }
-        cc.log("num:", num)
+        cc.log("num:", num, allPathID)
 
         return roadID
     }

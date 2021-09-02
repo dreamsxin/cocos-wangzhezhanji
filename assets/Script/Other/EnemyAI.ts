@@ -26,7 +26,7 @@ export default class NewClass extends cc.Component {
         this.startShot();
     }
     startShot() {
-        this.schedule(this.createBing, Math.random() * 3 + 0.5)
+        this.scheduleOnce(this.createBing, Math.random() * 3 + 0.5)
     }
     endShot() {
         this.unschedule(this.createBing)
@@ -35,7 +35,6 @@ export default class NewClass extends cc.Component {
         this.CreateArms(1)
     }
     CreateArms(idx) {
-        return
         let soldierPre = GameCtrl.getInstance().getSoldierPre(idx)
         if (!soldierPre) return
         let obj = cc.instantiate(soldierPre);
@@ -46,6 +45,8 @@ export default class NewClass extends cc.Component {
         obj.setPosition(p2);
         let sold = obj.getComponent(SoldiersParent)
         sold.init(Camp.red,1)
+        sold.soldierData.Phylactic=1000
+        sold.nowHp=1000
         GameCtrl.getInstance().addEnemy(sold);
     }
     // update (dt) {}

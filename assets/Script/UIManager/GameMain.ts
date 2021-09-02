@@ -35,7 +35,7 @@ export default class GameMain extends UIParent {
         let itemY = allY / 16
         let allYList = []
         for (let index = 0; index < 15; index++) {
-            allYList.push(this.downNode.y + (itemY * index))
+            allYList.push(this.topNode.y - (itemY * index))
         }
         GameCtrl.getInstance().setRoadYList(allYList)
     }

@@ -42,9 +42,10 @@ export default class SoldiersParent extends cc.Component {
     roadIndex: number = 0
     isMoveY: boolean = false
     moveRoadID: number = 0
+    moveRoadY: number = 0
 
     init(_camp: Camp, soldierID: number) {
-        cc.log("初始化", _camp, soldierID)
+        //cc.log("初始化", _camp, soldierID)
         let data: SoldierBasic = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
         this.soldierData = data
         this.nowHp = this.getHP();
@@ -59,6 +60,7 @@ export default class SoldiersParent extends cc.Component {
         this.armsState = ArmsState.move;
         this.roadIndex = 7
         this.node.y = GameCtrl.getInstance().getRoadY(this.roadIndex)
+        this.upDateZIndex()
     }
 
     //小兵受伤逻辑
@@ -103,21 +105,24 @@ export default class SoldiersParent extends cc.Component {
     //小兵移动逻辑
     move(dt) {
         if (this.isMoveY) {
-            if (this.moveRoadID > this.roadIndex) {
+            if (this.moveRoadID < this.roadIndex) {
                 this.node.y += dt * this.getMoveSpeed();
-                if (this.node.y > GameCtrl.getInstance().getRoadY(this.moveRoadID)) {
-                    this.node.y = GameCtrl.getInstance().getRoadY(this.moveRoadID)
+                if (this.node.y > this.moveRoadY) {
+                    this.node.y = this.moveRoadY
                     GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID)
                     this.isMoveY = false
+                    cc.log("定位路径", this.moveRoadID)
                 }
             } else {
                 this.node.y -= dt * this.getMoveSpeed();
-                if (this.node.y < GameCtrl.getInstance().getRoadY(this.moveRoadID)) {
-                    this.node.y = GameCtrl.getInstance().getRoadY(this.moveRoadID)
+                if (this.node.y < this.moveRoadY) {
+                    this.node.y = this.moveRoadY
                     GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID)
                     this.isMoveY = false
+                    cc.log("定位路径", this.moveRoadID)
                 }
             }
+            this.upDateZIndex()
             return
         }
         if (GameCtrl.getInstance().getSold(this, this.camp)) {
@@ -133,6 +138,7 @@ export default class SoldiersParent extends cc.Component {
             }
         } else {
             this.moveRoadID = roadID
+            this.moveRoadY = GameCtrl.getInstance().getRoadY(this.moveRoadID)
             this.isMoveY = true
         }
     }
@@ -212,5 +218,9 @@ export default class SoldiersParent extends cc.Component {
 
     getWorldPos(): cc.Vec2 {
         return this.node.convertToWorldSpaceAR(cc.v2(0, 0))
+    }
+
+    upDateZIndex() {
+        this.node.zIndex = this.node.y * -1
     }
 }
