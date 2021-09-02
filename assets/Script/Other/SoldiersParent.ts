@@ -129,7 +129,7 @@ export default class SoldiersParent extends cc.Component {
             this.armsState = ArmsState.attack
             return
         }
-        let roadID = GameCtrl.getInstance().getPlayerMoveY(this)
+        let roadID = GameCtrl.getInstance().getPathIndex(this, this.camp)
         if (roadID == -1) {
             if (this.camp == 0) {
                 this.node.x += dt * this.getMoveSpeed();

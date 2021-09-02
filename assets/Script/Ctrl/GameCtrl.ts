@@ -291,6 +291,14 @@ export default class GameCtrl {
         return this._allRoadYList[roadID]
     }
 
+    getPathIndex(sold: SoldiersParent, _camp: Camp) {
+        if (_camp = Camp.bule) {
+            return this.getPlayerMoveY(sold)
+        } else {
+            return this.getEnemyMoveY(sold)
+        }
+    }
+
     getPlayerMoveY(sold: SoldiersParent): number {
         let soldierList = this._playerPathList[sold.roadIndex];
         let isHaveObs = false
@@ -330,16 +338,76 @@ export default class GameCtrl {
         let num = -1
         let roadID = -1
         for (let index = 0; index < allPathID.length; index++) {
+            let nowPathID = allPathID[index]
+            let nowNum = Math.abs(sold.roadIndex - nowPathID)
             if (num == -1) {
-                num = Math.abs(sold.roadIndex - allPathID[index])
-                roadID = allPathID[index]
+                num = nowNum
+                roadID = nowPathID
             }
-            if (num > Math.abs(sold.roadIndex - allPathID[index])) {
-                num = Math.abs(sold.roadIndex - allPathID[index])
-                roadID = allPathID[index]
-            } else if (num == Math.abs(sold.roadIndex - allPathID[index]) && Math.random() < 0.5) {
-                num = Math.abs(sold.roadIndex - allPathID[index])
-                roadID = allPathID[index]
+            if (num > nowNum) {
+                num = nowNum
+                roadID = nowPathID
+            } else if (num == nowNum && Math.random() < 0.5) {
+                num = nowNum
+                roadID = nowPathID
+            }
+        }
+        cc.log("num:", num, allPathID)
+
+        return roadID
+    }
+
+    getEnemyMoveY(sold: SoldiersParent): number {
+        let soldierList = this._enemyPathList[sold.roadIndex];
+        let isHaveObs = false
+        for (let index = 0; index < soldierList.length; index++) {
+            let soldier = soldierList[index];
+            if (sold != soldier) {
+                let mySoldierX = sold.getWorldPos().x;
+                let otherSoldier = soldier.getWorldPos().x;
+                if (otherSoldier < mySoldierX && mySoldierX - otherSoldier < this._findWayRand) {
+                    isHaveObs = true
+                    break
+                }
+            }
+        }
+        if (!isHaveObs) {
+            return -1
+        }
+        let allPathID = []
+        for (let key in this._enemyPathList) {
+            if (sold.roadIndex.toString() != key) {
+                isHaveObs = false
+                let soldierList = this._enemyPathList[key];
+                for (let index = 0; index < soldierList.length; index++) {
+                    let soldier = soldierList[index];
+                    let mySoldierX = sold.getWorldPos().x;
+                    let otherSoldier = soldier.getWorldPos().x;
+                    if (otherSoldier < mySoldierX && mySoldierX - otherSoldier < this._findWayRand) {
+                        isHaveObs = true
+                        break
+                    }
+                }
+                if (!isHaveObs) {
+                    allPathID.push(Number(key))
+                }
+            }
+        }
+        let num = -1
+        let roadID = -1
+        for (let index = 0; index < allPathID.length; index++) {
+            let nowPathID = allPathID[index]
+            let nowNum = Math.abs(sold.roadIndex - nowPathID)
+            if (num == -1) {
+                num = nowNum
+                roadID = nowPathID
+            }
+            if (num > nowNum) {
+                num = nowNum
+                roadID = nowPathID
+            } else if (num == nowNum && Math.random() < 0.5) {
+                num = nowNum
+                roadID = nowPathID
             }
         }
         cc.log("num:", num, allPathID)

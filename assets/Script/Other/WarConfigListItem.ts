@@ -14,6 +14,8 @@ export default class WarConfigListItem extends cc.Component {
     selectNode: cc.Node = null;
     @property(cc.Node)
     unloadNode: cc.Node = null;
+    @property(cc.Node)
+    cancelNode: cc.Node = null;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -30,8 +32,7 @@ export default class WarConfigListItem extends cc.Component {
         this._fun = fun
         this._itemIndex = itemIndex
         this.resetUI(soldierID)
-        this.selectNode.active = false
-        this.unloadNode.active = false
+        this.setButtonActive(false)
     }
 
     onClickSele() {
@@ -42,13 +43,17 @@ export default class WarConfigListItem extends cc.Component {
 
     onClickUnload() {
         BarracksCtrl.getInstance().setWarConfigList(0, this._itemIndex)
-        this.unloadNode.active = false
+        this.setButtonActive(false)
         if (this._fun) {
             this._fun(this._itemIndex, this._soldierID)
         }
-        this.selectNode.active = false
         this._setSoldierID(0)
         this.resetUI(0)
+    }
+
+    //取消
+    onClickCancel() {
+        this.setButtonActive(false)
     }
 
     selectUI(index: number) {
@@ -74,6 +79,12 @@ export default class WarConfigListItem extends cc.Component {
         this._setSoldierID(soldierID)
         let data = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
         this.nameLabel.string = data ? data.soldierName : ""
+    }
+
+    setButtonActive(isShow) {
+        this.unloadNode.active = isShow
+        this.selectNode.active = isShow
+        this.cancelNode.active = isShow
     }
     // isShowSelectUI(soldierID: number, isShow: boolean) {
     //     if (soldierID == this._soldierData.soldierID) {
