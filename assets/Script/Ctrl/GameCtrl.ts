@@ -24,6 +24,8 @@ export default class GameCtrl {
     private _levelData: LevelData = null
     private _playerPathList: { [key: number]: SoldiersParent[] } = {};
     private _enemyPathList: { [key: number]: SoldiersParent[] } = {};
+    private _allPlayerBannerList: SoldiersParent[] = []
+    private _allEnemyBannerList: SoldiersParent[] = []
     private _allRoadYList: number[] = []
     private _findWayRand: number = 80  //寻路范围
     // LIFE-CYCLE CALLBACKS:
@@ -41,12 +43,26 @@ export default class GameCtrl {
 
     }
 
+    getPlayerNum() {
+        return this._allPlayerList.length
+    }
+
+    getEnemyNum() {
+        return this._allEnemyList.length
+    }
+
     addEnemy(sold: SoldiersParent) {
         this._allEnemyList.push(sold);
         if (!this._enemyPathList[sold.roadIndex]) {
             this._enemyPathList[sold.roadIndex] = []
         }
         this._enemyPathList[sold.roadIndex].push(sold)
+        if (sold.getSoldierID() == 10) {
+            if (this._allEnemyBannerList.length == 0) {
+                this.showAllBannerEffect(Camp.red, true)
+            }
+            this._allEnemyBannerList.push(sold)
+        }
     }
 
     addPlayer(sold: SoldiersParent) {
@@ -55,14 +71,22 @@ export default class GameCtrl {
             this._playerPathList[sold.roadIndex] = []
         }
         this._playerPathList[sold.roadIndex].push(sold)
+        if (sold.getSoldierID() == 10) {
+            if (this._allPlayerBannerList.length == 0) {
+                this.showAllBannerEffect(Camp.bule, true)
+            }
+            this._allPlayerBannerList.push(sold)
+        }
     }
 
-    setSoldierRoad(sold: SoldiersParent, moveID: number) {
-        let index = this._playerPathList[sold.roadIndex].indexOf(sold)
+    //更改小兵路径
+    setSoldierRoad(sold: SoldiersParent, moveID: number, _camp: Camp) {
+        let pathList = _camp == Camp.bule ? this._playerPathList : this._enemyPathList
+        let index = pathList[sold.roadIndex].indexOf(sold)
         if (index >= 0) {
-            this._playerPathList[sold.roadIndex].splice(index, 1)
+            pathList[sold.roadIndex].splice(index, 1)
         }
-        this._playerPathList[moveID].push(sold)
+        pathList[moveID].push(sold)
         sold.roadIndex = moveID
     }
 
@@ -90,12 +114,15 @@ export default class GameCtrl {
         if (index2 >= 0) {
             this._enemyPathList[sold.roadIndex].splice(index2, 1)
         }
-        // for (let index = 0; index < this._allEnemyList.length; index++) {
-        //     if (this._allEnemyList[index] == sold) {
-        //         this._allEnemyList.splice(index, 1)
-        //         return
-        //     }
-        // }
+        if (sold.getSoldierID() == 10) {
+            let index3 = this._allEnemyBannerList.indexOf(sold)
+            if (index3 >= 0) {
+                this._allEnemyBannerList.splice(index3, 1)
+            }
+            if (this._allEnemyBannerList.length == 0) {
+                this.showAllBannerEffect(Camp.bule, false)
+            }
+        }
     }
 
     diePlayer(sold: SoldiersParent) {
@@ -107,12 +134,15 @@ export default class GameCtrl {
         if (index2 >= 0) {
             this._playerPathList[sold.roadIndex].splice(index2, 1)
         }
-        // for (let index = 0; index < this._allPlayerList.length; index++) {
-        //     if (this._allPlayerList[index] == sold) {
-        //         this._allPlayerList.splice(index, 1)
-        //         return
-        //     }
-        // }
+        if (sold.getSoldierID() == 10) {
+            let index3 = this._allPlayerBannerList.indexOf(sold)
+            if (index3 >= 0) {
+                this._allPlayerBannerList.splice(index3, 1)
+            }
+            if (this._allEnemyBannerList.length == 0) {
+                this.showAllBannerEffect(Camp.bule, false)
+            }
+        }
     }
 
     getSold(sold: SoldiersParent, _camp: Camp): SoldiersParent {
@@ -247,19 +277,21 @@ export default class GameCtrl {
     }
 
     getBannerBuff(_camp: Camp): number {
-        let soldierList: SoldiersParent[] = null
         let num: number = 0;
         let buff = 0
         if (_camp == Camp.bule) {
-            soldierList = this._allPlayerList
+            if (this._allPlayerBannerList.length > 0) {
+                num = this._allPlayerBannerList.length
+                buff = this._allPlayerBannerList[0].getBuffValue()
+            } else {
+                return 0
+            }
         } else {
-            soldierList = this._allEnemyList
-        }
-        for (let index = 0; index < soldierList.length; index++) {
-            let element = soldierList[index];
-            if (element.getSoldierID() == 10) {
-                num++
-                buff = element.getBuffValue()
+            if (this._allEnemyBannerList.length > 0) {
+                num = this._allEnemyBannerList.length
+                buff = this._allEnemyBannerList[0].getBuffValue()
+            } else {
+                return 0
             }
         }
         return num * buff
@@ -292,7 +324,7 @@ export default class GameCtrl {
     }
 
     getPathIndex(sold: SoldiersParent, _camp: Camp) {
-        if (_camp = Camp.bule) {
+        if (_camp == Camp.bule) {
             return this.getPlayerMoveY(sold)
         } else {
             return this.getEnemyMoveY(sold)
@@ -413,6 +445,19 @@ export default class GameCtrl {
         cc.log("num:", num, allPathID)
 
         return roadID
+    }
+
+    showAllBannerEffect(_camp: Camp, isShow: boolean) {
+        let soldierList: SoldiersParent[] = []
+        if (_camp == Camp.bule) {
+            soldierList = this._allPlayerList
+        } else {
+            soldierList = this._allEnemyList
+        }
+        for (let index = 0; index < soldierList.length; index++) {
+            let soldier = soldierList[index];
+            soldier.setBannerEffect(isShow)
+        }
     }
     // update (dt) {}
 }

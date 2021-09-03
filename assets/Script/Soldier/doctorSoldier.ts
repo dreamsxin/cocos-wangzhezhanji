@@ -21,7 +21,41 @@ export default class NewClass extends SoldiersParent {
     }
     //小兵移动逻辑
     move(dt) {
+        // this.nowAttackTime += dt;
+        // if (GameCtrl.getInstance().getTeamSold(this, this.camp) && this.nowAttackTime >= this.getAttackInterval()) {
+        //     this.armsState = ArmsState.attack
+        //     return
+        // }
+        // if (GameCtrl.getInstance().getSold(this, this.camp)) {
+        //     this.armsState = ArmsState.attack
+        //     return
+        // }
+        // if (this.camp == 0) {
+        //     this.node.x += dt * this.getMoveSpeed();
+        // } else {
+        //     this.node.x -= dt * this.getMoveSpeed();
+        // }
+        //---------------------------------------------------------------------------
         this.nowAttackTime += dt;
+        if (this.isMoveY) {
+            if (this.moveRoadID < this.roadIndex) {
+                this.node.y += dt * this.getMoveSpeed();
+                if (this.node.y > this.moveRoadY) {
+                    this.node.y = this.moveRoadY
+                    GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID, this.camp)
+                    this.isMoveY = false
+                }
+            } else {
+                this.node.y -= dt * this.getMoveSpeed();
+                if (this.node.y < this.moveRoadY) {
+                    this.node.y = this.moveRoadY
+                    GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID, this.camp)
+                    this.isMoveY = false
+                }
+            }
+            this.upDateZIndex()
+            return
+        }
         if (GameCtrl.getInstance().getTeamSold(this, this.camp) && this.nowAttackTime >= this.getAttackInterval()) {
             this.armsState = ArmsState.attack
             return
@@ -30,10 +64,17 @@ export default class NewClass extends SoldiersParent {
             this.armsState = ArmsState.attack
             return
         }
-        if (this.camp == 0) {
-            this.node.x += dt * this.getMoveSpeed();
+        let roadID = GameCtrl.getInstance().getPathIndex(this, this.camp)
+        if (roadID == -1) {
+            if (this.camp == 0) {
+                this.node.x += dt * this.getMoveSpeed();
+            } else {
+                this.node.x -= dt * this.getMoveSpeed();
+            }
         } else {
-            this.node.x -= dt * this.getMoveSpeed();
+            this.moveRoadID = roadID
+            this.moveRoadY = GameCtrl.getInstance().getRoadY(this.moveRoadID)
+            this.isMoveY = true
         }
     }
     //医师加血逻辑

@@ -31,6 +31,8 @@ export default class SoldiersParent extends cc.Component {
     hpPro: cc.ProgressBar = null;
     @property({ type: cc.Label, tooltip: "名字🦵" })
     soldierNameLabel: cc.Label = null;
+    @property(cc.Node)
+    magicNode: cc.Node = null;
 
     nowHp: number = 0;
     nowAttackTime: number = 0;
@@ -61,6 +63,7 @@ export default class SoldiersParent extends cc.Component {
         this.roadIndex = 7
         this.node.y = GameCtrl.getInstance().getRoadY(this.roadIndex)
         this.upDateZIndex()
+        this.magicNode.active = GameCtrl.getInstance().getBannerBuff(this.camp) > 0
     }
 
     //小兵受伤逻辑
@@ -109,17 +112,15 @@ export default class SoldiersParent extends cc.Component {
                 this.node.y += dt * this.getMoveSpeed();
                 if (this.node.y > this.moveRoadY) {
                     this.node.y = this.moveRoadY
-                    GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID)
+                    GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID, this.camp)
                     this.isMoveY = false
-                    cc.log("定位路径", this.moveRoadID)
                 }
             } else {
                 this.node.y -= dt * this.getMoveSpeed();
                 if (this.node.y < this.moveRoadY) {
                     this.node.y = this.moveRoadY
-                    GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID)
+                    GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID, this.camp)
                     this.isMoveY = false
-                    cc.log("定位路径", this.moveRoadID)
                 }
             }
             this.upDateZIndex()
@@ -162,6 +163,7 @@ export default class SoldiersParent extends cc.Component {
         let maxHP = this.getHP()
         this.nowHp = this.nowHp > maxHP ? maxHP : this.nowHp
         this.hpPro.progress = this.nowHp / maxHP;
+        this.healEffect()
     }
 
     isSmallHP() {
@@ -175,7 +177,7 @@ export default class SoldiersParent extends cc.Component {
     }
 
     getAttack(): number {
-        return this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
+        return 1// this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
     }
 
     getHP(): number {
@@ -222,5 +224,32 @@ export default class SoldiersParent extends cc.Component {
 
     upDateZIndex() {
         this.node.zIndex = this.node.y * -1
+    }
+
+    healEffect() {
+        let posX = [20, -20, 0]
+        for (let index = 0; index < posX.length; index++) {
+            let obj = new cc.Node();
+            obj.color = cc.Color.GREEN
+            let text = obj.addComponent(cc.Label)
+            text.string = "+"
+            text.enableBold = true
+            this.node.addChild(obj)
+            let pos = this.hpPro.node.position
+            obj.setPosition(cc.v2(pos.x + posX[index], pos.y + this.hpPro.node.height + 5))
+            obj.opacity = 0
+            cc.tween(obj)
+                .delay(index * 0.3)
+                .call(() => {
+                    obj.opacity = 255
+                })
+                .by(0.5, { y: 20, opacity: 0 })
+                .removeSelf()
+                .start()
+        }
+    }
+
+    setBannerEffect(isShow: boolean) {
+        this.magicNode.active = isShow
     }
 }

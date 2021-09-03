@@ -1,5 +1,6 @@
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
+import EnemyAI from "../Other/EnemyAI";
 import { Camp } from "../Other/GameData";
 import SoldiersParent from "../Other/SoldiersParent";
 import SoundMgr from "../Other/SoundMgr";
@@ -24,6 +25,8 @@ export default class GameMain extends UIParent {
     topNode: cc.Node = null;
     @property(cc.Node)
     downNode: cc.Node = null;
+    @property(EnemyAI)
+    enemyAI: EnemyAI = null;
 
     start() {
     }
@@ -38,6 +41,7 @@ export default class GameMain extends UIParent {
             allYList.push(this.topNode.y - (itemY * index))
         }
         GameCtrl.getInstance().setRoadYList(allYList)
+        this.enemyAI.initLevel()
     }
     InitWarBut() {
         this.warButParent.removeAllChildren()
