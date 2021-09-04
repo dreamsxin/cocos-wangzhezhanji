@@ -43,13 +43,15 @@ export default class SoldiersParent extends cc.Component {
     controlTime: number = 0
     roadIndex: number = 0
     isMoveY: boolean = false
+    isMove: boolean = true
     moveRoadID: number = 0
     moveRoadY: number = 0
 
-    init(_camp: Camp, soldierID: number) {
+    init(_camp: Camp, soldierID: number, roadIndex: number, isMove: boolean = true) {
         //cc.log("初始化", _camp, soldierID)
         let data: SoldierBasic = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
         this.soldierData = data
+        this.isMove = isMove
         this.nowHp = this.getHP();
         this.camp = _camp
         if (_camp == Camp.red) {
@@ -60,7 +62,7 @@ export default class SoldiersParent extends cc.Component {
             this.soldierNameLabel.string = data.soldierName
         }
         this.armsState = ArmsState.move;
-        this.roadIndex = 7
+        this.roadIndex = roadIndex
         this.node.y = GameCtrl.getInstance().getRoadY(this.roadIndex)
         this.upDateZIndex()
         this.magicNode.active = GameCtrl.getInstance().getBannerBuff(this.camp) > 0
@@ -95,13 +97,17 @@ export default class SoldiersParent extends cc.Component {
             this.controlTime -= dt
             return
         }
-        switch (this.armsState) {
-            case ArmsState.attack:
-                this.attack(dt);
-                break;
-            case ArmsState.move:
-                this.move(dt);
-                break;
+        if (this.isMove) {
+            switch (this.armsState) {
+                case ArmsState.attack:
+                    this.attack(dt);
+                    break;
+                case ArmsState.move:
+                    this.move(dt);
+                    break;
+            }
+        } else {
+            this.attack(dt);
         }
     }
 

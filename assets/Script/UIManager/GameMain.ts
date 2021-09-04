@@ -30,6 +30,7 @@ export default class GameMain extends UIParent {
 
     start() {
     }
+
     ShowUI() {
         super.ShowUI();
         this.warButItem.active = false
@@ -43,6 +44,17 @@ export default class GameMain extends UIParent {
         GameCtrl.getInstance().setRoadYList(allYList)
         this.enemyAI.initLevel()
     }
+
+    InitLevelMinMax() {
+        let leftNode = this.playerInsPos
+        let rightNode = this.enemyAI.playerInsPos
+        let p1 = leftNode.convertToWorldSpaceAR(cc.v2(0, 0))
+        let p2 = this.playerParent.convertToNodeSpaceAR(p1)
+        let p3 = rightNode.convertToWorldSpaceAR(cc.v2(0, 0))
+        let p4 = this.playerParent.convertToNodeSpaceAR(p3)
+        GameCtrl.getInstance().setPathMinMax(p2, p4)
+    }
+
     InitWarBut() {
         this.warButParent.removeAllChildren()
         let data = BarracksCtrl.getInstance().getWarConfigList();
@@ -59,7 +71,9 @@ export default class GameMain extends UIParent {
             })
         }
     }
+
     CreateArms(idx) {
+        if (GameCtrl.getInstance().getPlayerNum() >= 15) return
         let soldierPre = GameCtrl.getInstance().getSoldierPre(idx)
         if (!soldierPre) return
         let obj = cc.instantiate(soldierPre);
@@ -69,10 +83,12 @@ export default class GameMain extends UIParent {
         let p2 = this.playerParent.convertToNodeSpaceAR(p1)
         obj.setPosition(p2);
         let sold = obj.getComponent(SoldiersParent)
-        sold.init(Camp.bule, idx);
+        sold.init(Camp.bule, idx, 7);
         GameCtrl.getInstance().addPlayer(sold);
     }
+
     onClickClose() {
+        this.uiManager.ShowUIName("HomeMain");
         this.HideUI()
     }
 }

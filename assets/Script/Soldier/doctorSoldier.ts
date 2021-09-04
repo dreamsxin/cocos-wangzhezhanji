@@ -9,16 +9,16 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class NewClass extends SoldiersParent {
     //医生
-    update(dt) {
-        switch (this.armsState) {
-            case ArmsState.attack:
-                this.attack(dt);
-                break;
-            case ArmsState.move:
-                this.move(dt);
-                break;
-        }
-    }
+    // update(dt) {
+    //     switch (this.armsState) {
+    //         case ArmsState.attack:
+    //             this.attack(dt);
+    //             break;
+    //         case ArmsState.move:
+    //             this.move(dt);
+    //             break;
+    //     }
+    // }
     //小兵移动逻辑
     move(dt) {
         // this.nowAttackTime += dt;

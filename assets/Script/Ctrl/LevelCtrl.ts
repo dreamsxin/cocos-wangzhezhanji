@@ -6,7 +6,7 @@ const { ccclass, property } = cc._decorator;
 export default class LevelCtrl {
     private static _instance: LevelCtrl = null;
     private _levelConfig: any = null;
-    private _nowLevel: number = 0
+    private _nowLevelData: any = 0
 
     public static getInstance() {
         if (!this._instance) {
@@ -29,10 +29,14 @@ export default class LevelCtrl {
     }
 
     getNowLevelData(): any {
-        return this._levelConfig[this._nowLevel];
+        return this._nowLevelData;
     }
 
     getAllLevel() {
         return this._levelConfig
+    }
+
+    setNowLevelData(data: any) {
+        this._nowLevelData = data
     }
 }

@@ -6,6 +6,8 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import { LevelData } from "../Config/LevelConfig";
+import GameCtrl from "../Ctrl/GameCtrl";
+import LevelCtrl from "../Ctrl/LevelCtrl";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,11 +19,13 @@ export default class NewClass extends cc.Component {
 
 
     private _levelData: LevelData = null
+    private _fun: Function = null
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
-    init(levelData: LevelData) {
+    init(levelData: LevelData, fun: Function) {
         this._levelData = levelData
+        this._fun = fun
         this.nameLabel.string = "关卡：" + levelData.soldierLevel
     }
 
@@ -30,6 +34,9 @@ export default class NewClass extends cc.Component {
     }
 
     onClickDan() {
-
+        LevelCtrl.getInstance().setNowLevelData(this._levelData)
+        if (this._fun) {
+            this._fun()
+        }
     }
 }

@@ -24,7 +24,7 @@ export default class EnemyAI extends cc.Component {
     // onLoad () {}
 
     start() {
-        
+
     }
 
     initLevel() {
@@ -45,25 +45,42 @@ export default class EnemyAI extends cc.Component {
         this.CreateArms(Math.floor(Math.random() * 7 + 1))
     }
 
-    CreateArms(idx) {
+    CreateArms(idx: number, roadIndex: number = 7, isMove: boolean = true, posX: number = GameCtrl.getInstance().getPathMax().x) {
         if (GameCtrl.getInstance().getEnemyNum() >= 15) return
         let soldierPre = GameCtrl.getInstance().getSoldierPre(idx)
         if (!soldierPre) return
         let obj = cc.instantiate(soldierPre);
-        obj.parent = this.playerParent;
+        this.playerParent.addChild(obj)
         obj.active = true
-        let p1 = this.playerInsPos.convertToWorldSpaceAR(cc.v2(0, 0))
-        let p2 = this.playerParent.convertToNodeSpaceAR(p1)
-        obj.setPosition(p2);
+        obj.x = posX
         let sold = obj.getComponent(SoldiersParent)
-        sold.init(Camp.red, idx)
+        sold.init(Camp.red, idx, roadIndex, isMove)
         // sold.soldierData.Phylactic = 1000
         // sold.nowHp = 1000
         GameCtrl.getInstance().addEnemy(sold);
     }
 
     createPathSoldier() {
-
+        let soldierList: any[] = this._levelData.soldierList
+        if (!soldierList) return
+        let min = GameCtrl.getInstance().getPathMin()
+        let max = GameCtrl.getInstance().getPathMax()
+        let allNum = max.x - min.x
+        let pathX = allNum / (soldierList.length + 1)
+        for (let i = 0; i < soldierList.length; i++) {
+            let rowList = soldierList[i];
+            let rowIndex = 0
+            let nowX = pathX * i + min.x
+            for (let key in rowList) {
+                let list = rowList[key];
+                for (let j = 0; j < list.length; j++) {
+                    let soldierID = list[j];
+                    let x = rowIndex * 80 + nowX
+                    this.CreateArms(soldierID, 7, false, x)
+                }
+                rowIndex++
+            }
+        }
     }
     // update (dt) {}
 }

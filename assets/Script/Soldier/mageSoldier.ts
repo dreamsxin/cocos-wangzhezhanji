@@ -9,16 +9,16 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class NewClass extends SoldiersParent {
     //法师
-    update(dt) {
-        switch (this.armsState) {
-            case ArmsState.attack:
-                this.attack(dt);
-                break;
-            case ArmsState.move:
-                this.move(dt);
-                break;
-        }
-    }
+    // update(dt) {
+    //     switch (this.armsState) {
+    //         case ArmsState.attack:
+    //             this.attack(dt);
+    //             break;
+    //         case ArmsState.move:
+    //             this.move(dt);
+    //             break;
+    //     }
+    // }
     //法师攻击逻辑
     attack(dt) {
         let enemyList = GameCtrl.getInstance().getRandSold(this, this.camp)

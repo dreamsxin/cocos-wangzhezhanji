@@ -37,7 +37,11 @@ export default class NewClass extends UIParent {
             obj.active = true
             content.addChild(obj)
             let spr = obj.getComponent(levelItem)
-            spr.init(data)
+            spr.init(data, () => {
+                this.onClickClose()
+                this.uiManager.HideUIName("HomeMain")
+                this.uiManager.ShowUIName("GameMain");
+            })
         }
     }
 

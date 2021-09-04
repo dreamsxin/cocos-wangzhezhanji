@@ -32,11 +32,11 @@ export default class HomeMain extends UIParent {
 
     AddButtonClick() {
         this.ronyutai.on('click', this.noClick, this)
-        this.jinjidating.on('click', (event) => {
-            this.uiManager.ShowUIName("GameMain");
-            this.HideUI();
-            SoundMgr.getInstance().playFx("buttonClick");
-        }, this)
+        // this.jinjidating.on('click', (event) => {
+        //     this.uiManager.ShowUIName("GameMain");
+        //     this.HideUI();
+        //     SoundMgr.getInstance().playFx("buttonClick");
+        // }, this)
         // this.tanshuo.on('click', this.noClick, this)
         this.zhuanyuan.on('click', this.noClick, this)
         this.jiazu.on('click', this.noClick, this)

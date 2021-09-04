@@ -28,6 +28,8 @@ export default class GameCtrl {
     private _allEnemyBannerList: SoldiersParent[] = []
     private _allRoadYList: number[] = []
     private _findWayRand: number = 80  //寻路范围
+    private _pathMin: cc.Vec2 = cc.v2()
+    private _pathMax: cc.Vec2 = cc.v2()
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -49,6 +51,19 @@ export default class GameCtrl {
 
     getEnemyNum() {
         return this._allEnemyList.length
+    }
+
+    setPathMinMax(min: cc.Vec2, max: cc.Vec2) {
+        this._pathMin = min
+        this._pathMax = max
+    }
+
+    getPathMin(): cc.Vec2 {
+        return this._pathMin
+    }
+
+    getPathMax(): cc.Vec2 {
+        return this._pathMax
     }
 
     addEnemy(sold: SoldiersParent) {
