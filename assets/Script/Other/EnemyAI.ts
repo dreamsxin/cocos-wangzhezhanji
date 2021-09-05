@@ -70,13 +70,14 @@ export default class EnemyAI extends cc.Component {
         for (let i = 0; i < soldierList.length; i++) {
             let rowList = soldierList[i];
             let rowIndex = 0
-            let nowX = pathX * i + min.x
+            let nowX = pathX * (i + 1) + min.x
             for (let key in rowList) {
                 let list = rowList[key];
+                let chaNum = Math.floor((15 - list.length) / 2)
                 for (let j = 0; j < list.length; j++) {
                     let soldierID = list[j];
                     let x = rowIndex * 80 + nowX
-                    this.CreateArms(soldierID, 7, false, x)
+                    this.CreateArms(soldierID, j + chaNum, false, x)
                 }
                 rowIndex++
             }

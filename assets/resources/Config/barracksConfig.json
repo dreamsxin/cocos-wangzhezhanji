@@ -120,8 +120,8 @@
         "Phylactic": 15,
         "moveSpeed": 100,
         "attackInterval": 1,
-        "attackRange": 160,
-        "skillRange": 0,
+        "attackRange": 100,
+        "skillRange": 220,
         "crit": 10,
         "buffValue": 0
     },

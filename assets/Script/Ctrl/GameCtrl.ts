@@ -149,11 +149,14 @@ export default class GameCtrl {
         if (index2 >= 0) {
             this._playerPathList[sold.roadIndex].splice(index2, 1)
         }
+        cc.log("回收1", sold.getSoldierID())
         if (sold.getSoldierID() == 10) {
+            cc.log("回收2", this._allPlayerBannerList.length)
             let index3 = this._allPlayerBannerList.indexOf(sold)
             if (index3 >= 0) {
                 this._allPlayerBannerList.splice(index3, 1)
             }
+            cc.log("回收3", this._allPlayerBannerList.length)
             if (this._allEnemyBannerList.length == 0) {
                 this.showAllBannerEffect(Camp.bule, false)
             }

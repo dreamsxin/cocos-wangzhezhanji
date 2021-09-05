@@ -42,6 +42,7 @@ export default class GameMain extends UIParent {
             allYList.push(this.topNode.y - (itemY * index))
         }
         GameCtrl.getInstance().setRoadYList(allYList)
+        this.InitLevelMinMax()
         this.enemyAI.initLevel()
     }
 

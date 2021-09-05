@@ -183,7 +183,7 @@ export default class SoldiersParent extends cc.Component {
     }
 
     getAttack(): number {
-        return 1// this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
+        return  this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
     }
 
     getHP(): number {
