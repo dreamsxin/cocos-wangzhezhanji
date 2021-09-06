@@ -53,10 +53,11 @@ export default class SoldiersParent extends cc.Component {
         this.soldierData = data
         this.isMove = isMove
         this.nowHp = this.getHP();
+        this.hpPro.progress = 1
         this.camp = _camp
         if (_camp == Camp.red) {
             this.node.scaleX = -1
-            this.soldierNameLabel.node.scaleX = -1
+            if (this.soldierNameLabel) this.soldierNameLabel.node.scaleX = -1
         }
         if (this.soldierNameLabel) {
             this.soldierNameLabel.string = data.soldierName
@@ -65,7 +66,13 @@ export default class SoldiersParent extends cc.Component {
         this.roadIndex = roadIndex
         this.node.y = GameCtrl.getInstance().getRoadY(this.roadIndex)
         this.upDateZIndex()
-        this.magicNode.active = GameCtrl.getInstance().getBannerBuff(this.camp) > 0
+        if (this.magicNode) {
+            this.magicNode.active = GameCtrl.getInstance().getBannerBuff(this.camp) > 0
+        }
+    }
+
+    initHpPro(hp: cc.ProgressBar) {
+        this.hpPro = hp
     }
 
     //小兵受伤逻辑
@@ -183,7 +190,7 @@ export default class SoldiersParent extends cc.Component {
     }
 
     getAttack(): number {
-        return  this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
+        return this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
     }
 
     getHP(): number {

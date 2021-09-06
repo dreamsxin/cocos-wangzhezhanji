@@ -27,6 +27,8 @@ export default class GameMain extends UIParent {
     downNode: cc.Node = null;
     @property(EnemyAI)
     enemyAI: EnemyAI = null;
+    @property({ type: cc.ProgressBar, tooltip: "血条进度条💩" })
+    hpPro: cc.ProgressBar = null;
 
     start() {
     }
@@ -44,6 +46,7 @@ export default class GameMain extends UIParent {
         GameCtrl.getInstance().setRoadYList(allYList)
         this.InitLevelMinMax()
         this.enemyAI.initLevel()
+        this.CreateTower()
     }
 
     InitLevelMinMax() {
@@ -85,6 +88,21 @@ export default class GameMain extends UIParent {
         obj.setPosition(p2);
         let sold = obj.getComponent(SoldiersParent)
         sold.init(Camp.bule, idx, 7);
+        GameCtrl.getInstance().addPlayer(sold);
+    }
+
+    CreateTower() {
+        let soldierPre = GameCtrl.getInstance().getSoldierPre(20)
+        if (!soldierPre) return
+        let obj = cc.instantiate(soldierPre);
+        obj.active = true
+        obj.parent = this.playerParent;
+        let p1 = this.playerInsPos.convertToWorldSpaceAR(cc.v2(0, 0))
+        let p2 = this.playerParent.convertToNodeSpaceAR(p1)
+        obj.setPosition(cc.v2(p2.x - 100, p2.y));
+        let sold = obj.getComponent(SoldiersParent)
+        sold.initHpPro(this.hpPro)
+        sold.init(Camp.bule, 20, 7);
         GameCtrl.getInstance().addPlayer(sold);
     }
 

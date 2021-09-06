@@ -19,6 +19,8 @@ export default class EnemyAI extends cc.Component {
     playerInsPos: cc.Node = null;
     @property(cc.Node)
     playerParent: cc.Node = null;
+    @property({ type: cc.ProgressBar, tooltip: "血条进度条💩" })
+    hpPro: cc.ProgressBar = null;
     // LIFE-CYCLE CALLBACKS:
     private _levelData: any
     // onLoad () {}
@@ -31,6 +33,7 @@ export default class EnemyAI extends cc.Component {
         this._levelData = LevelCtrl.getInstance().getNowLevelData()
         this.startShot();
         this.createPathSoldier()
+        this.CreateTower()
     }
 
     startShot() {
@@ -58,6 +61,21 @@ export default class EnemyAI extends cc.Component {
         // sold.soldierData.Phylactic = 1000
         // sold.nowHp = 1000
         GameCtrl.getInstance().addEnemy(sold);
+    }
+
+    CreateTower() {
+        let soldierPre = GameCtrl.getInstance().getSoldierPre(20)
+        if (!soldierPre) return
+        let obj = cc.instantiate(soldierPre);
+        obj.active = true
+        obj.parent = this.playerParent;
+        let p1 = this.playerInsPos.convertToWorldSpaceAR(cc.v2(0, 0))
+        let p2 = this.playerParent.convertToNodeSpaceAR(p1)
+        obj.setPosition(cc.v2(p2.x + 100, p2.y));
+        let sold = obj.getComponent(SoldiersParent)
+        sold.initHpPro(this.hpPro)
+        sold.init(Camp.red, 20, 7);
+        GameCtrl.getInstance().addPlayer(sold);
     }
 
     createPathSoldier() {

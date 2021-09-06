@@ -138,5 +138,19 @@
         "skillRange": 0,
         "crit": 10,
         "buffValue": 0.05
+    },
+    "20": {
+        "soldierID": 20,
+        "soldierName": "塔",
+        "soldierDes": "建筑系，最靠谱的伙伴。",
+        "HP": 2500,
+        "Attack": 0,
+        "Phylactic": 100,
+        "moveSpeed": 0,
+        "attackInterval": 0,
+        "attackRange": 0,
+        "skillRange": 0,
+        "crit": 0,
+        "buffValue": 0
     }
 }
