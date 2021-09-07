@@ -55,7 +55,8 @@ export default class UIManager extends cc.Component {
             "GameMain",
             "HomeMain",
             "WarConfigMain",
-            "LevelMain"
+            "LevelMain",
+            "GameOverMain"
         ];
         for (let i = 0; i < uiPanel.length; i++) {
             uiPath[i] = "UIPanel/" + uiPanel[i];
@@ -137,9 +138,9 @@ export default class UIManager extends cc.Component {
         }
         this.schedule(callback, 0.02);
     }
-    ShowUIName(uiName) {
+    ShowUIName(uiName, fun = () => {}, data = null) {
         if (this.UIPlaneDictionary[uiName]) {
-            this.UIPlaneDictionary[uiName].ShowUI();
+            this.UIPlaneDictionary[uiName].ShowUI(fun, data);
         } else {
             cc.log("空界面")
         }

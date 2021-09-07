@@ -19,7 +19,7 @@ export default class UIParent extends GameBaseEventNode {
         GameEventManager.getInstance().pushNodeEvent(this);
     }
     //打开界面
-    ShowUI(fun = () => { }) {
+    ShowUI(fun = () => { }, data: any = null) {
         if (this.uiAnimObj) {
             this.uiAnimObj.scale = 0;
             cc.tween(this.uiAnimObj)
@@ -72,8 +72,8 @@ export default class UIParent extends GameBaseEventNode {
 
     }
 
-    onDispathcGameEvent (eventId:GameEvent, eventData:any) {
-        if (super.onDispathcGameEvent){
+    onDispathcGameEvent(eventId: GameEvent, eventData: any) {
+        if (super.onDispathcGameEvent) {
             super.onDispathcGameEvent(eventId, eventData);
         }
     }

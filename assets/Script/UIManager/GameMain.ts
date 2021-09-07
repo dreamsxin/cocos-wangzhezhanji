@@ -116,11 +116,7 @@ export default class GameMain extends UIParent {
         switch (eventId) {
             case GameEvent.Game_Over:
                 {
-                    if (eventData == Camp.bule) {
-                        cc.log("你输了+++++++++++++++++++++++++++++")
-                    } else {
-                        cc.log("你赢了-----------------------------")
-                    }
+                    this.uiManager.ShowUIName("GameOverMain", () => { }, eventData);
                 }
                 break
             default:
