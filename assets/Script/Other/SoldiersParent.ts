@@ -6,8 +6,10 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import { SoldierBasic } from "../Config/BarracksConfig";
+import { GameEvent } from "../Config/GameEventConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
+import GameEventManager from "../Manager/GameEventManager";
 import { ArmsState, Camp } from "./GameData";
 
 const { ccclass, property } = cc._decorator;
@@ -44,6 +46,7 @@ export default class SoldiersParent extends cc.Component {
     roadIndex: number = 0
     isMoveY: boolean = false
     isMove: boolean = true
+    isBuff: boolean = true  //关闭将不受旗手Buff加成
     moveRoadID: number = 0
     moveRoadY: number = 0
 
@@ -93,6 +96,9 @@ export default class SoldiersParent extends cc.Component {
             cc.tween(this.node)
                 .to(0.5, { opacity: 0 })
                 .call(() => {
+                    if (this.getSoldierID() == 20) {
+                        this.sendEvent(GameEvent.Game_Over, this.camp)
+                    }
                     this.node.destroy();
                 })
                 .start()
@@ -190,11 +196,19 @@ export default class SoldiersParent extends cc.Component {
     }
 
     getAttack(): number {
-        return this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
+        if (this.isBuff) {
+            return this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
+        } else {
+            return this.soldierData.Attack
+        }
     }
 
     getHP(): number {
-        return this.soldierData.HP * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
+        if (this.isBuff) {
+            return this.soldierData.HP * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
+        } else {
+            return this.soldierData.HP
+        }
     }
 
     getPhylactic(): number {
@@ -263,6 +277,12 @@ export default class SoldiersParent extends cc.Component {
     }
 
     setBannerEffect(isShow: boolean) {
-        this.magicNode.active = isShow
+        if (this.magicNode) {
+            this.magicNode.active = isShow
+        }
+    }
+
+    sendEvent(eventId, data: any = null) {
+        GameEventManager.getInstance().dispathcGameEvent(eventId, data);
     }
 }

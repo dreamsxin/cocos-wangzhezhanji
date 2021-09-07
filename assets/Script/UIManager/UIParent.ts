@@ -1,10 +1,13 @@
+import GameBaseEventNode from "../Base/GameBaseEventNode";
+import { GameEvent } from "../Config/GameEventConfig";
+import GameEventManager from "../Manager/GameEventManager";
 import SoundMgr from "../Other/SoundMgr";
 import UIManager from "./UIManager";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class UIParent extends cc.Component {
+export default class UIParent extends GameBaseEventNode {
 
     @property(cc.Node)
     uiAnimObj: cc.Node = null;
@@ -13,6 +16,7 @@ export default class UIParent extends cc.Component {
     //进度条加载完初始化
     InitUI(uiMain) {
         this.uiManager = uiMain;
+        GameEventManager.getInstance().pushNodeEvent(this);
     }
     //打开界面
     ShowUI(fun = () => { }) {
@@ -66,5 +70,11 @@ export default class UIParent extends cc.Component {
     //打开界面更新返现数据
     UpdataFXData() {
 
+    }
+
+    onDispathcGameEvent (eventId:GameEvent, eventData:any) {
+        if (super.onDispathcGameEvent){
+            super.onDispathcGameEvent(eventId, eventData);
+        }
     }
 }

@@ -1,3 +1,4 @@
+import { GameEvent } from "../Config/GameEventConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
 import EnemyAI from "../Other/EnemyAI";
@@ -109,5 +110,23 @@ export default class GameMain extends UIParent {
     onClickClose() {
         this.uiManager.ShowUIName("HomeMain");
         this.HideUI()
+    }
+
+    onDispathcGameEvent(eventId: GameEvent, eventData: any) {
+        switch (eventId) {
+            case GameEvent.Game_Over:
+                {
+                    if (eventData == Camp.bule) {
+                        cc.log("你输了+++++++++++++++++++++++++++++")
+                    } else {
+                        cc.log("你赢了-----------------------------")
+                    }
+                }
+                break
+            default:
+                super.onDispathcGameEvent(eventId, eventData);
+                break;
+        }
+
     }
 }

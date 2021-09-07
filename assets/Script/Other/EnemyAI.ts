@@ -75,7 +75,7 @@ export default class EnemyAI extends cc.Component {
         let sold = obj.getComponent(SoldiersParent)
         sold.initHpPro(this.hpPro)
         sold.init(Camp.red, 20, 7);
-        GameCtrl.getInstance().addPlayer(sold);
+        GameCtrl.getInstance().addEnemy(sold);
     }
 
     createPathSoldier() {
