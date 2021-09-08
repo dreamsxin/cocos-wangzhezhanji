@@ -46,6 +46,18 @@ export default class GameMain extends UIParent {
         }
         GameCtrl.getInstance().setRoadYList(allYList)
         this.InitLevelMinMax()
+        this.startGame()
+    }
+
+    resetData() {
+        GameCtrl.getInstance().clearData()
+        this.playerParent.removeAllChildren()
+        this.hpPro.progress = 1;
+        this.enemyAI.clearData()
+    }
+
+    startGame() {
+        this.resetData()
         this.enemyAI.initLevel()
         this.CreateTower()
     }
@@ -110,14 +122,24 @@ export default class GameMain extends UIParent {
     onClickClose() {
         this.uiManager.ShowUIName("HomeMain");
         this.HideUI()
+        this.resetData()
     }
 
     onDispathcGameEvent(eventId: GameEvent, eventData: any) {
         switch (eventId) {
-            case GameEvent.Game_Over:
+            case GameEvent.GameOver:
                 {
                     this.uiManager.ShowUIName("GameOverMain", () => { }, eventData);
                 }
+                break
+            case GameEvent.CloseGameMain:
+                this.onClickClose()
+                break
+            case GameEvent.AgainGameMain:
+                this.startGame()
+                break
+            case GameEvent.NextGameMain:
+                this.startGame()
                 break
             default:
                 super.onDispathcGameEvent(eventId, eventData);

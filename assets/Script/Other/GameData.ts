@@ -85,3 +85,6 @@ export enum ArmsState {
 export enum Camp {
     bule = 0, red = 1
 }
+export enum GameState {
+    waitStart = 0, playering = 1, gameOver = 2
+}

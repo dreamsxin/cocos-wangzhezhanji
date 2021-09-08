@@ -36,6 +36,11 @@ export default class EnemyAI extends cc.Component {
         this.CreateTower()
     }
 
+    clearData() {
+        this.stopShot()
+        this.hpPro.progress = 1;
+    }
+
     startShot() {
         this.schedule(this.createBing, Math.random() * 3 + 0.5)
     }

@@ -5,6 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import { GameEvent } from "../Config/GameEventConfig";
+import GameEventManager from "../Manager/GameEventManager";
 import { Camp } from "../Other/GameData";
 import UIParent from "./UIParent";
 
@@ -28,5 +30,24 @@ export default class GameOverMain extends UIParent {
             this.label.node.color = cc.Color.GREEN
             this.label.string = "你赢了!"
         }
+    }
+
+    onClickClose() {
+        this.HideUI()
+        this.sendEvent(GameEvent.CloseGameMain)
+    }
+
+    onClickAgain() {
+        this.HideUI()
+        this.sendEvent(GameEvent.AgainGameMain)
+    }
+
+    onClickNext() {
+        this.HideUI()
+        this.sendEvent(GameEvent.NextGameMain)
+    }
+
+    sendEvent(eventId, data: any = null) {
+        GameEventManager.getInstance().dispathcGameEvent(eventId, data);
     }
 }

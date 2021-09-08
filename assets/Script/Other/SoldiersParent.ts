@@ -97,7 +97,7 @@ export default class SoldiersParent extends cc.Component {
                 .to(0.5, { opacity: 0 })
                 .call(() => {
                     if (this.getSoldierID() == 20) {
-                        this.sendEvent(GameEvent.Game_Over, this.camp)
+                        this.sendEvent(GameEvent.GameOver, this.camp)
                     }
                     this.node.destroy();
                 })

@@ -2,6 +2,7 @@
 
 import { LevelData } from "../Config/LevelConfig";
 import LevelCtrl from "../Ctrl/LevelCtrl";
+import BigLevelItem from "../Other/BigLevelItem";
 import levelItem from "../Other/levelItem";
 import UIParent from "./UIParent";
 
@@ -11,9 +12,14 @@ const { ccclass, property } = cc._decorator;
 export default class NewClass extends UIParent {
 
     @property(cc.ScrollView)
-    scrollView: cc.ScrollView = null;
+    levelScrollView: cc.ScrollView = null;
     @property(cc.Node)
-    scrollViewItem: cc.Node = null;
+    levelItem: cc.Node = null;
+
+    @property(cc.ScrollView)
+    bigLevelScrollView: cc.ScrollView = null;
+    @property(cc.Node)
+    bigLevelItem: cc.Node = null;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -21,23 +27,45 @@ export default class NewClass extends UIParent {
 
     ShowUI() {
         super.ShowUI();
-        this.InitScrollView()
+        this.seleteBigLevel(0)
     }
 
-    InitScrollView() {
-        let content = this.scrollView.content
-        content.removeAllChildren()
-        let levelData = LevelCtrl.getInstance().getAllLevel()
-        cc.log(levelData)
-        this.scrollViewItem.active = false;
-        for (let key in levelData) {
-            let data: LevelData = levelData[key]
+    seleteBigLevel(bigLevelIndex: number) {
+        LevelCtrl.getInstance().setBigLevelIndex(bigLevelIndex)
+        this.InitLevel(bigLevelIndex)
+    }
 
-            let obj = cc.instantiate(this.scrollViewItem)
+    InitBigLevel() {
+        let content = this.bigLevelScrollView.content
+        content.removeAllChildren()
+        this.bigLevelItem.active = false;
+
+        let levelName = LevelCtrl.getInstance().getAllLevelName()
+        for (let index = 0; index < levelName.length; index++) {
+            let name = levelName[index];
+            let obj = cc.instantiate(this.bigLevelItem)
+            obj.active = true
+            content.addChild(obj)
+            let spr = obj.getComponent(BigLevelItem)
+            spr.init(name, index, (biglevelIndex) => {
+                this.seleteBigLevel(biglevelIndex)
+            })
+        }
+    }
+
+    InitLevel(bigLevelIndex: number) {
+        let content = this.levelScrollView.content
+        content.removeAllChildren()
+        this.levelItem.active = false;
+
+        let levelData = LevelCtrl.getInstance().getLevelConfigItem(bigLevelIndex)
+        for (let index = 0; index < levelData.length; index++) {
+            let level = levelData[index];
+            let obj = cc.instantiate(this.levelItem)
             obj.active = true
             content.addChild(obj)
             let spr = obj.getComponent(levelItem)
-            spr.init(data, () => {
+            spr.init(level, () => {
                 this.onClickClose()
                 this.uiManager.HideUIName("HomeMain")
                 this.uiManager.ShowUIName("GameMain");

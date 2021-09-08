@@ -7,7 +7,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import { LevelData } from "../Config/LevelConfig";
-import { Camp } from "../Other/GameData";
+import { Camp, GameState } from "../Other/GameData";
 import SoldiersParent from "../Other/SoldiersParent";
 import LevelCtrl from "./LevelCtrl";
 
@@ -30,6 +30,7 @@ export default class GameCtrl {
     private _findWayRand: number = 80  //寻路范围
     private _pathMin: cc.Vec2 = cc.v2()
     private _pathMax: cc.Vec2 = cc.v2()
+    private _gameState: GameState
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -43,6 +44,15 @@ export default class GameCtrl {
 
     private _init() {
 
+    }
+
+    clearData() {
+        this._allPlayerList = []
+        this._allEnemyList = []
+        this._playerPathList = {}
+        this._enemyPathList = {}
+        this._allPlayerBannerList = []
+        this._allEnemyBannerList = []
     }
 
     getPlayerNum() {
