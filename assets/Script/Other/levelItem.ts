@@ -20,12 +20,14 @@ export default class NewClass extends cc.Component {
 
     private _levelData: LevelData = null
     private _fun: Function = null
+    private _levelIndex: number = 0
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
-    init(levelData: LevelData, fun: Function) {
+    init(levelData: LevelData, levelIndex: number, fun: Function) {
         this._levelData = levelData
         this._fun = fun
+        this._levelIndex = levelIndex
         this.nameLabel.string = "关卡：" + levelData.soldierLevel
     }
 
@@ -35,6 +37,7 @@ export default class NewClass extends cc.Component {
 
     onClickDan() {
         LevelCtrl.getInstance().setNowLevelData(this._levelData)
+        LevelCtrl.getInstance().setLevelIndex(this._levelIndex)
         if (this._fun) {
             this._fun()
         }

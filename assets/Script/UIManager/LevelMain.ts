@@ -24,10 +24,14 @@ export default class NewClass extends UIParent {
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
+    start() {
+        
+    }
 
     ShowUI() {
         super.ShowUI();
         this.seleteBigLevel(0)
+        this.InitBigLevel()
     }
 
     seleteBigLevel(bigLevelIndex: number) {
@@ -65,7 +69,7 @@ export default class NewClass extends UIParent {
             obj.active = true
             content.addChild(obj)
             let spr = obj.getComponent(levelItem)
-            spr.init(level, () => {
+            spr.init(level, index, () => {
                 this.onClickClose()
                 this.uiManager.HideUIName("HomeMain")
                 this.uiManager.ShowUIName("GameMain");

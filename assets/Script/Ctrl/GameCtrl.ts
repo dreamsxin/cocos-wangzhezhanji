@@ -30,7 +30,7 @@ export default class GameCtrl {
     private _findWayRand: number = 80  //寻路范围
     private _pathMin: cc.Vec2 = cc.v2()
     private _pathMax: cc.Vec2 = cc.v2()
-    private _gameState: GameState
+    private _gameState: GameState = GameState.waitStart
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -51,6 +51,16 @@ export default class GameCtrl {
         this._allEnemyList = []
         this._playerPathList = {}
         this._enemyPathList = {}
+        for (let index = 0; index < 15; index++) {
+            if (!this._playerPathList[index]) {
+                this._playerPathList[index] = []
+            }
+        }
+        for (let index = 0; index < 15; index++) {
+            if (!this._enemyPathList[index]) {
+                this._enemyPathList[index] = []
+            }
+        }
         this._allPlayerBannerList = []
         this._allEnemyBannerList = []
     }
@@ -66,6 +76,10 @@ export default class GameCtrl {
     setPathMinMax(min: cc.Vec2, max: cc.Vec2) {
         this._pathMin = min
         this._pathMax = max
+    }
+
+    setGameState(gameState: GameState) {
+        this._gameState = gameState
     }
 
     getPathMin(): cc.Vec2 {
@@ -159,14 +173,11 @@ export default class GameCtrl {
         if (index2 >= 0) {
             this._playerPathList[sold.roadIndex].splice(index2, 1)
         }
-        cc.log("回收1", sold.getSoldierID())
         if (sold.getSoldierID() == 10) {
-            cc.log("回收2", this._allPlayerBannerList.length)
             let index3 = this._allPlayerBannerList.indexOf(sold)
             if (index3 >= 0) {
                 this._allPlayerBannerList.splice(index3, 1)
             }
-            cc.log("回收3", this._allPlayerBannerList.length)
             if (this._allEnemyBannerList.length == 0) {
                 this.showAllBannerEffect(Camp.bule, false)
             }
@@ -335,16 +346,6 @@ export default class GameCtrl {
 
     setRoadYList(allYList: number[]) {
         this._allRoadYList = allYList
-        for (let index = 0; index < 15; index++) {
-            if (!this._playerPathList[index]) {
-                this._playerPathList[index] = []
-            }
-        }
-        for (let index = 0; index < 15; index++) {
-            if (!this._enemyPathList[index]) {
-                this._enemyPathList[index] = []
-            }
-        }
     }
 
     getRoadY(roadID: number): number {
@@ -412,7 +413,7 @@ export default class GameCtrl {
                 roadID = nowPathID
             }
         }
-        cc.log("num:", num, allPathID)
+        //cc.log("num:", num, allPathID)
 
         return roadID
     }
@@ -470,7 +471,7 @@ export default class GameCtrl {
                 roadID = nowPathID
             }
         }
-        cc.log("num:", num, allPathID)
+        //cc.log("num:", num, allPathID)
 
         return roadID
     }

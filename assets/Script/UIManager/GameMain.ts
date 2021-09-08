@@ -2,7 +2,7 @@ import { GameEvent } from "../Config/GameEventConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
 import EnemyAI from "../Other/EnemyAI";
-import { Camp } from "../Other/GameData";
+import { Camp, GameState } from "../Other/GameData";
 import SoldiersParent from "../Other/SoldiersParent";
 import SoundMgr from "../Other/SoundMgr";
 import warItemBut from "../Other/warItemBut";
@@ -60,6 +60,7 @@ export default class GameMain extends UIParent {
         this.resetData()
         this.enemyAI.initLevel()
         this.CreateTower()
+        GameCtrl.getInstance().setGameState(GameState.playering)
     }
 
     InitLevelMinMax() {
@@ -130,6 +131,8 @@ export default class GameMain extends UIParent {
             case GameEvent.GameOver:
                 {
                     this.uiManager.ShowUIName("GameOverMain", () => { }, eventData);
+                    GameCtrl.getInstance().setGameState(GameState.gameOver)
+                    this.resetData()
                 }
                 break
             case GameEvent.CloseGameMain:
