@@ -36,7 +36,7 @@ export default class NewClass extends cc.Component {
     }
 
     onClickDan() {
-        LevelCtrl.getInstance().setNowLevelData(this._levelData)
+        //LevelCtrl.getInstance().setNowLevelData(this._levelData)
         LevelCtrl.getInstance().setLevelIndex(this._levelIndex)
         if (this._fun) {
             this._fun()

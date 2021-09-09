@@ -82,6 +82,10 @@ export default class GameCtrl {
         this._gameState = gameState
     }
 
+    getGameState():GameState {
+        return this._gameState
+    }
+
     getPathMin(): cc.Vec2 {
         return this._pathMin
     }

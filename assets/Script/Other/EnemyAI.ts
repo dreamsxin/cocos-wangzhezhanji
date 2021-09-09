@@ -7,7 +7,7 @@
 
 import GameCtrl from "../Ctrl/GameCtrl";
 import LevelCtrl from "../Ctrl/LevelCtrl";
-import { Camp } from "./GameData";
+import { Camp, GameState } from "./GameData";
 import SoldiersParent from "./SoldiersParent";
 
 const { ccclass, property } = cc._decorator;
@@ -22,7 +22,9 @@ export default class EnemyAI extends cc.Component {
     @property({ type: cc.ProgressBar, tooltip: "血条进度条💩" })
     hpPro: cc.ProgressBar = null;
     // LIFE-CYCLE CALLBACKS:
-    private _levelData: any
+    private _levelData: any = null
+    private _createData: any[] = []
+    private _soldierIndex: number = 0
     // onLoad () {}
 
     start() {
@@ -31,30 +33,66 @@ export default class EnemyAI extends cc.Component {
 
     initLevel() {
         this._levelData = LevelCtrl.getInstance().getNowLevelData()
-        this.startShot();
+        this._createData = this._levelData.soldierWar
+        this._soldierIndex = 0
+        //this.startShot();
         this.createPathSoldier()
         this.CreateTower()
+        this.createSoldierAI()
     }
 
     clearData() {
-        this.stopShot()
+        //this.stopShot()
         this.hpPro.progress = 1;
+        this._soldierIndex = 0
     }
 
-    startShot() {
-        this.schedule(this.createBing, Math.random() * 3 + 0.5)
+    getCreateSoldierData(): any {
+        let data = this._createData[this._soldierIndex]
+        if (data) {
+            this._soldierIndex++
+            return data
+        } else {
+            this._soldierIndex = 0
+            return this._createData[0]
+        }
     }
 
-    stopShot() {
-        this.unschedule(this.createBing)
-    }
+    // startShot() {
+    //     this.schedule(this.createBing, Math.random() * 3 + 0.5)
+    // }
+
+    // stopShot() {
+    //     this.unschedule(this.createBing)
+    // }
 
     createBing() {
         this.CreateArms(Math.floor(Math.random() * 7 + 1))
     }
 
-    CreateArms(idx: number, roadIndex: number = 7, isMove: boolean = true, posX: number = GameCtrl.getInstance().getPathMax().x) {
-        if (GameCtrl.getInstance().getEnemyNum() >= 15) return
+    createSoldierAI() {
+        let data = this.getCreateSoldierData()
+        cc.log(data, "生产配置")
+        this.scheduleOnce(() => {
+            this.CreateArms(data.soldierID)
+        }, data.createTime)
+    }
+
+    CreateArms(idx: number) {
+        if (GameCtrl.getInstance().getGameState() == GameState.gameOver) return
+        let soldierPre = GameCtrl.getInstance().getSoldierPre(idx)
+        if (!soldierPre) return
+        let obj = cc.instantiate(soldierPre);
+        this.playerParent.addChild(obj)
+        obj.active = true
+        obj.x = GameCtrl.getInstance().getPathMax().x
+        let sold = obj.getComponent(SoldiersParent)
+        sold.init(Camp.red, idx, 7, true)
+        GameCtrl.getInstance().addEnemy(sold);
+        this.createSoldierAI()
+    }
+
+    CreateArmsNotMove(idx: number, roadIndex: number = 7, isMove: boolean = true, posX: number = GameCtrl.getInstance().getPathMax().x) {
         let soldierPre = GameCtrl.getInstance().getSoldierPre(idx)
         if (!soldierPre) return
         let obj = cc.instantiate(soldierPre);
@@ -63,8 +101,6 @@ export default class EnemyAI extends cc.Component {
         obj.x = posX
         let sold = obj.getComponent(SoldiersParent)
         sold.init(Camp.red, idx, roadIndex, isMove)
-        // sold.soldierData.Phylactic = 1000
-        // sold.nowHp = 1000
         GameCtrl.getInstance().addEnemy(sold);
     }
 
@@ -100,7 +136,7 @@ export default class EnemyAI extends cc.Component {
                 for (let j = 0; j < list.length; j++) {
                     let soldierID = list[j];
                     let x = rowIndex * 80 + nowX
-                    this.CreateArms(soldierID, j + chaNum, false, x)
+                    this.CreateArmsNotMove(soldierID, j + chaNum, false, x)
                 }
                 rowIndex++
             }

@@ -6,7 +6,7 @@ const { ccclass, property } = cc._decorator;
 export default class LevelCtrl {
     private static _instance: LevelCtrl = null;
     private _levelConfig: any = null;
-    private _nowLevelData: any = 0
+    private _nowLevelData: any = null
     private _levelNameList: string[] = []
     private _levelDataList: any[][] = [];
     private _bigLevelIndex: number = 0;
@@ -46,14 +46,14 @@ export default class LevelCtrl {
     }
 
     getNowLevelData(): any {
-        return this._nowLevelData;
+        return this._levelDataList[this._bigLevelIndex][this._levelIndex]//this._nowLevelData;
     }
 
     getAllLevel() {
         return this._levelDataList
     }
 
-    getAllLevelName(){
+    getAllLevelName() {
         return this._levelNameList
     }
 
