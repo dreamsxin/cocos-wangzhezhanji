@@ -72,6 +72,7 @@ export default class WarConfigMain extends UIParent {
         this.allSoldierItem = []
         for (let key in data) {
             let soldierData: SoldierBasic = data[key]
+            if (soldierData.soldierID == 20) return
 
             let item = cc.instantiate(this.soldierItem)
             item.active = true

@@ -32,9 +32,26 @@ export default class RoleCtrl {
         return null
     }
 
+    setRoleData(soldierID: number, level: number) {
+        let data = this.getRoleData()
+        data[soldierID] = level
+        this._saveLocalData("RoleData", data)
+    }
+
+    getRoleData() {
+        if (!this._roleData) {
+            let data = this._getLocalData("RoleData")
+            this._roleData = data ? data : new RoleData()
+        }
+        return this._roleData
+    }
+
     getSoldierLevel(soldierID: number) {
-        let data = this._roleData.soldierData
-        return data[soldierID] ? data[soldierID] : 1
+        let data = this.getRoleData()
+        if (!data[soldierID]) {
+            data[soldierID] = 1
+        }
+        return data[soldierID]
     }
 }
 export class RoleData {

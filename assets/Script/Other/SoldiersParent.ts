@@ -46,7 +46,7 @@ export default class SoldiersParent extends cc.Component {
     roadIndex: number = 0
     isMoveY: boolean = false
     isMove: boolean = true
-    isBuff: boolean = true  //关闭将不受旗手Buff加成
+    // isTower: boolean = true  //关闭将不受旗手Buff加成
     moveRoadID: number = 0
     moveRoadY: number = 0
 
@@ -196,15 +196,11 @@ export default class SoldiersParent extends cc.Component {
     }
 
     getAttack(): number {
-        if (this.isBuff) {
-            return this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
-        } else {
-            return this.soldierData.Attack
-        }
+        return this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
     }
 
     getHP(): number {
-        if (this.isBuff) {
+        if (this.getIsTower()) {
             return this.soldierData.HP * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
         } else {
             return this.soldierData.HP
@@ -237,6 +233,10 @@ export default class SoldiersParent extends cc.Component {
 
     getBuffValue() {
         return this.soldierData.buffValue
+    }
+
+    getIsTower() {
+        return this.getSoldierID() == 20
     }
 
     updataHPUI() {
