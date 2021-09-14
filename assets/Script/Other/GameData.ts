@@ -88,3 +88,5 @@ export enum Camp {
 export enum GameState {
     waitStart = 0, playering = 1, gameOver = 2
 }
+export let soldierRatio = 100;
+export let TowerID = 20;

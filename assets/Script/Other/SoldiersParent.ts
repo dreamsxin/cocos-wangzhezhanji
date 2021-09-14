@@ -9,8 +9,9 @@ import { SoldierBasic } from "../Config/BarracksConfig";
 import { GameEvent } from "../Config/GameEventConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
+import RoleCtrl from "../Ctrl/RoleCtrl";
 import GameEventManager from "../Manager/GameEventManager";
-import { ArmsState, Camp } from "./GameData";
+import { ArmsState, Camp, soldierRatio, TowerID } from "./GameData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -49,12 +50,14 @@ export default class SoldiersParent extends cc.Component {
     // isTower: boolean = true  //关闭将不受旗手Buff加成
     moveRoadID: number = 0
     moveRoadY: number = 0
+    soldierLevel: number = 0;
 
     init(_camp: Camp, soldierID: number, roadIndex: number, isMove: boolean = true) {
         //cc.log("初始化", _camp, soldierID)
         let data: SoldierBasic = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
         this.soldierData = data
         this.isMove = isMove
+        this.soldierLevel = RoleCtrl.getInstance().getSoldierLevel(data.soldierID)
         this.nowHp = this.getHP();
         this.hpPro.progress = 1
         this.camp = _camp
@@ -196,19 +199,22 @@ export default class SoldiersParent extends cc.Component {
     }
 
     getAttack(): number {
-        return this.soldierData.Attack * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
+        let attackNum = this.soldierData.Attack + (this.soldierLevel * soldierRatio * 0.01)//属性概率=初始属性+属性等级*属性系数（k）*1%
+        return attackNum * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
     }
 
     getHP(): number {
+        let hp = this.soldierData.HP + (this.soldierLevel * soldierRatio * 0.01)
         if (this.getIsTower()) {
-            return this.soldierData.HP * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
+            return hp * (1 + GameCtrl.getInstance().getBannerBuff(this.camp))
         } else {
-            return this.soldierData.HP
+            return hp
         }
     }
 
     getPhylactic(): number {
-        return this.soldierData.Phylactic
+        let phylactic = this.soldierData.Phylactic + (this.soldierLevel * soldierRatio * 0.01)
+        return phylactic
     }
 
     getMoveSpeed(): number {
@@ -236,7 +242,7 @@ export default class SoldiersParent extends cc.Component {
     }
 
     getIsTower() {
-        return this.getSoldierID() == 20
+        return this.getSoldierID() == TowerID
     }
 
     updataHPUI() {
