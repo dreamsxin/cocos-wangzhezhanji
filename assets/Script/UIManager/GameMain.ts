@@ -26,6 +26,10 @@ export default class GameMain extends UIParent {
     topNode: cc.Node = null;
     @property(cc.Node)
     downNode: cc.Node = null;
+    @property(cc.Node)
+    goOutBut: cc.Node = null;
+    @property(cc.Node)
+    returnBut: cc.Node = null;
     @property(EnemyAI)
     enemyAI: EnemyAI = null;
     @property({ type: cc.ProgressBar, tooltip: "血条进度条💩" })
@@ -118,6 +122,18 @@ export default class GameMain extends UIParent {
         sold.initHpPro(this.hpPro)
         sold.init(Camp.bule, 20, 7);
         GameCtrl.getInstance().addPlayer(sold);
+    }
+
+    onClickGoOut() {
+
+    }
+
+    onClickReturn() {
+
+    }
+
+    onClickCollect() {
+
     }
 
     onClickClose() {

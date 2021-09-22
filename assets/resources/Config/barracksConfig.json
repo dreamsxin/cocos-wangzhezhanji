@@ -139,6 +139,20 @@
         "crit": 10,
         "buffValue": 0.05
     },
+    "15": {
+        "soldierID": 1,
+        "soldierName": "英雄",
+        "soldierDes": "主角实力高强。",
+        "HP": 600,
+        "Attack": 60,
+        "Phylactic": 20,
+        "moveSpeed": 100,
+        "attackInterval": 1,
+        "attackRange": 80,
+        "skillRange": 0,
+        "crit": 10,
+        "buffValue": 0
+    },
     "20": {
         "soldierID": 20,
         "soldierName": "塔",

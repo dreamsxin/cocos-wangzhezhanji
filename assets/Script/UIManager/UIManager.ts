@@ -100,6 +100,7 @@ export default class UIManager extends cc.Component {
         for (let i = 0; i < 10; i++) {
             soldierPath[i] = "Soldier/Soldier" + (i + 1);
         }
+        soldierPath.push("Soldier/Soldier15")
         soldierPath.push("Soldier/Soldier20")
         cc.loader.loadResArray(soldierPath, cc.Prefab, (completedCount: number, totalCount: number, item: any) => {
             //console.log(completedCount, totalCount, item);
