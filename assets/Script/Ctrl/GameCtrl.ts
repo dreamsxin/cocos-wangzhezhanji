@@ -7,7 +7,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import { LevelData } from "../Config/LevelConfig";
-import { Camp, GameState } from "../Other/GameData";
+import { BannerID, Camp, GameState, HeroID, TowerID } from "../Other/GameData";
 import SoldiersParent from "../Other/SoldiersParent";
 import LevelCtrl from "./LevelCtrl";
 
@@ -18,10 +18,12 @@ const { ccclass, property } = cc._decorator;
 export default class GameCtrl {
     private static _instance: GameCtrl = null;
 
-    private _allEnemyList: SoldiersParent[] = [];
-    private _allPlayerList: SoldiersParent[] = [];
+    private _allEnemyList: SoldiersParent[] = [];    //全部敌人，包括塔和英雄
+    private _allPlayerList: SoldiersParent[] = [];   //全部友军，包括塔和英雄
+    private _allEnemySolierList: SoldiersParent[] = [];    //全部敌人，包括塔和英雄
+    private _allPlayerSolierList: SoldiersParent[] = [];   //全部友军，包括塔和英雄
     private _allSoldierPre: { name: string, soldier: cc.Node }[] = []
-    private _levelData: LevelData = null
+    // private _levelData: LevelData = null
     private _playerPathList: { [key: number]: SoldiersParent[] } = {};
     private _enemyPathList: { [key: number]: SoldiersParent[] } = {};
     private _allPlayerBannerList: SoldiersParent[] = []
@@ -49,6 +51,8 @@ export default class GameCtrl {
     clearData() {
         this._allPlayerList = []
         this._allEnemyList = []
+        this._allEnemySolierList = []
+        this._allPlayerSolierList = []
         this._playerPathList = {}
         this._enemyPathList = {}
         for (let index = 0; index < 15; index++) {
@@ -66,11 +70,11 @@ export default class GameCtrl {
     }
 
     getPlayerNum() {
-        return this._allPlayerList.length
+        return this._allPlayerSolierList.length
     }
 
     getEnemyNum() {
-        return this._allEnemyList.length
+        return this._allEnemySolierList.length
     }
 
     setPathMinMax(min: cc.Vec2, max: cc.Vec2) {
@@ -82,7 +86,7 @@ export default class GameCtrl {
         this._gameState = gameState
     }
 
-    getGameState():GameState {
+    getGameState(): GameState {
         return this._gameState
     }
 
@@ -100,11 +104,14 @@ export default class GameCtrl {
             this._enemyPathList[sold.roadIndex] = []
         }
         this._enemyPathList[sold.roadIndex].push(sold)
-        if (sold.getSoldierID() == 10) {
+        if (sold.getSoldierID() == BannerID) {
             if (this._allEnemyBannerList.length == 0) {
                 this.showAllBannerEffect(Camp.red, true)
             }
             this._allEnemyBannerList.push(sold)
+        }
+        if (sold.getSoldierID() != HeroID && sold.getSoldierID() != TowerID) {
+            this._allEnemySolierList.push(sold);
         }
     }
 
@@ -114,11 +121,14 @@ export default class GameCtrl {
             this._playerPathList[sold.roadIndex] = []
         }
         this._playerPathList[sold.roadIndex].push(sold)
-        if (sold.getSoldierID() == 10) {
+        if (sold.getSoldierID() == BannerID) {
             if (this._allPlayerBannerList.length == 0) {
                 this.showAllBannerEffect(Camp.bule, true)
             }
             this._allPlayerBannerList.push(sold)
+        }
+        if (sold.getSoldierID() != HeroID && sold.getSoldierID() != TowerID) {
+            this._allPlayerSolierList.push(sold);
         }
     }
 
@@ -157,7 +167,7 @@ export default class GameCtrl {
         if (index2 >= 0) {
             this._enemyPathList[sold.roadIndex].splice(index2, 1)
         }
-        if (sold.getSoldierID() == 10) {
+        if (sold.getSoldierID() == BannerID) {
             let index3 = this._allEnemyBannerList.indexOf(sold)
             if (index3 >= 0) {
                 this._allEnemyBannerList.splice(index3, 1)
@@ -165,6 +175,10 @@ export default class GameCtrl {
             if (this._allEnemyBannerList.length == 0) {
                 this.showAllBannerEffect(Camp.bule, false)
             }
+        }
+        if (sold.getSoldierID() != HeroID && sold.getSoldierID() != TowerID) {
+            let index4 = this._allEnemySolierList.indexOf(sold)
+            this._allEnemySolierList.splice(index4, 1)
         }
     }
 
@@ -177,7 +191,7 @@ export default class GameCtrl {
         if (index2 >= 0) {
             this._playerPathList[sold.roadIndex].splice(index2, 1)
         }
-        if (sold.getSoldierID() == 10) {
+        if (sold.getSoldierID() == BannerID) {
             let index3 = this._allPlayerBannerList.indexOf(sold)
             if (index3 >= 0) {
                 this._allPlayerBannerList.splice(index3, 1)
@@ -185,6 +199,10 @@ export default class GameCtrl {
             if (this._allEnemyBannerList.length == 0) {
                 this.showAllBannerEffect(Camp.bule, false)
             }
+        }
+        if (sold.getSoldierID() != HeroID && sold.getSoldierID() != TowerID) {
+            let index4 = this._allPlayerSolierList.indexOf(sold)
+            this._allPlayerSolierList.splice(index4, 1)
         }
     }
 
@@ -254,16 +272,16 @@ export default class GameCtrl {
         return player
     }
 
-    getPlayerBannerSoldierNum() {
-        let num = 0;
-        for (let index = 0; index < this._allPlayerList.length; index++) {
-            const element = this._allPlayerList[index];
-            if (element.getSoldierID() == 10) {
-                num++
-            }
-        }
-        return num
-    }
+    // getPlayerBannerSoldierNum() {
+    //     let num = 0;
+    //     for (let index = 0; index < this._allPlayerList.length; index++) {
+    //         const element = this._allPlayerList[index];
+    //         if (element.getSoldierID() == BannerID) {
+    //             num++
+    //         }
+    //     }
+    //     return num
+    // }
 
     getAllEnemy(sold: SoldiersParent): SoldiersParent[] {
         let enemyList: SoldiersParent[] = [];
@@ -340,13 +358,13 @@ export default class GameCtrl {
         return num * buff
     }
 
-    setLevelData(levelData: LevelData) {
-        this._levelData = levelData
-    }
+    // setLevelData(levelData: LevelData) {
+    //     this._levelData = levelData
+    // }
 
-    getLevelDAta() {
-        return this._levelData
-    }
+    // getLevelData() {
+    //     return this._levelData
+    // }
 
     setRoadYList(allYList: number[]) {
         this._allRoadYList = allYList

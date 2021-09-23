@@ -73,6 +73,7 @@ export default class EnemyAI extends cc.Component {
     createSoldierAI() {
         let data = this.getCreateSoldierData()
         cc.log(data, "生产配置")
+        this.unscheduleAllCallbacks()
         this.scheduleOnce(() => {
             this.CreateArms(data.soldierID)
         }, data.createTime)

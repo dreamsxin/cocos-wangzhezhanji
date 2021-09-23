@@ -88,5 +88,7 @@ export enum Camp {
 export enum GameState {
     waitStart = 0, playering = 1, gameOver = 2
 }
-export let soldierRatio = 100;
-export let TowerID = 20;
+export let soldierRatio = 100;  //小兵成长系数
+export let TowerID = 20;        //塔ID
+export let HeroID = 15;         //英雄ID
+export let BannerID = 10;       //旗手ID
