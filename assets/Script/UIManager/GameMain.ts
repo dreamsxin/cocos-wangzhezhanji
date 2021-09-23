@@ -2,7 +2,7 @@ import { GameEvent } from "../Config/GameEventConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
 import EnemyAI from "../Other/EnemyAI";
-import { Camp, GameState } from "../Other/GameData";
+import { Camp, GameState, HeroID, TowerID } from "../Other/GameData";
 import SoldiersParent from "../Other/SoldiersParent";
 import SoundMgr from "../Other/SoundMgr";
 import warItemBut from "../Other/warItemBut";
@@ -35,6 +35,8 @@ export default class GameMain extends UIParent {
     @property({ type: cc.ProgressBar, tooltip: "血条进度条💩" })
     hpPro: cc.ProgressBar = null;
 
+    private _heroSelf: SoldiersParent = null
+
     start() {
     }
 
@@ -64,6 +66,7 @@ export default class GameMain extends UIParent {
         this.resetData()
         this.enemyAI.initLevel()
         this.CreateTower()
+        this.CreateHero()
         GameCtrl.getInstance().setGameState(GameState.playering)
     }
 
@@ -110,7 +113,7 @@ export default class GameMain extends UIParent {
     }
 
     CreateTower() {
-        let soldierPre = GameCtrl.getInstance().getSoldierPre(20)
+        let soldierPre = GameCtrl.getInstance().getSoldierPre(TowerID)
         if (!soldierPre) return
         let obj = cc.instantiate(soldierPre);
         obj.active = true
@@ -120,12 +123,27 @@ export default class GameMain extends UIParent {
         obj.setPosition(cc.v2(p2.x - 100, p2.y));
         let sold = obj.getComponent(SoldiersParent)
         sold.initHpPro(this.hpPro)
-        sold.init(Camp.bule, 20, 7);
+        sold.init(Camp.bule, TowerID, 7);
         GameCtrl.getInstance().addPlayer(sold);
     }
 
-    onClickGoOut() {
+    CreateHero() {
+        let soldierPre = GameCtrl.getInstance().getSoldierPre(HeroID)
+        if (!soldierPre) return
+        let obj = cc.instantiate(soldierPre);
+        obj.active = true
+        obj.parent = this.playerParent;
+        let p1 = this.playerInsPos.convertToWorldSpaceAR(cc.v2(0, 0))
+        let p2 = this.playerParent.convertToNodeSpaceAR(p1)
+        obj.setPosition(cc.v2(p2.x, p2.y));
+        this._heroSelf = obj.getComponent(SoldiersParent)
+        this._heroSelf.initHpPro(this.hpPro)
+        this._heroSelf.init(Camp.bule, HeroID, 12, false);
+        GameCtrl.getInstance().addPlayer(this._heroSelf);
+    }
 
+    onClickGoOut() {
+        this._heroSelf.setMove(true)
     }
 
     onClickReturn() {

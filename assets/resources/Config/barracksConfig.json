@@ -140,7 +140,7 @@
         "buffValue": 0.05
     },
     "15": {
-        "soldierID": 1,
+        "soldierID": 15,
         "soldierName": "英雄",
         "soldierDes": "主角实力高强。",
         "HP": 600,

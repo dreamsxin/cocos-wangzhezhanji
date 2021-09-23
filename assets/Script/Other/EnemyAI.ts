@@ -7,7 +7,7 @@
 
 import GameCtrl from "../Ctrl/GameCtrl";
 import LevelCtrl from "../Ctrl/LevelCtrl";
-import { Camp, GameState } from "./GameData";
+import { Camp, GameState, TowerID } from "./GameData";
 import SoldiersParent from "./SoldiersParent";
 
 const { ccclass, property } = cc._decorator;
@@ -106,7 +106,7 @@ export default class EnemyAI extends cc.Component {
     }
 
     CreateTower() {
-        let soldierPre = GameCtrl.getInstance().getSoldierPre(20)
+        let soldierPre = GameCtrl.getInstance().getSoldierPre(TowerID)
         if (!soldierPre) return
         let obj = cc.instantiate(soldierPre);
         obj.active = true

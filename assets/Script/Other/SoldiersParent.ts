@@ -288,6 +288,10 @@ export default class SoldiersParent extends cc.Component {
         }
     }
 
+    setMove(isMove: boolean) {
+        this.isMove = isMove
+    }
+
     sendEvent(eventId, data: any = null) {
         GameEventManager.getInstance().dispathcGameEvent(eventId, data);
     }

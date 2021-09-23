@@ -1,5 +1,6 @@
 import { SoldierBasic } from "../Config/BarracksConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
+import { HeroID, TowerID } from "../Other/GameData";
 import WarConfigListItem from "../Other/WarConfigListItem";
 import WarConfigSoldierItem from "../Other/WarConfigSoldierItem";
 import UIParent from "./UIParent";
@@ -72,8 +73,8 @@ export default class WarConfigMain extends UIParent {
         this.allSoldierItem = []
         for (let key in data) {
             let soldierData: SoldierBasic = data[key]
-            if (soldierData.soldierID == 20) return
-            if (soldierData.soldierID == 15) return
+            if (soldierData.soldierID == TowerID) return
+            if (soldierData.soldierID == HeroID) return
 
             let item = cc.instantiate(this.soldierItem)
             item.active = true
