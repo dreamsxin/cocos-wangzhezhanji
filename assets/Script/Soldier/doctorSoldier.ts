@@ -66,7 +66,9 @@ export default class NewClass extends SoldiersParent {
         }
         let roadID = GameCtrl.getInstance().getPathIndex(this, this.camp)
         if (roadID == -1) {
-            this.node.x += dt * this.getMoveXSpeed();
+            if (!this.checkCollectSoldier()) {
+                this.node.x += dt * this.getMoveXSpeed();
+            }
             // if (this.camp == 0) {
             //     this.node.x += dt * this.getMoveXSpeed();
             // } else {

@@ -162,7 +162,11 @@ export default class SoldiersParent extends cc.Component {
         }
         let roadID = GameCtrl.getInstance().getPathIndex(this, this.camp)
         if (roadID == -1) {
+            let isCollect = this.checkCollectSoldier()
             this.node.x += dt * this.getMoveXSpeed();
+            if (isCollect) {
+                this.updataCollectMoveX()
+            }
             // if (this.camp == 0) {
             //     this.node.x += dt * this.getMoveXSpeed();
             // } else {
@@ -324,6 +328,35 @@ export default class SoldiersParent extends cc.Component {
             return this.node.x <= GameCtrl.getInstance().getPathMin().x
         } else {
             return this.node.x >= GameCtrl.getInstance().getPathMax().x
+        }
+    }
+
+    checkCollectSoldier() {
+        if (GameCtrl.getInstance().getCollectSoldier()) {
+            if (this.camp == Camp.bule) {
+                if (this.node.x < GameCtrl.getInstance().getCollectMin().x) {
+                    return true
+                }
+            } else {
+                if (this.node.x > GameCtrl.getInstance().getCollectMax().x) {
+                    return true
+                }
+            }
+            return false
+        } else {
+            return false
+        }
+    }
+
+    updataCollectMoveX() {
+        if (this.camp == Camp.bule) {
+            if (this.node.x > GameCtrl.getInstance().getCollectMin().x) {
+                this.node.x = GameCtrl.getInstance().getCollectMin().x
+            }
+        } else {
+            if (this.node.x < GameCtrl.getInstance().getCollectMax().x) {
+                this.node.x = GameCtrl.getInstance().getCollectMax().x
+            }
         }
     }
 

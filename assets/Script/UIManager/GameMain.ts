@@ -17,6 +17,8 @@ export default class GameMain extends UIParent {
     @property(cc.Node)
     playerInsPos: cc.Node = null;
     @property(cc.Node)
+    playerCollectPos: cc.Node = null;
+    @property(cc.Node)
     playerParent: cc.Node = null;
     @property(cc.Node)
     warButParent: cc.Node = null;
@@ -36,6 +38,7 @@ export default class GameMain extends UIParent {
     hpPro: cc.ProgressBar = null;
 
     private _heroSelf: SoldiersParent = null
+    private _collectSoldierTime: number = 0
 
     start() {
     }
@@ -78,6 +81,16 @@ export default class GameMain extends UIParent {
         let p3 = rightNode.convertToWorldSpaceAR(cc.v2(0, 0))
         let p4 = this.playerParent.convertToNodeSpaceAR(p3)
         GameCtrl.getInstance().setPathMinMax(p2, p4)
+    }
+
+    InitCollectMinMax() {
+        let leftNode = this.playerCollectPos
+        let rightNode = this.enemyAI.playerCollectPos
+        let p1 = leftNode.convertToWorldSpaceAR(cc.v2(0, 0))
+        let p2 = this.playerParent.convertToNodeSpaceAR(p1)
+        let p3 = rightNode.convertToWorldSpaceAR(cc.v2(0, 0))
+        let p4 = this.playerParent.convertToNodeSpaceAR(p3)
+        GameCtrl.getInstance().setCollectMinMax(p2, p4)
     }
 
     InitWarBut() {
@@ -151,13 +164,23 @@ export default class GameMain extends UIParent {
     }
 
     onClickCollect() {
-
+        GameCtrl.getInstance().setCollectSoldier(true)
+        this._collectSoldierTime = 30;
+        this.unschedule(this.collectSoldierDownTime)
+        this.schedule(this.collectSoldierDownTime, 1)
     }
 
     onClickClose() {
         this.uiManager.ShowUIName("HomeMain");
         this.HideUI()
         this.resetData()
+    }
+
+    collectSoldierDownTime() {
+        this._collectSoldierTime--
+        if (this._collectSoldierTime <= 0) {
+            GameCtrl.getInstance().setCollectSoldier(false)
+        }
     }
 
     onDispathcGameEvent(eventId: GameEvent, eventData: any) {

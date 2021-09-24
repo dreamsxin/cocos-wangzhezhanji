@@ -18,6 +18,8 @@ export default class EnemyAI extends cc.Component {
     @property(cc.Node)
     playerInsPos: cc.Node = null;
     @property(cc.Node)
+    playerCollectPos: cc.Node = null;
+    @property(cc.Node)
     playerParent: cc.Node = null;
     @property({ type: cc.ProgressBar, tooltip: "血条进度条💩" })
     hpPro: cc.ProgressBar = null;

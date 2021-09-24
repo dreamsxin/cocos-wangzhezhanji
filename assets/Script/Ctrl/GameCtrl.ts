@@ -32,7 +32,10 @@ export default class GameCtrl {
     private _findWayRand: number = 80  //寻路范围
     private _pathMin: cc.Vec2 = cc.v2()
     private _pathMax: cc.Vec2 = cc.v2()
+    private _collectMin: cc.Vec2 = cc.v2()
+    private _collectMax: cc.Vec2 = cc.v2()
     private _gameState: GameState = GameState.waitStart
+    private _isCollectSoldier: boolean = false   //是否屯兵
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -82,6 +85,11 @@ export default class GameCtrl {
         this._pathMax = max
     }
 
+    setCollectMinMax(min: cc.Vec2, max: cc.Vec2) {
+        this._collectMin = min
+        this._collectMax = max
+    }
+
     setGameState(gameState: GameState) {
         this._gameState = gameState
     }
@@ -96,6 +104,22 @@ export default class GameCtrl {
 
     getPathMax(): cc.Vec2 {
         return this._pathMax
+    }
+
+    getCollectMin(): cc.Vec2 {
+        return this._collectMin
+    }
+
+    getCollectMax(): cc.Vec2 {
+        return this._collectMax
+    }
+
+    setCollectSoldier(isC: boolean) {
+        this._isCollectSoldier = isC
+    }
+
+    getCollectSoldier(): boolean {
+        return this._isCollectSoldier
     }
 
     addEnemy(sold: SoldiersParent) {
