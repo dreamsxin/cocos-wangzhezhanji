@@ -47,6 +47,7 @@ export default class SoldiersParent extends cc.Component {
     roadIndex: number = 0
     isMoveY: boolean = false
     isMove: boolean = true
+    isGoOut: boolean = true
     // isTower: boolean = true  //关闭将不受旗手Buff加成
     moveRoadID: number = 0
     moveRoadY: number = 0
@@ -61,10 +62,7 @@ export default class SoldiersParent extends cc.Component {
         this.nowHp = this.getHP();
         this.hpPro.progress = 1
         this.camp = _camp
-        if (_camp == Camp.red) {
-            this.node.scaleX = -1
-            if (this.soldierNameLabel) this.soldierNameLabel.node.scaleX = -1
-        }
+
         if (this.soldierNameLabel) {
             this.soldierNameLabel.string = data.soldierName
         }
@@ -75,6 +73,7 @@ export default class SoldiersParent extends cc.Component {
         if (this.magicNode) {
             this.magicNode.active = GameCtrl.getInstance().getBannerBuff(this.camp) > 0
         }
+        this.setSoldierUI()
     }
 
     initHpPro(hp: cc.ProgressBar) {
@@ -129,16 +128,25 @@ export default class SoldiersParent extends cc.Component {
 
     //小兵移动逻辑
     move(dt) {
+        if (!this.isGoOut) {
+            this.node.x += dt * this.getMoveXSpeed();
+            if (this.checkReturnStartPoint()) {
+                this.isGoOut = true
+                this.isMove = false
+                this.setSoldierUI()
+            }
+            return
+        }
         if (this.isMoveY) {
             if (this.moveRoadID < this.roadIndex) {
-                this.node.y += dt * this.getMoveSpeed();
+                this.node.y += dt * this.getMoveYSpeed();
                 if (this.node.y > this.moveRoadY) {
                     this.node.y = this.moveRoadY
                     GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID, this.camp)
                     this.isMoveY = false
                 }
             } else {
-                this.node.y -= dt * this.getMoveSpeed();
+                this.node.y -= dt * this.getMoveYSpeed();
                 if (this.node.y < this.moveRoadY) {
                     this.node.y = this.moveRoadY
                     GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID, this.camp)
@@ -154,11 +162,12 @@ export default class SoldiersParent extends cc.Component {
         }
         let roadID = GameCtrl.getInstance().getPathIndex(this, this.camp)
         if (roadID == -1) {
-            if (this.camp == 0) {
-                this.node.x += dt * this.getMoveSpeed();
-            } else {
-                this.node.x -= dt * this.getMoveSpeed();
-            }
+            this.node.x += dt * this.getMoveXSpeed();
+            // if (this.camp == 0) {
+            //     this.node.x += dt * this.getMoveXSpeed();
+            // } else {
+            //     this.node.x -= dt * this.getMoveXSpeed();
+            // }
         } else {
             this.moveRoadID = roadID
             this.moveRoadY = GameCtrl.getInstance().getRoadY(this.moveRoadID)
@@ -217,7 +226,11 @@ export default class SoldiersParent extends cc.Component {
         return phylactic
     }
 
-    getMoveSpeed(): number {
+    getMoveXSpeed(): number {
+        return this.soldierData.moveSpeed * this.getCampCount() * this.getGoOutCount()
+    }
+
+    getMoveYSpeed(): number {
         return this.soldierData.moveSpeed
     }
 
@@ -288,8 +301,39 @@ export default class SoldiersParent extends cc.Component {
         }
     }
 
-    setMove(isMove: boolean) {
-        this.isMove = isMove
+    setSoldierUI() {
+        let face = this.getCampCount()
+        this.node.scaleX = face
+        if (this.soldierNameLabel) this.soldierNameLabel.node.scaleX = face
+        // if (this.camp == Camp.red) {
+        //     this.node.scaleX = -1
+        //     if (this.soldierNameLabel) this.soldierNameLabel.node.scaleX = -1
+        // }
+    }
+
+    getCampCount() {
+        return this.camp == Camp.bule ? 1 : -1
+    }
+
+    getGoOutCount() {
+        return this.isGoOut ? 1 : -1
+    }
+
+    checkReturnStartPoint() {
+        if (this.camp == Camp.bule) {
+            return this.node.x <= GameCtrl.getInstance().getPathMin().x
+        } else {
+            return this.node.x >= GameCtrl.getInstance().getPathMax().x
+        }
+    }
+
+    setGoOut() {
+        this.isMove = true
+        this.isGoOut = true
+    }
+
+    setReturn() {
+        this.isGoOut = false
     }
 
     sendEvent(eventId, data: any = null) {

@@ -39,14 +39,14 @@ export default class NewClass extends SoldiersParent {
         this.nowAttackTime += dt;
         if (this.isMoveY) {
             if (this.moveRoadID < this.roadIndex) {
-                this.node.y += dt * this.getMoveSpeed();
+                this.node.y += dt * this.getMoveYSpeed();
                 if (this.node.y > this.moveRoadY) {
                     this.node.y = this.moveRoadY
                     GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID, this.camp)
                     this.isMoveY = false
                 }
             } else {
-                this.node.y -= dt * this.getMoveSpeed();
+                this.node.y -= dt * this.getMoveYSpeed();
                 if (this.node.y < this.moveRoadY) {
                     this.node.y = this.moveRoadY
                     GameCtrl.getInstance().setSoldierRoad(this, this.moveRoadID, this.camp)
@@ -66,11 +66,12 @@ export default class NewClass extends SoldiersParent {
         }
         let roadID = GameCtrl.getInstance().getPathIndex(this, this.camp)
         if (roadID == -1) {
-            if (this.camp == 0) {
-                this.node.x += dt * this.getMoveSpeed();
-            } else {
-                this.node.x -= dt * this.getMoveSpeed();
-            }
+            this.node.x += dt * this.getMoveXSpeed();
+            // if (this.camp == 0) {
+            //     this.node.x += dt * this.getMoveXSpeed();
+            // } else {
+            //     this.node.x -= dt * this.getMoveXSpeed();
+            // }
         } else {
             this.moveRoadID = roadID
             this.moveRoadY = GameCtrl.getInstance().getRoadY(this.moveRoadID)

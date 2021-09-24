@@ -123,7 +123,7 @@ export default class GameMain extends UIParent {
         obj.setPosition(cc.v2(p2.x - 100, p2.y));
         let sold = obj.getComponent(SoldiersParent)
         sold.initHpPro(this.hpPro)
-        sold.init(Camp.bule, TowerID, 7);
+        sold.init(Camp.bule, TowerID, 7, false);
         GameCtrl.getInstance().addPlayer(sold);
     }
 
@@ -143,11 +143,11 @@ export default class GameMain extends UIParent {
     }
 
     onClickGoOut() {
-        this._heroSelf.setMove(true)
+        this._heroSelf.setGoOut()
     }
 
     onClickReturn() {
-
+        this._heroSelf.setReturn()
     }
 
     onClickCollect() {
