@@ -55,6 +55,7 @@ export default class GameMain extends UIParent {
         }
         GameCtrl.getInstance().setRoadYList(allYList)
         this.InitLevelMinMax()
+        this.InitCollectMinMax()
         this.startGame()
     }
 

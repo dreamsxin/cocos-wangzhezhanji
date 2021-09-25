@@ -163,6 +163,7 @@ export default class SoldiersParent extends cc.Component {
         let roadID = GameCtrl.getInstance().getPathIndex(this, this.camp)
         if (roadID == -1) {
             let isCollect = this.checkCollectSoldier()
+            cc.log(isCollect)
             this.node.x += dt * this.getMoveXSpeed();
             if (isCollect) {
                 this.updataCollectMoveX()
@@ -180,6 +181,10 @@ export default class SoldiersParent extends cc.Component {
     }
     //小兵攻击逻辑
     attack(dt) {
+        if (!this.isGoOut) {
+            this.armsState = ArmsState.move
+            return
+        }
         let enemyCamp = GameCtrl.getInstance().getSold(this, this.camp)
         if (!enemyCamp) {
             this.armsState = ArmsState.move
@@ -306,7 +311,7 @@ export default class SoldiersParent extends cc.Component {
     }
 
     setSoldierUI() {
-        let face = this.getCampCount()
+        let face = this.getCampCount() * this.getGoOutCount()
         this.node.scaleX = face
         if (this.soldierNameLabel) this.soldierNameLabel.node.scaleX = face
         // if (this.camp == Camp.red) {
@@ -334,11 +339,11 @@ export default class SoldiersParent extends cc.Component {
     checkCollectSoldier() {
         if (GameCtrl.getInstance().getCollectSoldier()) {
             if (this.camp == Camp.bule) {
-                if (this.node.x < GameCtrl.getInstance().getCollectMin().x) {
+                if (this.node.x <= GameCtrl.getInstance().getCollectMin().x) {
                     return true
                 }
             } else {
-                if (this.node.x > GameCtrl.getInstance().getCollectMax().x) {
+                if (this.node.x >= GameCtrl.getInstance().getCollectMax().x) {
                     return true
                 }
             }
@@ -363,10 +368,12 @@ export default class SoldiersParent extends cc.Component {
     setGoOut() {
         this.isMove = true
         this.isGoOut = true
+        this.setSoldierUI()
     }
 
     setReturn() {
         this.isGoOut = false
+        this.setSoldierUI()
     }
 
     sendEvent(eventId, data: any = null) {

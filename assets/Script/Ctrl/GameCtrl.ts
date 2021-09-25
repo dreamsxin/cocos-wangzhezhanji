@@ -70,6 +70,7 @@ export default class GameCtrl {
         }
         this._allPlayerBannerList = []
         this._allEnemyBannerList = []
+        this._isCollectSoldier = false
     }
 
     getPlayerNum() {

@@ -1,5 +1,5 @@
 {
-  "title": "wanzhezhanji",
+  "title": "qqWangZhe",
   "packageName": "org.cocos2d.demo",
   "startScene": "226e83e6-0a2b-4b6b-8df6-91ec738834b7",
   "excludeScenes": [],
@@ -23,7 +23,7 @@
   "fb-instant-games": {},
   "android": {
     "REMOTE_SERVER_ROOT": "",
-    "packageName": "org.cocos2d.demo"
+    "packageName": "org.cocos2d.wangzhe"
   },
   "ios": {
     "REMOTE_SERVER_ROOT": "",
