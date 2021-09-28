@@ -95,5 +95,6 @@ export let BannerID = 10;       //旗手ID
 
 export enum SkillType {
     noSkill = "noSkill",                       //无
-    thunderboltSkill = "thunderboltSkill"      //雷击
+    thunderboltSkill = "thunderboltSkill",     //雷击
+    smallHealSkill = "smallHealSkill",         //小治愈术
 }

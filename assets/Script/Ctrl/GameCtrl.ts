@@ -20,8 +20,8 @@ export default class GameCtrl {
 
     private _allEnemyList: SoldiersParent[] = [];    //全部敌人，包括塔和英雄
     private _allPlayerList: SoldiersParent[] = [];   //全部友军，包括塔和英雄
-    private _allEnemySolierList: SoldiersParent[] = [];    //全部敌人，包括塔和英雄
-    private _allPlayerSolierList: SoldiersParent[] = [];   //全部友军，包括塔和英雄
+    private _allEnemySolierList: SoldiersParent[] = [];    //全部敌人，不包括塔和英雄
+    private _allPlayerSolierList: SoldiersParent[] = [];   //全部友军，bu包括塔和英雄
     private _allSoldierPre: { name: string, soldier: cc.Node }[] = []
     // private _levelData: LevelData = null
     private _playerPathList: { [key: number]: SoldiersParent[] } = {};
@@ -79,6 +79,14 @@ export default class GameCtrl {
 
     getEnemyNum() {
         return this._allEnemySolierList.length
+    }
+
+    getAllPlayerSolierList() {
+        return this._allPlayerSolierList
+    }
+
+    getAllEnemySolierList() {
+        return this._allEnemySolierList
     }
 
     setPathMinMax(min: cc.Vec2, max: cc.Vec2) {
@@ -255,6 +263,7 @@ export default class GameCtrl {
         }
     }
 
+    //获取一个最前面的敌人
     getEnemy(sold: SoldiersParent): SoldiersParent {
         let enemy: SoldiersParent = null;
         if (!sold) return enemy
@@ -276,6 +285,7 @@ export default class GameCtrl {
         return enemy
     }
 
+    //获取一个最前面的自己人
     getPlayer(sold: SoldiersParent): SoldiersParent {
         let player: SoldiersParent = null;
         if (!sold) return player
@@ -308,6 +318,7 @@ export default class GameCtrl {
     //     return num
     // }
 
+    //获取技能范围内的全部敌人
     getAllEnemy(sold: SoldiersParent): SoldiersParent[] {
         let enemyList: SoldiersParent[] = [];
         if (!sold) return enemyList
@@ -326,6 +337,7 @@ export default class GameCtrl {
         return enemyList
     }
 
+    //获取技能范围内的全部自己人
     getAllPlayer(sold: SoldiersParent): SoldiersParent[] {
         let playerList: SoldiersParent[] = [];
         if (!sold) return playerList
@@ -344,6 +356,7 @@ export default class GameCtrl {
         return playerList
     }
 
+    //获取残血的全部人
     getFewHPTeam(sold: SoldiersParent, soldierList: SoldiersParent[]): SoldiersParent {
         let playerList: SoldiersParent[] = [];
         if (!sold) return null
@@ -362,6 +375,7 @@ export default class GameCtrl {
         return playerList[Math.floor(Math.random() * playerList.length)]
     }
 
+    //获取旗手的BUFF加成数值
     getBannerBuff(_camp: Camp): number {
         let num: number = 0;
         let buff = 0
@@ -407,6 +421,7 @@ export default class GameCtrl {
         }
     }
 
+    //判断小兵是否需要改道，返回路劲ID
     getPlayerMoveY(sold: SoldiersParent): number {
         let soldierList = this._playerPathList[sold.roadIndex];
         let isHaveObs = false
@@ -465,6 +480,7 @@ export default class GameCtrl {
         return roadID
     }
 
+    //判断小兵是否需要改道，返回路劲ID
     getEnemyMoveY(sold: SoldiersParent): number {
         let soldierList = this._enemyPathList[sold.roadIndex];
         let isHaveObs = false
@@ -523,6 +539,7 @@ export default class GameCtrl {
         return roadID
     }
 
+    //显示全部小兵的旗手BUFF特效
     showAllBannerEffect(_camp: Camp, isShow: boolean) {
         let soldierList: SoldiersParent[] = []
         if (_camp == Camp.bule) {
