@@ -15,7 +15,7 @@ const { ccclass, property } = cc._decorator;
 export default class smallHealSkill extends cc.Component {
     // 小治愈术
     start() {
-
+        this.initButtonClick()
     }
 
     initButtonClick() {

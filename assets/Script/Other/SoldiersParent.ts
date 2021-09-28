@@ -174,7 +174,6 @@ export default class SoldiersParent extends cc.Component {
         let roadID = GameCtrl.getInstance().getPathIndex(this, this.camp)
         if (roadID == -1) {
             let isCollect = this.checkCollectSoldier()
-            cc.log(isCollect)
             this.node.x += dt * this.getMoveXSpeed();
             if (isCollect) {
                 this.updataCollectMoveX()

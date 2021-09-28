@@ -15,7 +15,7 @@ const { ccclass, property } = cc._decorator;
 export default class thunderboltSkill extends cc.Component {
     // 落雷
     start() {
-
+        this.initButtonClick()
     }
 
     initButtonClick() {
