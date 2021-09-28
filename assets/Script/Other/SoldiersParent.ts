@@ -10,6 +10,7 @@ import { GameEvent } from "../Config/GameEventConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
 import RoleCtrl from "../Ctrl/RoleCtrl";
+import SkillCtrl from "../Ctrl/SkillCtrl";
 import GameEventManager from "../Manager/GameEventManager";
 import { ArmsState, Camp, soldierRatio, TowerID } from "./GameData";
 
@@ -76,7 +77,7 @@ export default class SoldiersParent extends cc.Component {
         this.setSoldierUI()
     }
 
-    start(){
+    start() {
         this.soldierNameLabel.node.on(cc.Node.EventType.TOUCH_START, this._onTouchStart, this);
     }
 
@@ -84,8 +85,10 @@ export default class SoldiersParent extends cc.Component {
         this.hpPro = hp
     }
 
-    private _onTouchStart(){
-
+    private _onTouchStart() {
+        if (SkillCtrl.getInstance().getIsOpenSkill()) {
+            SkillCtrl.getInstance().useSkill(this)
+        }
     }
 
     //小兵受伤逻辑

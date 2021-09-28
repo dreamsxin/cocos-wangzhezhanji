@@ -5,6 +5,10 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import SkillCtrl from "../Ctrl/SkillCtrl";
+import { SkillType } from "../Other/GameData";
+import SoldiersParent from "../Other/SoldiersParent";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -19,7 +23,9 @@ export default class thunderboltSkill extends cc.Component {
     }
 
     onClickSkill() {
-
+        SkillCtrl.getInstance().openSkill(SkillType.thunderboltSkill, (sold: SoldiersParent) => {
+            sold.hurt(900)
+        })
     }
 
     // update (dt) {}
