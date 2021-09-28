@@ -92,3 +92,7 @@ export let soldierRatio = 100;  //小兵成长系数
 export let TowerID = 20;        //塔ID
 export let HeroID = 15;         //英雄ID
 export let BannerID = 10;       //旗手ID
+
+export enum SkillType {
+    thunderboltSkill = "thunderboltSkill"      //雷击
+}

@@ -8,14 +8,14 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class thunderboltSkill extends cc.Component {
     // 落雷
     start() {
 
     }
 
     initButtonClick() {
-        this.node.on("Click", this.onClickSkill)
+        this.node.on('click', this.onClickSkill, this)
     }
 
     onClickSkill() {

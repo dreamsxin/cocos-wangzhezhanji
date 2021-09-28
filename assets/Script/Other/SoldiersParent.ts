@@ -76,8 +76,16 @@ export default class SoldiersParent extends cc.Component {
         this.setSoldierUI()
     }
 
+    start(){
+        this.soldierNameLabel.node.on(cc.Node.EventType.TOUCH_START, this._onTouchStart, this);
+    }
+
     initHpPro(hp: cc.ProgressBar) {
         this.hpPro = hp
+    }
+
+    private _onTouchStart(){
+
     }
 
     //小兵受伤逻辑
@@ -98,7 +106,7 @@ export default class SoldiersParent extends cc.Component {
             cc.tween(this.node)
                 .to(0.5, { opacity: 0 })
                 .call(() => {
-                    if (this.getSoldierID() == 20) {
+                    if (this.getSoldierID() == TowerID) {
                         this.sendEvent(GameEvent.GameOver, this.camp)
                     }
                     this.node.destroy();

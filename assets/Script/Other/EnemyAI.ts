@@ -118,7 +118,7 @@ export default class EnemyAI extends cc.Component {
         obj.setPosition(cc.v2(p2.x + 100, p2.y));
         let sold = obj.getComponent(SoldiersParent)
         sold.initHpPro(this.hpPro)
-        sold.init(Camp.red, 20, 7);
+        sold.init(Camp.red, TowerID, 7);
         GameCtrl.getInstance().addEnemy(sold);
     }
 

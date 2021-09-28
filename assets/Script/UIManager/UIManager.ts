@@ -2,7 +2,7 @@
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
 import LevelCtrl from "../Ctrl/LevelCtrl";
-import GameData, { LocalData } from "../Other/GameData";
+import GameData, { HeroID, LocalData, TowerID } from "../Other/GameData";
 import SoundMgr from "../Other/SoundMgr";
 import UIParent from "./UIParent";
 
@@ -100,8 +100,8 @@ export default class UIManager extends cc.Component {
         for (let i = 0; i < 10; i++) {
             soldierPath[i] = "Soldier/Soldier" + (i + 1);
         }
-        soldierPath.push("Soldier/Soldier15")
-        soldierPath.push("Soldier/Soldier20")
+        soldierPath.push("Soldier/Soldier" + HeroID)
+        soldierPath.push("Soldier/Soldier" + TowerID)
         cc.loader.loadResArray(soldierPath, cc.Prefab, (completedCount: number, totalCount: number, item: any) => {
             //console.log(completedCount, totalCount, item);
         }, (msg: Error, res: any[]) => {
@@ -139,7 +139,7 @@ export default class UIManager extends cc.Component {
         }
         this.schedule(callback, 0.02);
     }
-    ShowUIName(uiName, fun = () => {}, data = null) {
+    ShowUIName(uiName, fun = () => { }, data = null) {
         if (this.UIPlaneDictionary[uiName]) {
             this.UIPlaneDictionary[uiName].ShowUI(fun, data);
         } else {
