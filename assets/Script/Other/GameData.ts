@@ -94,11 +94,11 @@ export let HeroID = 15;         //英雄ID
 export let BannerID = 10;       //旗手ID
 
 export enum SkillType {
-    noSkill = "noSkill",                       //无
-    smallAttackSkill = "smallAttackSkill",     //雷击
-    bigAttackSkill = "bigAttackSkill",     //雷击
-    continueAttackSkill = "continueAttackSkill",     //雷击
-    smallHealSkill = "smallHealSkill",         //小治愈术
-    bigHealSkill = "bigHealSkill",         //小治愈术
-    continueHealSkill = "continueHealSkill",         //小治愈术
+    noSkill = "noSkill",                          //无
+    smallAttackSkill = "smallAttackSkill",        //雷击
+    bigAttackSkill = "bigAttackSkill",            //雷球术
+    continueAttackSkill = "continueAttackSkill",  //雷雨风暴
+    smallHealSkill = "smallHealSkill",            //小治愈术
+    bigHealSkill = "bigHealSkill",                //大治愈术
+    continueHealSkill = "continueHealSkill",      //持续治愈术
 }

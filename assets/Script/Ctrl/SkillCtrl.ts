@@ -1,3 +1,4 @@
+import { SkillConFigList } from "../Config/SkillConfig";
 import { SkillType } from "../Other/GameData";
 import SoldiersParent from "../Other/SoldiersParent";
 
@@ -6,6 +7,8 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SkillCtrl {
     private static _instance: SkillCtrl = null;
+    private _skillConfig: any = null;
+    private _skillSelectID: number = -1;
     private _skillTypes: SkillType = SkillType.noSkill
     private _skillFun: Function = () => { }
 
@@ -43,5 +46,63 @@ export default class SkillCtrl {
             this._skillFun(soldier)
         }
         this.cancelSkill()
+    }
+
+    setSkillConfig(data: any) {
+        this._skillConfig = data;
+    }
+
+    getSkillConfigItem(id: number) {
+        return this._skillConfig[id];
+    }
+
+    getSkillConfig() {
+        return this._skillConfig
+    }
+
+    setSkillConfigList(skillID: number, skillConfigIndex: number) {
+        let data = this.getSkillConfigList();
+        data.conList[skillConfigIndex] = skillID;
+        this._saveLocalData("SkillConfigList", data)
+    }
+
+    getSkillConfigList(): SkillConFigList {
+        let data = this._getLocalData("SkillConfigList")
+        if (!data) {
+            data = new SkillConFigList()
+            data.conList = [0, 0, 0, 0, 0, 0]
+        }
+        return data
+    }
+
+    setSkillConfigSelectID(id: number) {
+        this._skillSelectID = id
+    }
+
+    getSkillConfigSelectID() {
+        return this._skillSelectID
+    }
+
+    checkIsInSkillConfig() {
+        return this._skillSelectID >= 0
+    }
+
+    checkIsHaveConfigList(soldierID: number) {
+        let list = this.getSkillConfigList()
+        return list.conList.indexOf(soldierID)
+    }
+
+    private _saveLocalData(path: string, data: any) {
+        let localData = JSON.stringify(data);
+        cc.sys.localStorage.setItem(path, localData);
+    }
+
+    private _getLocalData(path: string): any {
+        let localData = cc.sys.localStorage.getItem(path);
+        if (localData) {
+            let nowData = JSON.parse(localData);
+            return nowData
+        }
+        return null
     }
 }

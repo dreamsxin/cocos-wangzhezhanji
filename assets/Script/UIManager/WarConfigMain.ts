@@ -1,5 +1,6 @@
 import { SoldierBasic } from "../Config/BarracksConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
+import SkillCtrl from "../Ctrl/SkillCtrl";
 import { HeroID, TowerID } from "../Other/GameData";
 import WarConfigListItem from "../Other/WarConfigListItem";
 import WarConfigSoldierItem from "../Other/WarConfigSoldierItem";
@@ -36,14 +37,14 @@ export default class WarConfigMain extends UIParent {
     desLabel: cc.Label = null;
 
     // LIFE-CYCLE CALLBACKS:
-    private allSoldierItem: WarConfigSoldierItem[] = []
-    private allListItem: WarConfigListItem[] = []
+    private _allSoldierItem: WarConfigSoldierItem[] = []
+    private _allListItem: WarConfigListItem[] = []
 
     // onLoad () {}
     ShowUI() {
         super.ShowUI();
-        this.InitBarracks()
-        this.InitSeleteItem()
+        // this.InitBarracks()
+        // this.InitSeleteItem()
         BarracksCtrl.getInstance().setWarConfigSelectID(-1)
     }
 
@@ -66,29 +67,124 @@ export default class WarConfigMain extends UIParent {
         this.desLabel.string = soldier.soldierDes;
     }
 
-    InitBarracks() {
-        let data = BarracksCtrl.getInstance().getarracksConfig();
+    // InitBarracks() {
+    //     let data = BarracksCtrl.getInstance().getarracksConfig();
+    //     let content = this.swContainer.content
+    //     content.removeAllChildren();
+    //     this.allSoldierItem = []
+    //     for (let key in data) {
+    //         let soldierData: SoldierBasic = data[key]
+    //         if (soldierData.soldierID == TowerID) return
+    //         if (soldierData.soldierID == HeroID) return
+
+    //         let item = cc.instantiate(this.soldierItem)
+    //         item.active = true
+    //         content.addChild(item)
+
+    //         let spr = item.getComponent(WarConfigSoldierItem)
+    //         this.allSoldierItem.push(spr)
+    //         spr.Init(soldierData, (soldierID) => {
+    //             this.ShowBasicUI(soldierData.soldierID)
+    //             if (BarracksCtrl.getInstance().checkIsInWarConfig()) {
+    //                 spr.selectUI(true)
+    //                 let warConfigIndex = BarracksCtrl.getInstance().getWarConfigSelectID()
+    //                 let indexOF = BarracksCtrl.getInstance().checkIsHaveConfigList(soldierID)
+    //                 let soldierIDNow = this.allListItem[warConfigIndex].getSoldierID()
+    //                 cc.log(soldierID, warConfigIndex, soldierIDNow)
+    //                 if (indexOF >= 0) {
+    //                     //交换
+    //                     BarracksCtrl.getInstance().setWarConfigList(soldierID, warConfigIndex)
+    //                     BarracksCtrl.getInstance().setWarConfigList(soldierIDNow, indexOF)
+    //                     this.setWarConfigItem(warConfigIndex, soldierID)
+    //                     this.setWarConfigItem(indexOF, soldierIDNow)
+    //                 } else {
+    //                     BarracksCtrl.getInstance().setWarConfigList(soldierID, warConfigIndex)
+    //                     this.setWarConfigItem(warConfigIndex, soldierID)
+    //                     if (soldierIDNow > 0) {
+    //                         this.setBarracksSelect(soldierIDNow, false)
+    //                     }
+    //                 }
+    //             }
+    //         })
+    //     }
+    //     this.allSoldierItem[0].onClickSele()
+    // }
+
+    // InitSeleteItem() {
+    //     let data = BarracksCtrl.getInstance().getWarConfigList();
+    //     let content = this.seleteSwContainer.content
+    //     content.removeAllChildren();
+    //     this.allListItem = []
+    //     for (let index = 0; index < data.conList.length; index++) {
+    //         let item = cc.instantiate(this.seleteSoldierItem)
+    //         item.active = true
+    //         content.addChild(item)
+
+    //         let spr = item.getComponent(WarConfigListItem)
+    //         this.allListItem.push(spr)
+    //         spr.Init(data.conList[index], (itemIndex, soldierID) => {
+    //             let isSelect = false
+    //             for (let index = 0; index < this.allListItem.length; index++) {
+    //                 const element = this.allListItem[index];
+    //                 if (element.selectUI(itemIndex)) {
+    //                     isSelect = true
+    //                 }
+    //             }
+    //             if (isSelect) {
+    //                 BarracksCtrl.getInstance().setWarConfigSelectID(itemIndex)
+    //             } else {
+    //                 BarracksCtrl.getInstance().setWarConfigSelectID(-1)
+    //             }
+    //             if (soldierID > 0) {
+    //                 this.setBarracksSelect(soldierID, false)
+    //                 BarracksCtrl.getInstance().setWarConfigSelectID(-1)
+    //             }
+    //         }, index)
+    //     }
+    // }
+
+    // setBarracksSelect(soldierID: number, isShow: boolean) {
+    //     for (let index = 0; index < this.allSoldierItem.length; index++) {
+    //         this.allSoldierItem[index].isShowSelectUI(soldierID, isShow)
+    //     }
+    // }
+
+    // setWarConfigItem(itemIndex: number, soldierID: number) {
+    //     this.allListItem[itemIndex].resetUI(soldierID)
+    // }
+
+    // hideAllWarConfigSelectUI() {
+    //     for (let index = 0; index < this.allListItem.length; index++) {
+    //         this.allListItem[index].selectUI(-1)
+    //     }
+    // }
+    // setWarConfigSelect(soldierID: number, isShow: boolean) {
+    //     for (let index = 0; index < this.allListItem.length; index++) {
+    //         this.allListItem[index].isShowSelectUI(soldierID, isShow)
+    //     }
+    // }
+    // update (dt) {}
+    InitSkillList() {
+        let data = SkillCtrl.getInstance().getSkillConfig();
         let content = this.swContainer.content
         content.removeAllChildren();
-        this.allSoldierItem = []
+        this._allSoldierItem = []
         for (let key in data) {
             let soldierData: SoldierBasic = data[key]
-            if (soldierData.soldierID == TowerID) return
-            if (soldierData.soldierID == HeroID) return
 
             let item = cc.instantiate(this.soldierItem)
             item.active = true
             content.addChild(item)
 
             let spr = item.getComponent(WarConfigSoldierItem)
-            this.allSoldierItem.push(spr)
+            this._allSoldierItem.push(spr)
             spr.Init(soldierData, (soldierID) => {
                 this.ShowBasicUI(soldierData.soldierID)
                 if (BarracksCtrl.getInstance().checkIsInWarConfig()) {
                     spr.selectUI(true)
                     let warConfigIndex = BarracksCtrl.getInstance().getWarConfigSelectID()
                     let indexOF = BarracksCtrl.getInstance().checkIsHaveConfigList(soldierID)
-                    let soldierIDNow = this.allListItem[warConfigIndex].getSoldierID()
+                    let soldierIDNow = this._allListItem[warConfigIndex].getSoldierID()
                     cc.log(soldierID, warConfigIndex, soldierIDNow)
                     if (indexOF >= 0) {
                         //交换
@@ -106,25 +202,25 @@ export default class WarConfigMain extends UIParent {
                 }
             })
         }
-        this.allSoldierItem[0].onClickSele()
+        this._allSoldierItem[0].onClickSele()
     }
 
     InitSeleteItem() {
         let data = BarracksCtrl.getInstance().getWarConfigList();
         let content = this.seleteSwContainer.content
         content.removeAllChildren();
-        this.allListItem = []
+        this._allListItem = []
         for (let index = 0; index < data.conList.length; index++) {
             let item = cc.instantiate(this.seleteSoldierItem)
             item.active = true
             content.addChild(item)
 
             let spr = item.getComponent(WarConfigListItem)
-            this.allListItem.push(spr)
+            this._allListItem.push(spr)
             spr.Init(data.conList[index], (itemIndex, soldierID) => {
                 let isSelect = false
-                for (let index = 0; index < this.allListItem.length; index++) {
-                    const element = this.allListItem[index];
+                for (let index = 0; index < this._allListItem.length; index++) {
+                    const element = this._allListItem[index];
                     if (element.selectUI(itemIndex)) {
                         isSelect = true
                     }
@@ -143,24 +239,18 @@ export default class WarConfigMain extends UIParent {
     }
 
     setBarracksSelect(soldierID: number, isShow: boolean) {
-        for (let index = 0; index < this.allSoldierItem.length; index++) {
-            this.allSoldierItem[index].isShowSelectUI(soldierID, isShow)
+        for (let index = 0; index < this._allSoldierItem.length; index++) {
+            this._allSoldierItem[index].isShowSelectUI(soldierID, isShow)
         }
     }
 
     setWarConfigItem(itemIndex: number, soldierID: number) {
-        this.allListItem[itemIndex].resetUI(soldierID)
+        this._allListItem[itemIndex].resetUI(soldierID)
     }
 
     hideAllWarConfigSelectUI() {
-        for (let index = 0; index < this.allListItem.length; index++) {
-            this.allListItem[index].selectUI(-1)
+        for (let index = 0; index < this._allListItem.length; index++) {
+            this._allListItem[index].selectUI(-1)
         }
     }
-    // setWarConfigSelect(soldierID: number, isShow: boolean) {
-    //     for (let index = 0; index < this.allListItem.length; index++) {
-    //         this.allListItem[index].isShowSelectUI(soldierID, isShow)
-    //     }
-    // }
-    // update (dt) {}
 }

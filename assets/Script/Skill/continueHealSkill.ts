@@ -15,8 +15,8 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class continueHealSkill extends cc.Component {
     // 持续治愈术
-    private _hurtMax: number = 3
-    private _hurtTime: number = 0
+    private _healMax: number = 3
+    private _healTime: number = 0
     start() {
         this.initButtonClick()
     }
@@ -26,19 +26,19 @@ export default class continueHealSkill extends cc.Component {
     }
 
     onClickSkill() {
-        this._hurtTime = this._hurtMax
+        this._healTime = this._healMax
         this.unschedule(this.healDownTime)
         this.schedule(this.healDownTime, 1)
     }
 
     healDownTime() {
-        this._hurtTime--
+        this._healTime--
         let list = GameCtrl.getInstance().getAllPlayerSolierList()
         for (let index = 0; index < list.length; index++) {
             let soldier = list[index];
-            soldier.heal(300)
+            soldier.heal(200)
         }
-        if (this._hurtTime <= 0) {
+        if (this._healTime <= 0) {
             this.unschedule(this.healDownTime)
         }
     }

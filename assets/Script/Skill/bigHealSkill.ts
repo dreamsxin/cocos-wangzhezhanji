@@ -27,7 +27,7 @@ export default class bigHealSkill extends cc.Component {
         let list = GameCtrl.getInstance().getAllPlayerSolierList()
         for (let index = 0; index < list.length; index++) {
             let soldier = list[index];
-            soldier.hurt(300)
+            soldier.heal(300)
         }
     }
 

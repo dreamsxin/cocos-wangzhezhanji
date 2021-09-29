@@ -5,6 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import GameCtrl from "../Ctrl/GameCtrl";
 import SkillCtrl from "../Ctrl/SkillCtrl";
 import { SkillType } from "../Other/GameData";
 import SoldiersParent from "../Other/SoldiersParent";
@@ -23,9 +24,11 @@ export default class smallAttackSkill extends cc.Component {
     }
 
     onClickSkill() {
-        SkillCtrl.getInstance().openSkill(SkillType.smallAttackSkill, (sold: SoldiersParent) => {
-            sold.hurt(900)
-        })
+        let list = GameCtrl.getInstance().getAllPlayerSolierList()
+        for (let index = 0; index < list.length; index++) {
+            let soldier = list[index];
+            soldier.hurt(300)
+        }
     }
 
     // update (dt) {}

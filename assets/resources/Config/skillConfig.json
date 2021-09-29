@@ -2,8 +2,55 @@
     "1": {
         "skillID": 1,
         "skillName": "落雷",
-        "soldierDes": "用闪电轰击1个敌人并造成300%基础伤害，需要300法力，15秒使用间隔。",
-        "Attack": 2000,
-        "skillCD": 15
+        "skillDes": "用闪电轰击1个敌人并造成300%基础伤害，需要300法力，15秒使用间隔。",
+        "Attack": 900,
+        "skillCD": 15,
+        "scriptName": "smallAttackSkill",
+        "skillTime": 1
+    },
+    "2": {
+        "skillID": 2,
+        "skillName": "火雨",
+        "skillDes": "召唤陨石轰击敌人并造成中范围伤害，完成关卡2-10后获得。",
+        "Attack": 300,
+        "skillCD": 15,
+        "scriptName": "bigAttackSkill",
+        "skillTime": 1
+    },
+    "3": {
+        "skillID": 3,
+        "skillName": "暴风",
+        "skillDes": "召唤风暴对敌人造成持续伤害，完成6-10后获得。",
+        "Attack": 200,
+        "skillCD": 15,
+        "scriptName": "continueAttackSkill",
+        "skillTime": 5
+    },
+    "4": {
+        "skillID": 4,
+        "skillName": "治愈术",
+        "skillDes": "治疗1个友军并立即恢复大量生命，完成关卡3-10后获得。",
+        "Attack": 900,
+        "skillCD": 15,
+        "scriptName": "smallHealSkill",
+        "skillTime": 1
+    },
+    "5": {
+        "skillID": 5,
+        "skillName": "圣光术",
+        "skillDes": "用圣光之力治疗一群友军，完成关卡1-15后获得。",
+        "Attack": 600,
+        "skillCD": 15,
+        "scriptName": "bigHealSkill",
+        "skillTime": 1
+    },
+    "6": {
+        "skillID": 6,
+        "skillName": "祝福之语",
+        "skillDes": "用祝福之力持续治疗全屏友军，完成关卡5-10后获得。",
+        "Attack": 300,
+        "skillCD": 15,
+        "scriptName": "continueHealSkill",
+        "skillTime": 3
     }
 }
