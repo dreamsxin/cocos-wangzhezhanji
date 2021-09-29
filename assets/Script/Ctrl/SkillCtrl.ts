@@ -21,6 +21,10 @@ export default class SkillCtrl {
 
     }
 
+    clearData(){
+        this.cancelSkill()
+    }
+
     getIsOpenSkill() {
         return this._skillTypes != SkillType.noSkill
     }
@@ -38,5 +42,6 @@ export default class SkillCtrl {
         if (this._skillFun) {
             this._skillFun(soldier)
         }
+        this.cancelSkill()
     }
 }

@@ -12,7 +12,7 @@ import SoldiersParent from "../Other/SoldiersParent";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class thunderboltSkill extends cc.Component {
+export default class smallAttackSkill extends cc.Component {
     // 落雷
     start() {
         this.initButtonClick()
@@ -23,7 +23,7 @@ export default class thunderboltSkill extends cc.Component {
     }
 
     onClickSkill() {
-        SkillCtrl.getInstance().openSkill(SkillType.thunderboltSkill, (sold: SoldiersParent) => {
+        SkillCtrl.getInstance().openSkill(SkillType.smallAttackSkill, (sold: SoldiersParent) => {
             sold.hurt(900)
         })
     }

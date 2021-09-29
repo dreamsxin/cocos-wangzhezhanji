@@ -1,6 +1,7 @@
 import { GameEvent } from "../Config/GameEventConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
+import SkillCtrl from "../Ctrl/SkillCtrl";
 import EnemyAI from "../Other/EnemyAI";
 import { Camp, GameState, HeroID, TowerID } from "../Other/GameData";
 import SoldiersParent from "../Other/SoldiersParent";
@@ -64,6 +65,7 @@ export default class GameMain extends UIParent {
         this.playerParent.removeAllChildren()
         this.hpPro.progress = 1;
         this.enemyAI.clearData()
+        SkillCtrl.getInstance().clearData()
     }
 
     startGame() {
