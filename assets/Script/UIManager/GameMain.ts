@@ -24,7 +24,11 @@ export default class GameMain extends UIParent {
     @property(cc.Node)
     warButParent: cc.Node = null;
     @property(cc.Node)
+    skillButParent: cc.Node = null;
+    @property(cc.Node)
     warButItem: cc.Node = null;
+    @property(cc.Node)
+    skillButItem: cc.Node = null;
     @property(cc.Node)
     topNode: cc.Node = null;
     @property(cc.Node)
@@ -47,7 +51,9 @@ export default class GameMain extends UIParent {
     ShowUI() {
         super.ShowUI();
         this.warButItem.active = false
+        this.skillButItem.active = false
         this.InitWarBut()
+        this.InitSkillBut()
         let allY = this.topNode.y - this.downNode.y
         let itemY = allY / 16
         let allYList = []
@@ -110,6 +116,24 @@ export default class GameMain extends UIParent {
                     SoundMgr.getInstance().playFx("buttonClick");
                 }
             })
+        }
+    }
+
+    InitSkillBut() {
+        let data = SkillCtrl.getInstance().getSkillConfigList();
+        for (let index = 0; index < data.conList.length; index++) {
+            let item = cc.instantiate(this.skillButItem)
+            item.active = true
+            this.skillButParent.addChild(item)
+            let skillData = SkillCtrl.getInstance().getSkillConfigItem(data.conList[index])
+            item.addComponent(skillData.scriptName)
+            // let spr = item.getComponent(warItemBut)
+            // spr.Init(data.conList[index], (a) => {
+            //     if (a > 0) {
+            //         this.CreateArms(a)
+            //         SoundMgr.getInstance().playFx("buttonClick");
+            //     }
+            // })
         }
     }
 

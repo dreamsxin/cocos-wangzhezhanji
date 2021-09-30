@@ -1,4 +1,4 @@
-import { SkillConFigList } from "../Config/SkillConfig";
+import { SkillBasic, SkillConFigList } from "../Config/SkillConfig";
 import { SkillType } from "../Other/GameData";
 import SoldiersParent from "../Other/SoldiersParent";
 
@@ -24,7 +24,7 @@ export default class SkillCtrl {
 
     }
 
-    clearData(){
+    clearData() {
         this.cancelSkill()
     }
 
@@ -52,7 +52,7 @@ export default class SkillCtrl {
         this._skillConfig = data;
     }
 
-    getSkillConfigItem(id: number) {
+    getSkillConfigItem(id: number): SkillBasic {
         return this._skillConfig[id];
     }
 
@@ -70,7 +70,7 @@ export default class SkillCtrl {
         let data = this._getLocalData("SkillConfigList")
         if (!data) {
             data = new SkillConFigList()
-            data.conList = [0, 0, 0, 0, 0, 0]
+            data.conList = [0, 0]
         }
         return data
     }
