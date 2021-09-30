@@ -22,7 +22,7 @@ export default class WarConfigListItem extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     private _fun: Function
-    private _soldierID: number = 0
+    private _skillID: number = 0
     private _itemIndex: number = 0;
     // onLoad () {}
 
@@ -30,10 +30,10 @@ export default class WarConfigListItem extends cc.Component {
 
     }
 
-    Init(soldierID: number, fun: Function, itemIndex: number) {
+    Init(skillID: number, fun: Function, itemIndex: number) {
         this._fun = fun
         this._itemIndex = itemIndex
-        this.resetUI(soldierID)
+        this.resetUI(skillID)
         this.setButtonActive(false)
     }
 
@@ -47,7 +47,7 @@ export default class WarConfigListItem extends cc.Component {
         BarracksCtrl.getInstance().setWarConfigList(0, this._itemIndex)
         this.setButtonActive(false)
         if (this._fun) {
-            this._fun(this._itemIndex, this._soldierID)
+            this._fun(this._itemIndex, this._skillID)
         }
         this._setSoldierID(0)
         this.resetUI(0)
@@ -61,7 +61,7 @@ export default class WarConfigListItem extends cc.Component {
     selectUI(index: number) {
         if (this.selectNode.active && this._itemIndex == index) {
             this.selectNode.active = false
-            this.butParent.active = this._soldierID != 0
+            this.butParent.active = this._skillID != 0
             // this.unloadNode.active = this._soldierID != 0
             // this.cancelNode.active = this._soldierID != 0
         } else {
@@ -72,12 +72,12 @@ export default class WarConfigListItem extends cc.Component {
         return this.selectNode.active
     }
 
-    _setSoldierID(soldierID: number) {
-        this._soldierID = soldierID
+    _setSoldierID(skillID: number) {
+        this._skillID = skillID
     }
 
     getSoldierID() {
-        return this._soldierID
+        return this._skillID
     }
 
     resetUI(soldierID: number) {

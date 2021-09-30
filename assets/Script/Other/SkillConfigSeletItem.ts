@@ -6,7 +6,9 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import { SoldierBasic } from "../Config/BarracksConfig";
+import { SkillBasic } from "../Config/SkillConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
+import SkillCtrl from "../Ctrl/SkillCtrl";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,23 +25,23 @@ export default class WarConfigSoldierItem extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     private _fun: Function
-    private _soldierData: SoldierBasic
+    private _skillData: SkillBasic
     // onLoad () {}
 
     start() {
 
     }
 
-    Init(soldierData: SoldierBasic, fun: Function) {
-        this._soldierData = soldierData
+    Init(skillData: SkillBasic, fun: Function) {
+        this._skillData = skillData
         this._fun = fun
-        this.nameLabel.string = soldierData.soldierName
-        this.selectNode.active = BarracksCtrl.getInstance().checkIsHaveConfigList(soldierData.soldierID) >= 0
+        this.nameLabel.string = skillData.skillName
+        this.selectNode.active = SkillCtrl.getInstance().checkIsHaveConfigList(skillData.skillID) >= 0
     }
 
     onClickSele() {
         if (this._fun) {
-            this._fun(this._soldierData.soldierID)
+            this._fun(this._skillData.skillID)
         }
     }
 
@@ -47,8 +49,8 @@ export default class WarConfigSoldierItem extends cc.Component {
         this.selectNode.active = isSelect
     }
 
-    isShowSelectUI(soldierID: number, isShow: boolean) {
-        if (soldierID == this._soldierData.soldierID) {
+    isShowSelectUI(skillID: number, isShow: boolean) {
+        if (skillID == this._skillData.skillID) {
             this.selectNode.active = isShow
         }
     }
