@@ -57,6 +57,8 @@ export default class WarConfigMain extends UIParent {
         // this.InitBarracks()
         // this.InitSeleteItem()
         BarracksCtrl.getInstance().setWarConfigSelectID(-1)
+        this.tabTtitles[0].isChecked = true
+        this._selTitleBtn(0)
     }
 
     InitUI(uiMain) {

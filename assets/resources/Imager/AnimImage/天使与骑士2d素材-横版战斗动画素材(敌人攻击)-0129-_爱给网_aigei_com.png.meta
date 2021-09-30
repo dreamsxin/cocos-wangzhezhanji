@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "8e9eb4ef-51c9-45fb-a783-c938cf19da5c",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 440,
+  "height": 640,
+  "platformSettings": {},
+  "subMetas": {
+    "天使与骑士2d素材-横版战斗动画素材(敌人攻击)-0129-_爱给网_aigei_com": {
+      "ver": "1.0.4",
+      "uuid": "fc19f7f7-fb7b-4439-a96d-961427ff3a8f",
+      "rawTextureUuid": "8e9eb4ef-51c9-45fb-a783-c938cf19da5c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -3,
+      "trimX": 0,
+      "trimY": 9,
+      "width": 440,
+      "height": 628,
+      "rawWidth": 440,
+      "rawHeight": 640,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
