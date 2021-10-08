@@ -120,6 +120,7 @@ export default class GameMain extends UIParent {
     }
 
     InitSkillBut() {
+        this.skillButParent.removeAllChildren()
         let data = SkillCtrl.getInstance().getSkillConfigList();
         for (let index = 0; index < data.conList.length; index++) {
             let item = cc.instantiate(this.skillButItem)

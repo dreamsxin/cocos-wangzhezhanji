@@ -51,6 +51,7 @@ export default class WarConfigListItem extends cc.Component {
         }
         this._setSoldierID(0)
         this.resetUI(0)
+        this.selectNode.active = false
     }
 
     //取消

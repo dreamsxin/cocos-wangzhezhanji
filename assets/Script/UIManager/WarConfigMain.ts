@@ -99,6 +99,7 @@ export default class WarConfigMain extends UIParent {
         let skill: SkillBasic = SkillCtrl.getInstance().getSkillConfigItem(skillID);
         this.nameLabel.string = skill.skillName
         this.attackLabel.string = skill.Attack + "";
+        this.desLabel.string = skill.skillDes;
     }
 
     InitBarracks() {
@@ -214,7 +215,7 @@ export default class WarConfigMain extends UIParent {
             let spr = item.getComponent(SkillConfigSeletItem)
             this._allSkillSeleteItem.push(spr)
             spr.Init(skillData, (skillID) => {
-                this.ShowBasicUI(skillData.skillID)
+                this.ShowSkillUI(skillData.skillID)
                 if (SkillCtrl.getInstance().checkIsInSkillConfig()) {
                     spr.selectUI(true)
                     let skillConfigIndex = SkillCtrl.getInstance().getSkillConfigSelectID()

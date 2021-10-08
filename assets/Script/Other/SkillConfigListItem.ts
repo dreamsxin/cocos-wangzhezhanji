@@ -1,4 +1,5 @@
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
+import SkillCtrl from "../Ctrl/SkillCtrl";
 
 
 const { ccclass, property } = cc._decorator;
@@ -44,13 +45,14 @@ export default class WarConfigListItem extends cc.Component {
     }
 
     onClickUnload() {
-        BarracksCtrl.getInstance().setWarConfigList(0, this._itemIndex)
+        SkillCtrl.getInstance().setSkillConfigList(0, this._itemIndex)
         this.setButtonActive(false)
         if (this._fun) {
             this._fun(this._itemIndex, this._skillID)
         }
-        this._setSoldierID(0)
+        this._setSkillID(0)
         this.resetUI(0)
+        this.selectNode.active = false
     }
 
     //取消
@@ -72,7 +74,7 @@ export default class WarConfigListItem extends cc.Component {
         return this.selectNode.active
     }
 
-    _setSoldierID(skillID: number) {
+    _setSkillID(skillID: number) {
         this._skillID = skillID
     }
 
@@ -80,10 +82,10 @@ export default class WarConfigListItem extends cc.Component {
         return this._skillID
     }
 
-    resetUI(soldierID: number) {
-        this._setSoldierID(soldierID)
-        let data = BarracksCtrl.getInstance().getBarracksConfigItem(soldierID);
-        this.nameLabel.string = data ? data.soldierName : ""
+    resetUI(skillID: number) {
+        this._setSkillID(skillID)
+        let data = SkillCtrl.getInstance().getSkillConfigItem(skillID);
+        this.nameLabel.string = data ? data.skillName : ""
     }
 
     setButtonActive(isShow) {
