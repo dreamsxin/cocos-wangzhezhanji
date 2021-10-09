@@ -34,7 +34,7 @@ export default class smallAttackSkill extends cc.Component {
 
     hurtDownTime() {
         this._hurtTime--
-        let list = GameCtrl.getInstance().getAllPlayerSolierList()
+        let list = GameCtrl.getInstance().getAllEnemySolierList()
         for (let index = 0; index < list.length; index++) {
             let soldier = list[index];
             soldier.hurt(100)

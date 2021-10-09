@@ -15,6 +15,11 @@ export default class UIManager extends cc.Component {
     loadBar: cc.ProgressBar = null;
     @property(cc.Prefab)
     tipText: cc.Prefab = null;
+    @property(cc.Node)
+    panelParent: cc.Node = null;
+    @property(cc.Node)
+    tipParent: cc.Node = null;
+
     allUIPanel: UIParent[] = [];
     UIPlaneDictionary: { [key: string]: UIParent; } = {};
     isload: boolean = false
@@ -69,7 +74,7 @@ export default class UIManager extends cc.Component {
             //console.log(msg, res);
             for (let i = 0; i < res.length; i++) {
                 let obj = cc.instantiate(res[i]);
-                obj.parent = this.node;
+                obj.parent = this.panelParent;
                 let uiPlaneSpr = obj.getComponent(obj.name);
                 this.UIPlaneDictionary[obj.name] = uiPlaneSpr;
                 obj.active = false;
