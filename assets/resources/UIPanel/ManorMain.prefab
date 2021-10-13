@@ -24,17 +24,17 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 27
-      },
-      {
         "__id__": 28
       },
       {
         "__id__": 29
+      },
+      {
+        "__id__": 30
       }
     ],
     "_prefab": {
-      "__id__": 30
+      "__id__": 31
     },
     "_opacity": 255,
     "_color": {
@@ -101,14 +101,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 24
+        "__id__": 25
       },
       {
-        "__id__": 25
+        "__id__": 26
       }
     ],
     "_prefab": {
-      "__id__": 26
+      "__id__": 27
     },
     "_opacity": 255,
     "_color": {
@@ -566,8 +566,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "339cfgUOzVPqa/jwthgwji8",
-    "handler": "onClickClose",
+    "_componentId": "f3d3fWlSEVAG4FQasaw0u5n",
+    "handler": "HideUI",
     "customEventData": ""
   },
   {
@@ -600,7 +600,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 23
+      "__id__": 24
     },
     "_opacity": 255,
     "_color": {
@@ -910,7 +910,11 @@
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 23
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 2,
@@ -979,6 +983,16 @@
       "__id__": 15
     },
     "_id": ""
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "",
+    "_componentId": "f3d3fWlSEVAG4FQasaw0u5n",
+    "handler": "onClickCity",
+    "customEventData": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -1107,8 +1121,9 @@
     },
     "_enabled": true,
     "uiAnimObj": null,
-    "label": null,
-    "text": "hello",
+    "cityNode": {
+      "__id__": 14
+    },
     "_id": ""
   },
   {

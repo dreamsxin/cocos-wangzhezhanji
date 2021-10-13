@@ -38,7 +38,7 @@ export default class HomeMain extends UIParent {
         //     SoundMgr.getInstance().playFx("buttonClick");
         // }, this)
         // this.tanshuo.on('click', this.noClick, this)
-        this.zhuanyuan.on('click', this.noClick, this)
+        // this.zhuanyuan.on('click', this.noClick, this)
         this.jiazu.on('click', this.noClick, this)
     }
     noClick() {
@@ -53,6 +53,11 @@ export default class HomeMain extends UIParent {
 
     onClickShowLevel() {
         this.uiManager.ShowUIName("LevelMain");
+        SoundMgr.getInstance().playFx("buttonClick");
+    }
+
+    onClickManor(){
+        this.uiManager.ShowUIName("ManorMain");
         SoundMgr.getInstance().playFx("buttonClick");
     }
     // update (dt) {}

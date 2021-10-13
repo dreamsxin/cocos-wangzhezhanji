@@ -64,6 +64,7 @@ export default class UIManager extends cc.Component {
             "WarConfigMain",
             "LevelMain",
             "GameOverMain",
+            "ManorMain",
             "ButtonToolMain"
         ];
         for (let i = 0; i < uiPanel.length; i++) {
