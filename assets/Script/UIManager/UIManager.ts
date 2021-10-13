@@ -63,7 +63,8 @@ export default class UIManager extends cc.Component {
             "HomeMain",
             "WarConfigMain",
             "LevelMain",
-            "GameOverMain"
+            "GameOverMain",
+            "ButtonToolMain"
         ];
         for (let i = 0; i < uiPanel.length; i++) {
             uiPath[i] = "UIPanel/" + uiPanel[i];
@@ -74,7 +75,11 @@ export default class UIManager extends cc.Component {
             //console.log(msg, res);
             for (let i = 0; i < res.length; i++) {
                 let obj = cc.instantiate(res[i]);
-                obj.parent = this.panelParent;
+                if (obj.name == "ButtonToolMain") {
+                    obj.parent = this.tipParent
+                }else{
+                    obj.parent = this.panelParent;
+                }
                 let uiPlaneSpr = obj.getComponent(obj.name);
                 this.UIPlaneDictionary[obj.name] = uiPlaneSpr;
                 obj.active = false;
