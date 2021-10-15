@@ -1,0 +1,9 @@
+{
+    "1": {
+        "id": 1,
+        "itemID": 1,
+        "desc": "充值货币",
+        "icon": "M_Currency_Shell",
+        "name": "渔币"
+    }
+}
