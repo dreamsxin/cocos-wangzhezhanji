@@ -11,6 +11,7 @@ export default class SkillCtrl {
     private _skillSelectID: number = -1;
     private _skillTypes: SkillType = SkillType.noSkill
     private _skillFun: Function = () => { }
+    private _skillInfo: { [key: number]: number } = []
 
     public static getInstance() {
         if (!this._instance) {
@@ -81,6 +82,19 @@ export default class SkillCtrl {
 
     getSkillConfigSelectID() {
         return this._skillSelectID
+    }
+
+    setSkillLevel(skillID: number, level: number) {
+        this._skillInfo[skillID] = level
+        this._saveLocalData("SkillLevel" + skillID, level)
+    }
+
+    getSkillLevel(skillID: number) {
+        if (!this._skillInfo[skillID]) {
+            let data = this._getLocalData("SkillLevel" + skillID)
+            this._skillInfo[skillID] = data ? data : 1
+        }
+        return this._skillInfo[skillID]
     }
 
     checkIsInSkillConfig() {

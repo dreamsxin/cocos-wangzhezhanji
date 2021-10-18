@@ -10,6 +10,8 @@ export class BuildingInfo {
 }
 
 export enum BuildingType {
-    City = "City",              //游戏结束
+    City = "City",              //城市
+    Barracks = "Barracks",      //兵营
+    TrainingCamp = "TrainingCamp", //训练营
 }
 
