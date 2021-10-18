@@ -7,9 +7,9 @@ export class SkillBasic {
     skillName: string = ""   //名字
     skillDes: string = ""    //描述
     Attack: number = 60;      //攻击力
-    skillCD: number = 20;   //防御力
-    scriptName: string = "";  //移动速度
-    skillTime: number = 100;  //移动速度
+    skillCD: number = 20;   //技能CD
+    scriptName: string = "";  //脚本名字
+    skillTime: number = 1;  //技能次数
     constructor(data: SkillBasic) {
         this.skillID = data.skillID
         this.skillName = data.skillName
