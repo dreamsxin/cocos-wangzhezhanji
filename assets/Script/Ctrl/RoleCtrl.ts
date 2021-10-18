@@ -5,6 +5,7 @@ const { ccclass, property } = cc._decorator;
 export default class RoleCtrl {
     private static _instance: RoleCtrl = null;
     private _roleData: RoleData = null
+    private _coinInfo: { [key: number]: number } = []
 
     public static getInstance() {
         if (!this._instance) {
@@ -53,10 +54,28 @@ export default class RoleCtrl {
         }
         return data[soldierID]
     }
+
+    setItemCount(itemType: number, count: number) {
+        this._saveLocalData("Item" + itemType, count)
+    }
+
+    getItemCount(itemType: number) {
+        if (!this._coinInfo[itemType]) {
+            let data = this._getLocalData("Item" + itemType)
+            this._coinInfo[itemType] = data ? data : 0
+        }
+        return this._coinInfo[itemType]
+    }
 }
+
 export class RoleData {
     constructor() {
         this.soldierData = {}
     }
     public soldierData: { [soldierID: number]: number } = {};
+}
+
+export enum CoinType {
+    NULL = 0,        //无
+    GOLD = 1,        //金币
 }

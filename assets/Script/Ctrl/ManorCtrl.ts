@@ -22,6 +22,7 @@ export default class ManorCtrl {
     }
 
     setBuildingInfo(info: BuildingInfo) {
+        this._buildingInfoList[info.buildingName] = info
         this._saveLocalData(info.buildingName, info)
     }
 
