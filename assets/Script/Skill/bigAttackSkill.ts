@@ -15,8 +15,14 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class smallAttackSkill extends cc.Component {
     // 落雷
+    private _skillID: number = 0
+
     start() {
         this.initButtonClick()
+    }
+
+    resetData(skillID: number) {
+        this._skillID = skillID
     }
 
     initButtonClick() {
@@ -25,9 +31,11 @@ export default class smallAttackSkill extends cc.Component {
 
     onClickSkill() {
         let list = GameCtrl.getInstance().getAllEnemySolierList()
+        let skillInfo = SkillCtrl.getInstance().getSkillConfigItem(this._skillID)
+        let attackNum = skillInfo.Attack + SkillCtrl.getInstance().getSkillLevel(this._skillID) * 50
         for (let index = 0; index < list.length; index++) {
             let soldier = list[index];
-            soldier.hurt(300)
+            soldier.hurt(attackNum)
         }
     }
 

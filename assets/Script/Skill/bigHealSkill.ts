@@ -15,8 +15,14 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class bigHealSkill extends cc.Component {
     // 大治愈术
+    private _skillID: number = 0
+
     start() {
         this.initButtonClick()
+    }
+
+    resetData(skillID: number) {
+        this._skillID = skillID
     }
 
     initButtonClick() {
@@ -25,9 +31,11 @@ export default class bigHealSkill extends cc.Component {
 
     onClickSkill() {
         let list = GameCtrl.getInstance().getAllPlayerSolierList()
+        let skillInfo = SkillCtrl.getInstance().getSkillConfigItem(this._skillID)
+        let healNum = skillInfo.Attack + SkillCtrl.getInstance().getSkillLevel(this._skillID) * 50
         for (let index = 0; index < list.length; index++) {
             let soldier = list[index];
-            soldier.heal(300)
+            soldier.heal(healNum)
         }
     }
 

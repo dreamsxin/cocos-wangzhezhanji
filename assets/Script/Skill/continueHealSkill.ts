@@ -17,8 +17,14 @@ export default class continueHealSkill extends cc.Component {
     // 持续治愈术
     private _healMax: number = 3
     private _healTime: number = 0
+    private _skillID: number = 0
+
     start() {
         this.initButtonClick()
+    }
+
+    resetData(skillID: number) {
+        this._skillID = skillID
     }
 
     initButtonClick() {
@@ -34,9 +40,11 @@ export default class continueHealSkill extends cc.Component {
     healDownTime() {
         this._healTime--
         let list = GameCtrl.getInstance().getAllPlayerSolierList()
+        let skillInfo = SkillCtrl.getInstance().getSkillConfigItem(this._skillID)
+        let healNum = skillInfo.Attack + SkillCtrl.getInstance().getSkillLevel(this._skillID) * 50
         for (let index = 0; index < list.length; index++) {
             let soldier = list[index];
-            soldier.heal(200)
+            soldier.heal(healNum)
         }
         if (this._healTime <= 0) {
             this.unschedule(this.healDownTime)

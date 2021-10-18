@@ -30,7 +30,9 @@ export default class ButtonToolMain extends UIParent {
     ShowUI(fun = () => { }, data: BtnToolInfo) {
         super.ShowUI();
         this.btnParent.removeAllChildren()
+        this.btnParent.active = false
         this.scheduleOnce(() => {
+            this.btnParent.active = true
             let p1 = this.btnParent.parent.convertToNodeSpaceAR(data.pos)
             this.btnParent.setPosition(p1)
 

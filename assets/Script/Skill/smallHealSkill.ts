@@ -14,8 +14,14 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class smallHealSkill extends cc.Component {
     // 小治愈术
+    private _skillID: number = 0
+
     start() {
         this.initButtonClick()
+    }
+
+    resetData(skillID: number) {
+        this._skillID = skillID
     }
 
     initButtonClick() {
@@ -24,7 +30,9 @@ export default class smallHealSkill extends cc.Component {
 
     onClickSkill() {
         SkillCtrl.getInstance().openSkill(SkillType.smallHealSkill, (sold: SoldiersParent) => {
-            sold.heal(900)
+            let skillInfo = SkillCtrl.getInstance().getSkillConfigItem(this._skillID)
+            let healNum = skillInfo.Attack + SkillCtrl.getInstance().getSkillLevel(this._skillID) * 50
+            sold.heal(healNum)
         })
     }
 
