@@ -6,6 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import { GameEvent } from "../Config/GameEventConfig";
+import RoleCtrl from "../Ctrl/RoleCtrl";
 import GameEventManager from "../Manager/GameEventManager";
 import { Camp } from "../Other/GameData";
 import UIParent from "./UIParent";
@@ -23,12 +24,22 @@ export default class GameOverMain extends UIParent {
 
     ShowUI(fun = () => { }, data: any) {
         super.ShowUI();
-        if (data == Camp.bule) {
+        if (data.winData == Camp.bule) {
             this.label.node.color = cc.Color.RED
             this.label.string = "你输了!"
         } else {
             this.label.node.color = cc.Color.GREEN
             this.label.string = "你赢了!"
+            let rewardList = data.levelData.rewardList
+            if (rewardList) {
+                for (let index = 0; index < rewardList.length; index++) {
+                    let itemInfo = rewardList[index];
+                    let goldCount = RoleCtrl.getInstance().getItemCount(itemInfo.itemId)
+                    goldCount += itemInfo.itemCount
+                    RoleCtrl.getInstance().setItemCount(itemInfo.itemId, goldCount)
+                    this.label.string = "获得奖励:" + itemInfo.itemId
+                }
+            }
         }
     }
 

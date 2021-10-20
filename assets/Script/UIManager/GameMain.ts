@@ -1,6 +1,7 @@
 import { GameEvent } from "../Config/GameEventConfig";
 import BarracksCtrl from "../Ctrl/BarracksCtrl";
 import GameCtrl from "../Ctrl/GameCtrl";
+import LevelCtrl from "../Ctrl/LevelCtrl";
 import SkillCtrl from "../Ctrl/SkillCtrl";
 import EnemyAI from "../Other/EnemyAI";
 import { Camp, GameState, HeroID, TowerID } from "../Other/GameData";
@@ -215,7 +216,8 @@ export default class GameMain extends UIParent {
         switch (eventId) {
             case GameEvent.GameOver:
                 {
-                    this.uiManager.ShowUIName("GameOverMain", () => { }, eventData);
+                    let data = LevelCtrl.getInstance().getNowLevelData()
+                    this.uiManager.ShowUIName("GameOverMain", () => { }, { levelData: data, winData: eventData });
                     GameCtrl.getInstance().setGameState(GameState.gameOver)
                     this.resetData()
                 }

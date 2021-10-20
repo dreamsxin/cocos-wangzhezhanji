@@ -44,6 +44,14 @@ export default class ManorCtrl {
         return info.buildingLevel * 100
     }
 
+    setBuildingState(type: BuildingType, btnType: number) {
+
+    }
+
+    getBuildingState(type: BuildingType, btnType: number) {
+
+    }
+
     private _saveLocalData(path: string, data: any) {
         let localData = JSON.stringify(data);
         cc.sys.localStorage.setItem(path, localData);
